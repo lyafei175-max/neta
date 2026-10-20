@@ -1,1 +1,159 @@
-bmFtZTogQnVpbGQgSVBBCgojID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQojICDnvJbor5Hmo4Dmn6UgKyDmiZPljIXml6Dnrb7lkI0gSVBBCiMKIyAg5LiN6ZyA6KaB5Lu75L2V6K+B5Lmm5oiWIFNlY3JldOOAggojICDlhazlvIDku5PlupPvvJptYWNPUyBydW5uZXIg5YWN6LS55LiN6ZmQ6YePCiMKIyAg55So5rOV77yaQWN0aW9ucyDihpIgQnVpbGQgSVBBIOKGkiBSdW4gd29ya2Zsb3cKIyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KCm9uOgogIHdvcmtmbG93X2Rpc3BhdGNoOgogICAgaW5wdXRzOgogICAgICBtb2RlOgogICAgICAgIGRlc2NyaXB0aW9uOiAn5p6E5bu65qih5byPJwogICAgICAgIHJlcXVpcmVkOiB0cnVlCiAgICAgICAgZGVmYXVsdDogJ2lwYScKICAgICAgICB0eXBlOiBjaG9pY2UKICAgICAgICBvcHRpb25zOgogICAgICAgICAgLSBjb21waWxlLW9ubHkKICAgICAgICAgIC0gaXBhCiAgICAgIHhjb2RlOgogICAgICAgIGRlc2NyaXB0aW9uOiAnWGNvZGUg54mI5pysJwogICAgICAgIHJlcXVpcmVkOiBmYWxzZQogICAgICAgIGRlZmF1bHQ6ICcxNS40JwogICAgICAgIHR5cGU6IGNob2ljZQogICAgICAgIG9wdGlvbnM6CiAgICAgICAgICAtICcxNS40JwogICAgICAgICAgLSAnMTYuMicKICAgICAgICAgIC0gJ2xhdGVzdCcKCmpvYnM6CiAgYnVpbGQ6CiAgICBydW5zLW9uOiBtYWNvcy1sYXRlc3QKICAgIHRpbWVvdXQtbWludXRlczogNDAKICAgIGVudjoKICAgICAgUFJPSkVDVF9ESVI6IGlvcwoKICAgIHN0ZXBzOgogICAgICAtIG5hbWU6IENoZWNrb3V0CiAgICAgICAgdXNlczogYWN0aW9ucy9jaGVja291dEB2NAoKICAgICAgLSBuYW1lOiBTZWxlY3QgWGNvZGUKICAgICAgICBydW46IHwKICAgICAgICAgIFJFUVVFU1RFRD0iJHt7IGdpdGh1Yi5ldmVudC5pbnB1dHMueGNvZGUgfX0iCiAgICAgICAgICBpZiBbICIkUkVRVUVTVEVEIiA9ICJsYXRlc3QiIF07IHRoZW4KICAgICAgICAgICAgc3VkbyB4Y29kZS1zZWxlY3QgLXMgIiQobHMgLWQgL0FwcGxpY2F0aW9ucy9YY29kZV8qLmFwcCB8IHRhaWwgLTEpIgogICAgICAgICAgZWxzZQogICAgICAgICAgICBzdWRvIHhjb2RlLXNlbGVjdCAtcyAvQXBwbGljYXRpb25zL1hjb2RlXyR7UkVRVUVTVEVEfS5hcHAgMj4vZGV2L251bGwgfHwgXAogICAgICAgICAgICBzdWRvIHhjb2RlLXNlbGVjdCAtcyAiJChscyAtZCAvQXBwbGljYXRpb25zL1hjb2RlXyouYXBwIHwgdGFpbCAtMSkiCiAgICAgICAgICBmaQogICAgICAgICAgeGNvZGVidWlsZCAtdmVyc2lvbgoKICAgICAgLSBuYW1lOiBJbnN0YWxsIFhjb2RlR2VuCiAgICAgICAgcnVuOiB8CiAgICAgICAgICBicmV3IGluc3RhbGwgeGNvZGVnZW4KICAgICAgICAgIHhjb2RlZ2VuIC0tdmVyc2lvbgoKICAgICAgLSBuYW1lOiBHZW5lcmF0ZSBwcm9qZWN0CiAgICAgICAgcnVuOiB8CiAgICAgICAgICBjZCAkUFJPSkVDVF9ESVIKICAgICAgICAgIHhjb2RlZ2VuIGdlbmVyYXRlCgogICAgICAtIG5hbWU6IENvbXBpbGUKICAgICAgICBydW46IHwKICAgICAgICAgIGNkICRQUk9KRUNUX0RJUgogICAgICAgICAgc2V0ICtlCiAgICAgICAgICB4Y29kZWJ1aWxkIFwKICAgICAgICAgICAgLXByb2plY3QgTmV0YUwueGNvZGVwcm9qIFwKICAgICAgICAgICAgLXNjaGVtZSBOZXRhTCBcCiAgICAgICAgICAgIC1jb25maWd1cmF0aW9uIERlYnVnIFwKICAgICAgICAgICAgLWRlc3RpbmF0aW9uICdnZW5lcmljL3BsYXRmb3JtPWlPUyBTaW11bGF0b3InIFwKICAgICAgICAgICAgQ09ERV9TSUdOSU5HX0FMTE9XRUQ9Tk8gXAogICAgICAgICAgICBidWlsZCA+IGNvbXBpbGUtbG9nLnR4dCAyPiYxCiAgICAgICAgICBzZXQgLWUKICAgICAgICAgIGlmIGdyZXAgLXFFICJlcnJvcjoiIGNvbXBpbGUtbG9nLnR4dDsgdGhlbgogICAgICAgICAgICBlY2hvICI9PT0g57yW6K+R6ZSZ6K+vID09PSIKICAgICAgICAgICAgZ3JlcCAtb0UgImVycm9yOiAuKiIgY29tcGlsZS1sb2cudHh0IHwgc29ydCAtdSB8IGhlYWQgLTQwCiAgICAgICAgICAgIGV4aXQgMQogICAgICAgICAgZmkKICAgICAgICAgIGVjaG8gIue8luivkemAmui/hyIKCiAgICAgIC0gbmFtZTogQXJjaGl2ZSBhbmQgcGFja2FnZSBJUEEKICAgICAgICBpZjogZ2l0aHViLmV2ZW50LmlucHV0cy5tb2RlID09ICdpcGEnCiAgICAgICAgcnVuOiB8CiAgICAgICAgICBjZCAkUFJPSkVDVF9ESVIKICAgICAgICAgIHNldCArZQogICAgICAgICAgeGNvZGVidWlsZCBcCiAgICAgICAgICAgIC1wcm9qZWN0IE5ldGFMLnhjb2RlcHJvaiBcCiAgICAgICAgICAgIC1zY2hlbWUgTmV0YUwgXAogICAgICAgICAgICAtY29uZmlndXJhdGlvbiBSZWxlYXNlIFwKICAgICAgICAgICAgLWRlc3RpbmF0aW9uICdnZW5lcmljL3BsYXRmb3JtPWlPUycgXAogICAgICAgICAgICAtYXJjaGl2ZVBhdGggYnVpbGQvTmV0YUwueGNhcmNoaXZlIFwKICAgICAgICAgICAgQ09ERV9TSUdOSU5HX0FMTE9XRUQ9Tk8gXAogICAgICAgICAgICBDT0RFX1NJR05JTkdfUkVRVUlSRUQ9Tk8gXAogICAgICAgICAgICBDT0RFX1NJR05fSURFTlRJVFk9IiIgXAogICAgICAgICAgICBhcmNoaXZlID4gYXJjaGl2ZS1sb2cudHh0IDI+JjEKCiAgICAgICAgICBpZiBncmVwIC1xRSAiZXJyb3I6IiBhcmNoaXZlLWxvZy50eHQ7IHRoZW4KICAgICAgICAgICAgZWNobyAiQXJjaGl2ZSDlpLHotKU6IgogICAgICAgICAgICBncmVwIC1FICJlcnJvcjoiIGFyY2hpdmUtbG9nLnR4dCB8IGhlYWQgLTMwCiAgICAgICAgICAgIGV4aXQgMQogICAgICAgICAgZmkKICAgICAgICAgIGVjaG8gIkFyY2hpdmUg5a6M5oiQIgoKICAgICAgICAgIEFQUF9QQVRIPSQoZmluZCBidWlsZC9OZXRhTC54Y2FyY2hpdmUvUHJvZHVjdHMvQXBwbGljYXRpb25zIC1tYXhkZXB0aCAxIC1uYW1lICIqLmFwcCIgfCBoZWFkIC0xKQogICAgICAgICAgZWNobyAiQVBQOiAkQVBQX1BBVEgiCiAgICAgICAgICBpZiBbIC16ICIkQVBQX1BBVEgiIF07IHRoZW4KICAgICAgICAgICAgZWNobyAi5pyq5om+5YiwIC5hcHAiCiAgICAgICAgICAgIGZpbmQgYnVpbGQvTmV0YUwueGNhcmNoaXZlL1Byb2R1Y3RzIC1tYXhkZXB0aCAzIHwgaGVhZCAtMjAKICAgICAgICAgICAgZXhpdCAxCiAgICAgICAgICBmaQoKICAgICAgICAgIHJtIC1yZiB1bnNpZ25lZC1pcGEKICAgICAgICAgIG1rZGlyIC1wIHVuc2lnbmVkLWlwYS9QYXlsb2FkCiAgICAgICAgICBjcCAtUiAiJEFQUF9QQVRIIiB1bnNpZ25lZC1pcGEvUGF5bG9hZC8KICAgICAgICAgIGNkIHVuc2lnbmVkLWlwYQogICAgICAgICAgemlwIC1xcnkgLi4vTmV0YUwtdW5zaWduZWQuaXBhIFBheWxvYWQKICAgICAgICAgIGNkIC4uCiAgICAgICAgICBybSAtcmYgdW5zaWduZWQtaXBhCgogICAgICAgICAgZWNobyAiPT09IOS6p+eJqSA9PT0iCiAgICAgICAgICBscyAtbGggTmV0YUwtdW5zaWduZWQuaXBhCiAgICAgICAgICBlY2hvICI9PT0gSVBBIOWGheWuuSA9PT0iCiAgICAgICAgICB1bnppcCAtbCBOZXRhTC11bnNpZ25lZC5pcGEgfCBoZWFkIC0yMAogICAgICAgICAgc2V0IC1lCgogICAgICAtIG5hbWU6IFVwbG9hZCBhcnRpZmFjdHMKICAgICAgICBpZjogYWx3YXlzKCkgJiYgZ2l0aHViLmV2ZW50LmlucHV0cy5tb2RlID09ICdpcGEnCiAgICAgICAgdXNlczogYWN0aW9ucy91cGxvYWQtYXJ0aWZhY3RAdjQKICAgICAgICB3aXRoOgogICAgICAgICAgbmFtZTogTmV0YUwtaXBhCiAgICAgICAgICBwYXRoOiB8CiAgICAgICAgICAgIGlvcy9OZXRhTC11bnNpZ25lZC5pcGEKICAgICAgICAgICAgaW9zL2NvbXBpbGUtbG9nLnR4dAogICAgICAgICAgICBpb3MvYXJjaGl2ZS1sb2cudHh0CiAgICAgICAgICByZXRlbnRpb24tZGF5czogMzAKICAgICAgICAgIGlmLW5vLWZpbGVzLWZvdW5kOiB3YXJuCgogICAgICAtIG5hbWU6IFN1bW1hcnkKICAgICAgICBpZjogYWx3YXlzKCkKICAgICAgICBydW46IHwKICAgICAgICAgIGNkICRQUk9KRUNUX0RJUgogICAgICAgICAgewogICAgICAgICAgICBlY2hvICIjIyDnu5PmnpwiCiAgICAgICAgICAgIGlmIFsgIiR7eyBnaXRodWIuZXZlbnQuaW5wdXRzLm1vZGUgfX0iID0gImlwYSIgXTsgdGhlbgogICAgICAgICAgICAgIGlmIGxzIE5ldGFMLXVuc2lnbmVkLmlwYSA+L2Rldi9udWxsIDI+JjE7IHRoZW4KICAgICAgICAgICAgICAgIGVjaG8gIklQQSDlr7zlh7rmiJDlip8iCiAgICAgICAgICAgICAgICBlY2hvICdgYGAnCiAgICAgICAgICAgICAgICBscyAtbGggTmV0YUwtdW5zaWduZWQuaXBhCiAgICAgICAgICAgICAgICBlY2hvICdgYGAnCiAgICAgICAgICAgICAgICBlY2hvICLlnKggQXJ0aWZhY3RzIOS4i+i9vSBOZXRhTC1pcGEiCiAgICAgICAgICAgICAgICBlY2hvICI+IOacquetvuWQje+8jOaXoOazleWuieijheWIsCBpUGhvbmUiCiAgICAgICAgICAgICAgZWxzZQogICAgICAgICAgICAgICAgZWNobyAiSVBBIOWvvOWHuuWksei0pSIKICAgICAgICAgICAgICBmaQogICAgICAgICAgICBmaQogICAgICAgICAgfSA+PiAkR0lUSFVCX1NURVBfU1VNTUFSWQ==
+name: Build IPA
+
+# ============================================================
+#  编译检查 + 打包无签名 IPA
+#
+#  不需要任何证书或 Secret。
+#  公开仓库：macOS runner 免费不限量
+#
+#  用法：Actions → Build IPA → Run workflow
+# ============================================================
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: '构建模式'
+        required: true
+        default: 'ipa'
+        type: choice
+        options:
+          - compile-only
+          - ipa
+      xcode:
+        description: 'Xcode 版本'
+        required: false
+        default: '15.4'
+        type: choice
+        options:
+          - '15.4'
+          - '16.2'
+          - 'latest'
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 40
+    env:
+      PROJECT_DIR: ios
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          REQUESTED="${{ github.event.inputs.xcode }}"
+          if [ "$REQUESTED" = "latest" ]; then
+            sudo xcode-select -s "$(ls -d /Applications/Xcode_*.app | tail -1)"
+          else
+            sudo xcode-select -s /Applications/Xcode_${REQUESTED}.app 2>/dev/null || \
+            sudo xcode-select -s "$(ls -d /Applications/Xcode_*.app | tail -1)"
+          fi
+          xcodebuild -version
+
+      - name: Install XcodeGen
+        run: |
+          brew install xcodegen
+          xcodegen --version
+
+      - name: Generate project
+        run: |
+          cd $PROJECT_DIR
+          xcodegen generate
+
+      - name: Compile
+        run: |
+          cd $PROJECT_DIR
+          set +e
+          xcodebuild \
+            -project NetaL.xcodeproj \
+            -scheme NetaL \
+            -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            build > compile-log.txt 2>&1
+          set -e
+          if grep -qE "error:" compile-log.txt; then
+            echo "=== 编译错误 ==="
+            grep -oE "error: .*" compile-log.txt | sort -u | head -40
+            exit 1
+          fi
+          echo "编译通过"
+
+      - name: Archive and package IPA
+        if: github.event.inputs.mode == 'ipa'
+        run: |
+          cd $PROJECT_DIR
+          set +e
+          xcodebuild \
+            -project NetaL.xcodeproj \
+            -scheme NetaL \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath build/NetaL.xcarchive \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            archive > archive-log.txt 2>&1
+
+          if grep -qE "error:" archive-log.txt; then
+            echo "Archive 失败:"
+            grep -E "error:" archive-log.txt | head -30
+            exit 1
+          fi
+          echo "Archive 完成"
+
+          APP_PATH=$(find build/NetaL.xcarchive/Products/Applications -maxdepth 1 -name "*.app" | head -1)
+          echo "APP: $APP_PATH"
+          if [ -z "$APP_PATH" ]; then
+            echo "未找到 .app"
+            find build/NetaL.xcarchive/Products -maxdepth 3 | head -20
+            exit 1
+          fi
+
+          rm -rf unsigned-ipa
+          mkdir -p unsigned-ipa/Payload
+          cp -R "$APP_PATH" unsigned-ipa/Payload/
+          cd unsigned-ipa
+          zip -qry ../NetaL-unsigned.ipa Payload
+          cd ..
+          rm -rf unsigned-ipa
+
+          echo "=== 产物 ==="
+          ls -lh NetaL-unsigned.ipa
+          echo "=== IPA 内容 ==="
+          unzip -l NetaL-unsigned.ipa | head -20
+          set -e
+
+      - name: Upload artifacts
+        if: always() && github.event.inputs.mode == 'ipa'
+        uses: actions/upload-artifact@v4
+        with:
+          name: NetaL-ipa
+          path: |
+            ios/NetaL-unsigned.ipa
+            ios/compile-log.txt
+            ios/archive-log.txt
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Summary
+        if: always()
+        run: |
+          cd $PROJECT_DIR
+          {
+            echo "## 结果"
+            if [ "${{ github.event.inputs.mode }}" = "ipa" ]; then
+              if ls NetaL-unsigned.ipa >/dev/null 2>&1; then
+                echo "IPA 导出成功"
+                echo '```'
+                ls -lh NetaL-unsigned.ipa
+                echo '```'
+                echo "在 Artifacts 下载 NetaL-ipa"
+                echo "> 未签名，无法安装到 iPhone"
+              else
+                echo "IPA 导出失败"
+              fi
+            fi
+          } >> $GITHUB_STEP_SUMMARY
