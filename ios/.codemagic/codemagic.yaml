@@ -1,0 +1,102 @@
+# ============================================================
+#  Codemagic 配置 —— 编译检查 + 无签名 IPA
+#
+#  不需要证书。注册后连仓库即可点 Start build。
+#  免费额度：每月 500 分钟，免信用卡。
+# ============================================================
+
+name: iOS Build
+type: ios
+
+environment:
+  XCODEGEN_VERSION: 2.42.0
+
+scripts:
+  - name: Install XcodeGen
+    script: |
+      brew install xcodegen
+
+  - name: Generate project
+    script: |
+      cd ios
+      xcodegen generate
+
+  - name: Compile check
+    # 无签名编译，用于查编译错误。日志里会输出全部 error/warning
+    script: |
+      cd ios
+      set +e
+      xcodebuild \
+        -project NetaL.xcodeproj \
+        -scheme NetaL \
+        -configuration Debug \
+        -destination 'generic/platform=iOS Simulator' \
+        CODE_SIGNING_ALLOWED=NO \
+        CODE_SIGNING_REQUIRED=NO \
+        build > compile-log.txt 2>&1
+      set -e
+
+      echo "=== 编译错误 ==="
+      if grep -qE "error:" compile-log.txt; then
+        grep -E "error:" compile-log.txt | head -60
+        echo ""
+        echo "=== 错误去重 ==="
+        grep -oE "error: .*" compile-log.txt | sort -u | head -40
+        exit 1
+      else
+        echo "无错误，编译通过"
+      fi
+
+  - name: Archive (unsigned)
+    script: |
+      cd ios
+      set +e
+      xcodebuild \
+        -project NetaL.xcodeproj \
+        -scheme NetaL \
+        -configuration Release \
+        -destination 'generic/platform=iOS' \
+        -archivePath build/NetaL.xcarchive \
+        CODE_SIGNING_ALLOWED=NO \
+        CODE_SIGNING_REQUIRED=NO \
+        CODE_SIGN_IDENTITY="" \
+        archive > archive-log.txt 2>&1
+      set -e
+
+      if grep -qE "error:" archive-log.txt; then
+        grep -E "error:" archive-log.txt | head -30
+        exit 1
+      fi
+
+      mkdir -p ipa
+      cat > ExportOptions-unsigned.plist << 'PLIST'
+      <?xml version="1.0" encoding="UTF-8"?>
+      <plist version="1.0">
+      <dict>
+          <key>method</key><string>development</string>
+          <key>signingStyle</key><string>manual</string>
+          <key>signingCertificate</key><string></string>
+          <key>provisioningProfiles</key><dict/>
+          <key>stripSwiftSymbols</key><true/>
+      </dict>
+      </plist>
+      PLIST
+
+      xcodebuild \
+        -exportArchive \
+        -archivePath build/NetaL.xcarchive \
+        -exportOptionsPlist ExportOptions-unsigned.plist \
+        -exportPath ipa
+
+artifacts:
+  - path: ios/ipa/*.ipa
+    type: file
+    name: NetaL.ipa
+
+  - path: ios/compile-log.txt
+    type: file
+    name: compile-log.txt
+
+  - path: ios/archive-log.txt
+    type: file
+    name: archive-log.txt
