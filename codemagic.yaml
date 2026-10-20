@@ -1,13 +1,9 @@
 name: iOS Build
 type: ios
 
-environment:
-  XCODEGEN_VERSION: 2.42.0
-
 scripts:
   - name: Install XcodeGen
-    script: |
-      brew install xcodegen
+    script: brew install xcodegen
 
   - name: Generate project
     script: |
@@ -17,15 +13,7 @@ scripts:
   - name: Compile check
     script: |
       cd ios
-      set +e
-      xcodebuild \
-        -project NetaL.xcodeproj \
-        -scheme NetaL \
-        -configuration Debug \
-        -destination 'generic/platform=iOS Simulator' \
-        CODE_SIGNING_ALLOWED=NO \
-        build > compile-log.txt 2>&1
-      set -e
+      xcodebuild -project NetaL.xcodeproj -scheme NetaL -configuration Debug -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build > compile-log.txt 2>&1 || true
       if grep -qE "error:" compile-log.txt; then
         grep -oE "error: .*" compile-log.txt | sort -u | head -40
         exit 1
@@ -40,11 +28,8 @@ scripts:
 
 artifacts:
   - path: ios/NetaL-unsigned.ipa
-    type: file
     name: NetaL-unsigned.ipa
   - path: ios/compile-log.txt
-    type: file
     name: compile-log.txt
   - path: ios/archive-log.txt
-    type: file
     name: archive-log.txt
