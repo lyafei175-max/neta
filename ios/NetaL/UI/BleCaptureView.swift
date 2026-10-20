@@ -254,7 +254,7 @@ final class CaptureModel: ObservableObject {
         }
         recorder.onFrame = { [weak self] frame in
             guard let self else { return }
-            self.frames.append(DisplayFrame(frame: frame))
+            self.frames.append(DisplayFrame(raw: frame))
             if self.frames.count > 2000 {
                 self.frames.removeFirst(self.frames.count - 2000)
             }
