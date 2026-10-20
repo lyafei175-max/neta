@@ -1,0 +1,80 @@
+# XcodeGen 配置 —— macOS 上 `xcodegen generate` 即可生成 NetaL.xcodeproj
+#
+# 相比手写 .xcodeproj，这是更可靠的方式（不需要维护 project.pbxproj）。
+# 安装：brew install xcodegen
+
+name: NetaL
+
+options:
+  bundleIdPrefix: com.neta
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+  developmentLanguage: zh-Hans
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MARKETING_VERSION: "0.1.4"
+    CURRENT_PROJECT_VERSION: "1"
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    SWIFT_EMIT_LOC_STRINGS: YES
+    CODE_SIGN_STYLE: Manual
+
+targets:
+  NetaL:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+
+    sources:
+      - path: NetaL
+        excludes:
+          - "**/.DS_Store"
+
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.neta.l
+        INFOPLIST_FILE: NetaL/Resources/Info.plist
+        CODE_SIGN_IDENTITY: "Apple Development"
+        CODE_SIGN_ENTITLEMENTS: NetaL/Resources/NetaL.entitlements
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        DEVELOPMENT_ASSET_PATHS: ""
+        ENABLE_PREVIEWS: YES
+
+    info:
+      path: NetaL/Resources/Info.plist
+      properties:
+        CFBundleDisplayName: 哪吒L
+        CFBundleShortVersionString: "0.1.4"
+        CFBundleVersion: "1"
+        UILaunchScreen:
+          UIColorName: AccentColor
+        UIApplicationSupportsIndirectInputEvents: true
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        NSBluetoothAlwaysUsageDescription: 用于扫描车辆蓝牙，实现近场车控与靠近自动解锁
+        NSBluetoothPeripheralUsageDescription: 用于连接车辆蓝牙设备
+        NSLocationWhenInUseUsageDescription: 用于将车辆位置解析为地址
+        NSLocationAlwaysAndWhenInUseUsageDescription: 用于在车辆附近时自动唤醒并连接蓝牙
+        NSLocationAlwaysUsageDescription: 用于在车辆附近时自动唤醒并连接蓝牙
+        UIBackgroundModes:
+          - bluetooth-central
+        ITSAppUsesNonExemptEncryption: false
+
+schemes:
+  NetaL:
+    build:
+      targets:
+        NetaL: all
+    run:
+      config: Debug
+    archive:
+      config: Release
