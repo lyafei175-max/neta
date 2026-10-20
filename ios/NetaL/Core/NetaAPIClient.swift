@@ -93,7 +93,7 @@ struct NetaAPIClient {
         try requireLogin()
 
         return try await post(
-            path: Endpoint.sendCommand,   // TODO: 抓包确认
+            path: Endpoint.rvcSend,
             parameters: command.cloudPayload
         )
     }
@@ -103,7 +103,7 @@ struct NetaAPIClient {
         try requireLogin()
 
         let response = try await post(
-            path: Endpoint.fetchStatus,    // TODO: 抓包确认
+            path: Endpoint.vehicleStatus,
             parameters: [:]
         )
 
@@ -264,9 +264,4 @@ enum APIError: Error, LocalizedError {
         case .tokenRefreshFailed: return "登录已过期，需要重新登录"
         }
     }
-}
-
-extension Endpoint {
-    static let sendCommand = "/api/vehicle/command"
-    static let fetchStatus = "/api/vehicle/status"
 }
