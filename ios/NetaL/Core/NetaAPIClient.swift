@@ -69,6 +69,12 @@ struct NetaAPIClient {
         for (k, v) in headers {
             request.setValue(v, forHTTPHeaderField: k)
         }
+        // 实测：网关对验签 header 名大小写敏感（全大写会返回 30253「验签信息缺失」）。
+        // URLSession 可能把首字母大写化成 `Appid`，因此同时补发全小写别名，
+        // 保证服务端能命中其中一种（小写形式已实测可通）。
+        for (k, v) in headers where k.lowercased() != k {
+            request.addValue(v, forHTTPHeaderField: k.lowercased())
+        }
 
         if isJSON {
             request.httpBody = jsonBody?.data(using: .utf8)
@@ -130,37 +136,30 @@ struct NetaAPIClient {
 
     /// 刷新 token（端点 `/customer/account/info/refreshApiToken`，已确认）。
     ///
-    /// ⚠️ 请求参数名未从 APK 提取到（刷新逻辑在 SDK 内部），
-    /// 先按 `refresh_token` 表单字段发送，失败时降级为 JSON。
+    /// 响应与登录同构：`data.token.access_token`。请求参数名未从 APK 提取到
+    /// （刷新逻辑在 SDK 内部），先按 `refresh_token` 表单字段发送。
     func refreshAccessToken() async throws -> String {
         guard let refreshToken = CredentialStore.shared.refreshToken else {
             throw APIError.notLoggedIn
         }
 
-        var response = try await post(
+        let response = try await post(
             path: Endpoint.refreshToken,
             parameters: ["refresh_token": refreshToken]
         )
 
-        if response.data == nil {
-            response = try await postJSON(
-                path: Endpoint.refreshToken,
-                jsonBody: ["refreshToken": refreshToken]
-            )
-        }
-
-        guard let token = response.data?["access_token"] as? String
-                ?? response.data?["accessToken"] as? String else {
+        let token = response.data?["token"]
+        guard let accessToken = token?["access_token"]?.asString
+                ?? response.data?["access_token"]?.asString
+        else {
             throw APIError.tokenRefreshFailed
         }
 
         try CredentialStore.shared.saveSession(
-            accessToken: token,
-            refreshToken: response.data?["refresh_token"] as? String
-                ?? response.data?["refreshToken"] as? String
-                ?? refreshToken
+            accessToken: accessToken,
+            refreshToken: token?["refresh_token"]?.asString ?? refreshToken
         )
-        return token
+        return accessToken
     }
 
     // MARK: - 内部
@@ -176,6 +175,8 @@ struct NetaAPIClient {
 
 /// 统一响应包装，对应 APK `Ly1/m;->a` 的解析逻辑：
 /// `code`（Int）、`message`、`description`、`data`（对象或数组）。
+///
+/// `code` 做容错解码：服务端可能返回数字或字符串（安卓用 `optInt` 兼容）。
 struct NetaResponse: Codable {
     var code: Int?
     var message: String?
@@ -187,6 +188,30 @@ struct NetaResponse: Codable {
         case message
         case description
         case data
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+
+        if let intCode = try? c.decodeIfPresent(Int.self, forKey: .code) {
+            code = intCode
+        } else if let strCode = try? c.decodeIfPresent(String.self, forKey: .code) {
+            code = Int(strCode)
+        } else {
+            code = nil
+        }
+
+        message = try? c.decodeIfPresent(String.self, forKey: .message)
+        description = try? c.decodeIfPresent(String.self, forKey: .description)
+        data = try? c.decodeIfPresent(JSONValue.self, forKey: .data)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encodeIfPresent(code, forKey: .code)
+        try c.encodeIfPresent(message, forKey: .message)
+        try c.encodeIfPresent(description, forKey: .description)
+        try c.encodeIfPresent(data, forKey: .data)
     }
 }
 
