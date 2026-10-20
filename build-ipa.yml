@@ -86,6 +86,7 @@ jobs:
         run: |
           cd $PROJECT_DIR
           set +e
+
           xcodebuild \
             -project NetaL.xcodeproj \
             -scheme NetaL \
@@ -122,11 +123,10 @@ jobs:
 
           echo "=== 产物 ==="
           ls -lh NetaL-unsigned.ipa
-          echo "=== IPA 内容 ==="
-          unzip -l NetaL-unsigned.ipa | head -20
+          unzip -l NetaL-unsigned.ipa | head -15
           set -e
 
-      - name: Upload artifacts
+      - name: Upload IPA
         if: always() && github.event.inputs.mode == 'ipa'
         uses: actions/upload-artifact@v4
         with:
@@ -151,7 +151,6 @@ jobs:
                 ls -lh NetaL-unsigned.ipa
                 echo '```'
                 echo "在 Artifacts 下载 NetaL-ipa"
-                echo "> 未签名，无法安装到 iPhone"
               else
                 echo "IPA 导出失败"
               fi
