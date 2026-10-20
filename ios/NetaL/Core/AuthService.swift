@@ -194,17 +194,17 @@ extension NetaResponse {
     /// 业务状态判断。
     ///
     /// ⚠️ 成功码取值（0 / 200 / "0"）需抓包确认，此处宽松处理。
+    /// `status` 在 Codable 中声明为 Int?，但服务端可能返回字符串，
+    /// 因此这里先归一化成字符串再比较，避免类型不匹配。
     var isSuccess: Bool {
-        guard let status = status else {
+        guard let status else {
             // 无 status 字段时按 HTTP 层已通过、body 有 data 视为成功
             return data != nil
         }
 
-        switch status {
-        case 0, 200, "0", "200", "success":
+        switch String(describing: status) {
+        case "0", "200", "success", "SUCCESS":
             return true
-        case 401, 40101, "401":
-            return false
         default:
             return false
         }
@@ -212,8 +212,9 @@ extension NetaResponse {
 
     /// 提取需要重新登录的错误。
     var requiresRelogin: Bool {
-        guard let status = status else { return false }
-        return [401, 40101, "401", "40101"].contains(status)
+        guard let status else { return false }
+        let text = String(describing: status)
+        return ["401", "40101", "403"].contains(text)
     }
 }
 
