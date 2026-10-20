@@ -286,6 +286,6 @@ extension NetaResponse {
         encoder.outputFormatting = [.withoutEscapingSlashes]
         guard let encoded = try? encoder.encode(data),
               let s = String(data: encoded, encoding: .utf8) else { return "(无法序列化)" }
-        return s.count > 300 ? String(s.prefix(300)) + "…" : s
+        return s.count > 2000 ? String(s.prefix(2000)) + "…" : s
     }
 }
