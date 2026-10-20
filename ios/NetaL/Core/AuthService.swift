@@ -1,1 +1,225 @@
-aW1wb3J0IEZvdW5kYXRpb24KaW1wb3J0IENyeXB0b0tpdAoKLy8vIOS8muivneeuoeeQhu+8mueZu+W9leOAgXRva2VuIOWIt+aWsOOAgTQwMSDoh6rliqjph43or5XjgIIKLy8vCi8vLyDljp8gQVBLIOa1geeoi++8iOS4reaWh+aWh+ahiOW3suehruiupO+8ie+8mgovLy8gYGBgCi8vLyDojrflj5bpqozor4HnoIEg4oaSIOmqjOivgeeggeW3suWPkemAgSDihpIg6L6T5YWl5omL5py65Y+3K+mqjOivgeeggSDihpIg55m75b2VIOKGkiDojrflj5YgdG9rZW4KLy8vIOWQjue7rSA0MDEg4oaSIC9jdXN0b21lci9hY2NvdW50L2luZm8vcmVmcmVzaEFwaVRva2VuIOWIt+aWsAovLy8gYGBgCi8vLwovLy8g5paH5qGI5L2Q6K+B77yaCi8vLyBg6K+36L6T5YWl5q2j56Gu55qE5omL5py65Y+3YOOAgWDpqozor4HnoIHlj5HpgIHlpLHotKVg44CBYOmqjOivgeeggeW3suWPkemAgWDjgIFg55m75b2V5aSx6LSlYOOAgQovLy8gYOeZu+W9leW3sui/h+acn2DjgIFg6ZyA6KaB6YeN5paw55m75b2VYOOAgWDpgIDlh7rnmbvlvZVg44CBYOeZu+W9leeKtuaAgeW3suWPmOWMlmAKZW51bSBBdXRoRXJyb3I6IEVycm9yLCBMb2NhbGl6ZWRFcnJvciB7CiAgICBjYXNlIGludmFsaWRQaG9uZQogICAgY2FzZSBjb2RlTm90UmVxdWVzdGVkCiAgICBjYXNlIGNvZGVFeHBpcmVkCiAgICBjYXNlIGNyZWRlbnRpYWxNaXNzaW5nCiAgICBjYXNlIHNlc3Npb25FeHBpcmVkCiAgICBjYXNlIHNlcnZlclJlamVjdGVkKFN0cmluZykKCiAgICB2YXIgZXJyb3JEZXNjcmlwdGlvbjogU3RyaW5nPyB7CiAgICAgICAgc3dpdGNoIHNlbGYgewogICAgICAgIGNhc2UgLmludmFsaWRQaG9uZTogICAgICByZXR1cm4gIuivt+i+k+WFpeato+ehrueahOaJi+acuuWPtyIKICAgICAgICBjYXNlIC5jb2RlTm90UmVxdWVzdGVkOiAgcmV0dXJuICLor7flhYjojrflj5bpqozor4HnoIEiCiAgICAgICAgY2FzZSAuY29kZUV4cGlyZWQ6ICAgICAgIHJldHVybiAi6aqM6K+B56CB5bey6L+H5pyfIgogICAgICAgIGNhc2UgLmNyZWRlbnRpYWxNaXNzaW5nOiByZXR1cm4gIueZu+W9leWksei0pSIKICAgICAgICBjYXNlIC5zZXNzaW9uRXhwaXJlZDogICAgcmV0dXJuICLnmbvlvZXlt7Lov4fmnJ/vvIzpnIDopoHph43mlrDnmbvlvZUiCiAgICAgICAgY2FzZSAuc2VydmVyUmVqZWN0ZWQobGV0IG0pOiByZXR1cm4gbS5pc0VtcHR5ID8gIueZu+W9leWksei0pSIgOiBtCiAgICAgICAgfQogICAgfQp9CgovLy8g55m75b2V5Lya6K+d44CCCi8vLwovLy8g55+t5L+h55SxKirkupHnq6/nvZHlhbMqKuWPkemAge+8iOWOnyBBUEsg5pegIFNFTkRfU01TIOadg+mZkO+8ie+8jEFwcCDlj6rosIPnlKjmjqXlj6PjgIIKYWN0b3IgQXV0aFNlcnZpY2UgewoKICAgIHN0YXRpYyBsZXQgc2hhcmVkID0gQXV0aFNlcnZpY2UoKQoKICAgIHByaXZhdGUgbGV0IGFwaTogTmV0YUFQSUNsaWVudAogICAgcHJpdmF0ZSBsZXQgc3RvcmUgPSBDcmVkZW50aWFsU3RvcmUuc2hhcmVkCgogICAgLy8vIOeZu+W9leaAgeOAguWPkemAgeWJjeWFiOWIt+aWsO+8jOWksei0peWImea4hemZpOS8muivneOAggogICAgcHJpdmF0ZSB2YXIgbG9nZ2VkSW4gPSBmYWxzZQoKICAgIC8vLyDmmK/lkKblt7LnmbvlvZXvvIjkvpsgVUkg57uR5a6a77yJCiAgICBwcml2YXRlKHNldCkgdmFyIGlzTG9nZ2VkSW4gPSBmYWxzZQoKICAgIHByaXZhdGUgaW5pdCgpIHsKICAgICAgICBhcGkgPSBOZXRhQVBJQ2xpZW50KCkKICAgIH0KCiAgICAvLyBNQVJLOiAtIOmqjOivgeeggQoKICAgIC8vLyDlj5HpgIHnn63kv6Hpqozor4HnoIHjgIIKICAgIC8vLwogICAgLy8vIOKaoO+4jyDnq6/ngrnkuLrmjqjmlq3vvIzpnIDmipPljIXnoa7orqTjgIIKICAgIGZ1bmMgcmVxdWVzdFNNU0NvZGUocGhvbmU6IFN0cmluZykgYXN5bmMgdGhyb3dzIHsKICAgICAgICBndWFyZCBTZWxmLmlzVmFsaWRQaG9uZShwaG9uZSkgZWxzZSB7IHRocm93IEF1dGhFcnJvci5pbnZhbGlkUGhvbmUgfQoKICAgICAgICBsZXQgcmVzcG9uc2UgPSB0cnkgYXdhaXQgYXBpLnBvc3QoCiAgICAgICAgICAgIHBhdGg6IEVuZHBvaW50LnJlcXVlc3RTTVNDb2RlLAogICAgICAgICAgICBwYXJhbWV0ZXJzOiBbIm1vYmlsZSI6IHBob25lXQogICAgICAgICkKCiAgICAgICAgZ3VhcmQgcmVzcG9uc2UuaXNTdWNjZXNzIGVsc2UgewogICAgICAgICAgICB0aHJvdyBBdXRoRXJyb3Iuc2VydmVyUmVqZWN0ZWQocmVzcG9uc2UubWVzc2FnZSA/PyAiIikKICAgICAgICB9CgogICAgICAgIC8vIOmqjOivgeeggeW3suWPkemAgQogICAgfQoKICAgIC8vIE1BUks6IC0g55m75b2VCgogICAgLy8vIOaPkOS6pOaJi+acuuWPtyArIOmqjOivgeeggeeZu+W9leOAggogICAgZnVuYyBsb2dpbihwaG9uZTogU3RyaW5nLCBjb2RlOiBTdHJpbmcpIGFzeW5jIHRocm93cyB7CiAgICAgICAgZ3VhcmQgU2VsZi5pc1ZhbGlkUGhvbmUocGhvbmUpIGVsc2UgeyB0aHJvdyBBdXRoRXJyb3IuaW52YWxpZFBob25lIH0KICAgICAgICBndWFyZCAhY29kZS5pc0VtcHR5IGVsc2UgeyB0aHJvdyBBdXRoRXJyb3IuY29kZU5vdFJlcXVlc3RlZCB9CgogICAgICAgIGxldCByZXNwb25zZSA9IHRyeSBhd2FpdCBhcGkucG9zdCgKICAgICAgICAgICAgcGF0aDogRW5kcG9pbnQubG9naW4sCiAgICAgICAgICAgIHBhcmFtZXRlcnM6IFsKICAgICAgICAgICAgICAgICJtb2JpbGUiOiBwaG9uZSwKICAgICAgICAgICAgICAgICJ2ZXJpZnlDb2RlIjogY29kZSwKICAgICAgICAgICAgICAgICJsb2dpbl9jaGFubmVsIjogU3RyaW5nKE5ldGFBUElDb25maWcuZGVmYXVsdC5sb2dpbkNoYW5uZWwpCiAgICAgICAgICAgIF0KICAgICAgICApCgogICAgICAgIGd1YXJkIHJlc3BvbnNlLmlzU3VjY2VzcywgbGV0IHBheWxvYWQgPSByZXNwb25zZS5kYXRhPy5hc0RpY3Rpb25hcnkgZWxzZSB7CiAgICAgICAgICAgIHRocm93IEF1dGhFcnJvci5zZXJ2ZXJSZWplY3RlZChyZXNwb25zZS5tZXNzYWdlID8/ICIiKQogICAgICAgIH0KCiAgICAgICAgZ3VhcmQgbGV0IGFjY2Vzc1Rva2VuID0gcGF5bG9hZFsiYWNjZXNzX3Rva2VuIl0/LmFzU3RyaW5nID8/IHBheWxvYWRbImFjY2Vzc1Rva2VuIl0/LmFzU3RyaW5nLAogICAgICAgICAgICAgIGxldCByZWZyZXNoVG9rZW4gPSBwYXlsb2FkWyJyZWZyZXNoX3Rva2VuIl0/LmFzU3RyaW5nID8/IHBheWxvYWRbInJlZnJlc2hUb2tlbiJdPy5hc1N0cmluZwogICAgICAgIGVsc2UgewogICAgICAgICAgICB0aHJvdyBBdXRoRXJyb3IuY3JlZGVudGlhbE1pc3NpbmcKICAgICAgICB9CgogICAgICAgIHRyeSBzdG9yZS5zYXZlU2Vzc2lvbihhY2Nlc3NUb2tlbjogYWNjZXNzVG9rZW4sIHJlZnJlc2hUb2tlbjogcmVmcmVzaFRva2VuKQogICAgICAgIGxvZ2dlZEluID0gdHJ1ZQogICAgICAgIGlzTG9nZ2VkSW4gPSB0cnVlCiAgICB9CgogICAgLy8gTUFSSzogLSDpgIDlh7oKCiAgICBmdW5jIGxvZ291dCgpIHsKICAgICAgICBzdG9yZS5jbGVhclNlc3Npb24oKQogICAgICAgIGxvZ2dlZEluID0gZmFsc2UKICAgICAgICBpc0xvZ2dlZEluID0gZmFsc2UKICAgICAgICBsYXN0UmVmcmVzaEF0ID0gbmlsCiAgICB9CgogICAgLy8vIOS+m+W3sueZu+W9leaOpeWPo+iwg+eUqO+8muehruS/neacieWPr+eUqCB0b2tlbu+8jOW/heimgeaXtuWIt+aWsOOAggogICAgLy8vCiAgICAvLy8g5a+55bqU5paH5qGI44CM55m75b2V54q25oCB5bey5Y+Y5YyW44CN44CM6ZyA6KaB6YeN5paw55m75b2V5Yi35paw6ZKl5YyZ44CN44CCCiAgICBmdW5jIGVuc3VyZVZhbGlkU2Vzc2lvbigpIGFzeW5jIHRocm93cyB7CiAgICAgICAgaWYgIWxvZ2dlZEluLCBzdG9yZS5hY2Nlc3NUb2tlbiAhPSBuaWwgewogICAgICAgICAgICBsb2dnZWRJbiA9IHRydWUgICAvLyBBcHAg6YeN5ZCv5ZCO5pys5Zyw5LuN5pyJIHRva2VuCiAgICAgICAgfQoKICAgICAgICBndWFyZCBsb2dnZWRJbiBlbHNlIHsgdGhyb3cgQXV0aEVycm9yLnNlc3Npb25FeHBpcmVkIH0KCiAgICAgICAgZG8gewogICAgICAgICAgICB0cnkgYXdhaXQgcmVmcmVzaElmTmVlZGVkKCkKICAgICAgICB9IGNhdGNoIHsKICAgICAgICAgICAgc3RvcmUuY2xlYXJTZXNzaW9uKCkKICAgICAgICAgICAgbG9nZ2VkSW4gPSBmYWxzZQogICAgICAgICAgICB0aHJvdyBBdXRoRXJyb3Iuc2Vzc2lvbkV4cGlyZWQKICAgICAgICB9CiAgICB9CgogICAgLy8gTUFSSzogLSBUb2tlbiDliLfmlrAKCiAgICAvLy8g6Led5LiK5qyh5Yi35paw6LaF6L+H6ZiI5YC85pe25Li75Yqo5Yi35paw77yI6buY6K6kIDUg5YiG6ZKf77yJ44CCCiAgICBwcml2YXRlIHZhciBsYXN0UmVmcmVzaEF0OiBEYXRlPwogICAgcHJpdmF0ZSBsZXQgcmVmcmVzaFRocmVzaG9sZDogVGltZUludGVydmFsID0gMzAwCgogICAgcHJpdmF0ZSBmdW5jIHJlZnJlc2hJZk5lZWRlZCgpIGFzeW5jIHRocm93cyB7CiAgICAgICAgaWYgbGV0IGxhc3QgPSBsYXN0UmVmcmVzaEF0LAogICAgICAgICAgIERhdGUoKS50aW1lSW50ZXJ2YWxTaW5jZShsYXN0KSA8IHJlZnJlc2hUaHJlc2hvbGQgewogICAgICAgICAgICByZXR1cm4KICAgICAgICB9CiAgICAgICAgXyA9IHRyeSBhd2FpdCByZWZyZXNoKCkKICAgIH0KCiAgICBAZGlzY2FyZGFibGVSZXN1bHQKICAgIGZ1bmMgcmVmcmVzaCgpIGFzeW5jIHRocm93cyAtPiBTdHJpbmcgewogICAgICAgIGd1YXJkIGxldCByZWZyZXNoVG9rZW4gPSBzdG9yZS5yZWZyZXNoVG9rZW4gZWxzZSB7CiAgICAgICAgICAgIHRocm93IEF1dGhFcnJvci5zZXNzaW9uRXhwaXJlZAogICAgICAgIH0KCiAgICAgICAgbGV0IHJlc3BvbnNlID0gdHJ5IGF3YWl0IGFwaS5wb3N0KAogICAgICAgICAgICBwYXRoOiBFbmRwb2ludC5yZWZyZXNoVG9rZW4sCiAgICAgICAgICAgIHBhcmFtZXRlcnM6IFsicmVmcmVzaF90b2tlbiI6IHJlZnJlc2hUb2tlbl0KICAgICAgICApCgogICAgICAgIGd1YXJkIHJlc3BvbnNlLmlzU3VjY2VzcywgbGV0IHBheWxvYWQgPSByZXNwb25zZS5kYXRhPy5hc0RpY3Rpb25hcnkgZWxzZSB7CiAgICAgICAgICAgIHRocm93IEF1dGhFcnJvci5zZXNzaW9uRXhwaXJlZAogICAgICAgIH0KCiAgICAgICAgZ3VhcmQgbGV0IHRva2VuID0gcGF5bG9hZFsiYWNjZXNzX3Rva2VuIl0/LmFzU3RyaW5nID8/IHBheWxvYWRbImFjY2Vzc1Rva2VuIl0/LmFzU3RyaW5nIGVsc2UgewogICAgICAgICAgICB0aHJvdyBBdXRoRXJyb3IuY3JlZGVudGlhbE1pc3NpbmcKICAgICAgICB9CgogICAgICAgIHRyeSBzdG9yZS5zYXZlU2Vzc2lvbigKICAgICAgICAgICAgYWNjZXNzVG9rZW46IHRva2VuLAogICAgICAgICAgICByZWZyZXNoVG9rZW46IHBheWxvYWRbInJlZnJlc2hfdG9rZW4iXT8uYXNTdHJpbmcgPz8gcmVmcmVzaFRva2VuCiAgICAgICAgKQogICAgICAgIGxhc3RSZWZyZXNoQXQgPSBEYXRlKCkKICAgICAgICByZXR1cm4gdG9rZW4KICAgIH0KCiAgICAvLy8g5pyN5Yqh56uv6L+U5Zue5pyq5o6I5p2D5pe26LCD55So77yM5Yi35paw5ZCO6YeN6K+V5LiA5qyh44CCCiAgICAvLy8KICAgIC8vLyDlr7nlupTmlofmoYjjgIznmbvlvZXlt7Lov4fmnJ/jgI3ihpIg5Yi35pawIOKGkiDoi6Xku43lpLHotKXliJnjgIzpnIDopoHph43mlrDnmbvlvZXjgI3jgIIKICAgIGZ1bmMgcmV0cnlBZnRlclVuYXV0aG9yaXplZDxUPihfIG9wZXJhdGlvbjogKCkgYXN5bmMgdGhyb3dzIC0+IFQpIGFzeW5jIHRocm93cyAtPiBUIHsKICAgICAgICBfID0gdHJ5IGF3YWl0IHJlZnJlc2goKQogICAgICAgIHJldHVybiB0cnkgYXdhaXQgb3BlcmF0aW9uKCkKICAgIH0KCiAgICAvLyBNQVJLOiAtIOagoemqjAoKICAgIC8vLyDkuK3lm73lpKfpmYbmiYvmnLrlj7fvvJoxIOW8gOWktCAxMSDkvY3jgIIKICAgIHN0YXRpYyBmdW5jIGlzVmFsaWRQaG9uZShfIHBob25lOiBTdHJpbmcpIC0+IEJvb2wgewogICAgICAgIHBob25lLmNvdW50ID09IDExICYmIHBob25lLmhhc1ByZWZpeCgiMSIpICYmIHBob25lLmFsbFNhdGlzZnkoXC5pc051bWJlcikKICAgIH0KfQoKLy8gTUFSSzogLSDlk43lupTovoXliqkKCmV4dGVuc2lvbiBOZXRhUmVzcG9uc2UgewogICAgLy8vIOS4muWKoeeKtuaAgeWIpOaWreOAggogICAgLy8vCiAgICAvLy8g4pqg77iPIOaIkOWKn+eggeWPluWAvO+8iDAgLyAyMDAgLyAiMCLvvInpnIDmipPljIXnoa7orqTvvIzmraTlpITlrr3mnb7lpITnkIbjgIIKICAgIHZhciBpc1N1Y2Nlc3M6IEJvb2wgewogICAgICAgIGd1YXJkIGxldCBzdGF0dXMgPSBzdGF0dXMgZWxzZSB7CiAgICAgICAgICAgIC8vIOaXoCBzdGF0dXMg5a2X5q615pe25oyJIEhUVFAg5bGC5bey6YCa6L+H44CBYm9keSDmnIkgZGF0YSDop4bkuLrmiJDlip8KICAgICAgICAgICAgcmV0dXJuIGRhdGEgIT0gbmlsCiAgICAgICAgfQoKICAgICAgICBzd2l0Y2ggc3RhdHVzIHsKICAgICAgICBjYXNlIDAsIDIwMCwgIjAiLCAiMjAwIiwgInN1Y2Nlc3MiOgogICAgICAgICAgICByZXR1cm4gdHJ1ZQogICAgICAgIGNhc2UgNDAxLCA0MDEwMSwgIjQwMSI6CiAgICAgICAgICAgIHJldHVybiBmYWxzZQogICAgICAgIGRlZmF1bHQ6CiAgICAgICAgICAgIHJldHVybiBmYWxzZQogICAgICAgIH0KICAgIH0KCiAgICAvLy8g5o+Q5Y+W6ZyA6KaB6YeN5paw55m75b2V55qE6ZSZ6K+v44CCCiAgICB2YXIgcmVxdWlyZXNSZWxvZ2luOiBCb29sIHsKICAgICAgICBndWFyZCBsZXQgc3RhdHVzID0gc3RhdHVzIGVsc2UgeyByZXR1cm4gZmFsc2UgfQogICAgICAgIHJldHVybiBbNDAxLCA0MDEwMSwgIjQwMSIsICI0MDEwMSJdLmNvbnRhaW5zKHN0YXR1cykKICAgIH0KfQoKZXh0ZW5zaW9uIEVuZHBvaW50IHsKICAgIC8vLyDlj5HpgIHnn63kv6Hpqozor4HnoIHvvIjmjqjmlq3nq6/ngrnvvIkKICAgIHN0YXRpYyBsZXQgcmVxdWVzdFNNU0NvZGUgPSAiL2FwaS9hY2NvdW50L3NlbmRTbXNDb2RlIgogICAgLy8vIOeZu+W9le+8iOaOqOaWreerr+eCue+8iQogICAgc3RhdGljIGxldCBsb2dpbiA9ICIvYXBpL2FjY291bnQvbG9naW4iCn0=
+import Foundation
+import CryptoKit
+
+/// 会话管理：登录、token 刷新、401 自动重试。
+///
+/// 原 APK 流程（中文文案已确认）：
+/// ```
+/// 获取验证码 → 验证码已发送 → 输入手机号+验证码 → 登录 → 获取 token
+/// 后续 401 → /customer/account/info/refreshApiToken 刷新
+/// ```
+///
+/// 文案佐证：
+/// `请输入正确的手机号`、`验证码发送失败`、`验证码已发送`、`登录失败`、
+/// `登录已过期`、`需要重新登录`、`退出登录`、`登录状态已变化`
+enum AuthError: Error, LocalizedError {
+    case invalidPhone
+    case codeNotRequested
+    case codeExpired
+    case credentialMissing
+    case sessionExpired
+    case serverRejected(String)
+
+    var errorDescription: String? {
+        switch self {
+        case .invalidPhone:      return "请输入正确的手机号"
+        case .codeNotRequested:  return "请先获取验证码"
+        case .codeExpired:       return "验证码已过期"
+        case .credentialMissing: return "登录失败"
+        case .sessionExpired:    return "登录已过期，需要重新登录"
+        case .serverRejected(let m): return m.isEmpty ? "登录失败" : m
+        }
+    }
+}
+
+/// 登录会话。
+///
+/// 短信由**云端网关**发送（原 APK 无 SEND_SMS 权限），App 只调用接口。
+actor AuthService {
+
+    static let shared = AuthService()
+
+    private let api: NetaAPIClient
+    private let store = CredentialStore.shared
+
+    /// 登录态。发送前先刷新，失败则清除会话。
+    private var loggedIn = false
+
+    /// 是否已登录（供 UI 绑定）
+    private(set) var isLoggedIn = false
+
+    private init() {
+        api = NetaAPIClient()
+    }
+
+    // MARK: - 验证码
+
+    /// 发送短信验证码。
+    ///
+    /// ⚠️ 端点为推断，需抓包确认。
+    func requestSMSCode(phone: String) async throws {
+        guard Self.isValidPhone(phone) else { throw AuthError.invalidPhone }
+
+        let response = try await api.post(
+            path: Endpoint.requestSMSCode,
+            parameters: ["mobile": phone]
+        )
+
+        guard response.isSuccess else {
+            throw AuthError.serverRejected(response.message ?? "")
+        }
+
+        // 验证码已发送
+    }
+
+    // MARK: - 登录
+
+    /// 提交手机号 + 验证码登录。
+    func login(phone: String, code: String) async throws {
+        guard Self.isValidPhone(phone) else { throw AuthError.invalidPhone }
+        guard !code.isEmpty else { throw AuthError.codeNotRequested }
+
+        let response = try await api.post(
+            path: Endpoint.login,
+            parameters: [
+                "mobile": phone,
+                "verifyCode": code,
+                "login_channel": String(NetaAPIConfig.default.loginChannel)
+            ]
+        )
+
+        guard response.isSuccess, let payload = response.data?.asDictionary else {
+            throw AuthError.serverRejected(response.message ?? "")
+        }
+
+        guard let accessToken = payload["access_token"]?.asString ?? payload["accessToken"]?.asString,
+              let refreshToken = payload["refresh_token"]?.asString ?? payload["refreshToken"]?.asString
+        else {
+            throw AuthError.credentialMissing
+        }
+
+        try store.saveSession(accessToken: accessToken, refreshToken: refreshToken)
+        loggedIn = true
+        isLoggedIn = true
+    }
+
+    // MARK: - 退出
+
+    func logout() {
+        store.clearSession()
+        loggedIn = false
+        isLoggedIn = false
+        lastRefreshAt = nil
+    }
+
+    /// 供已登录接口调用：确保有可用 token，必要时刷新。
+    ///
+    /// 对应文案「登录状态已变化」「需要重新登录刷新钥匙」。
+    func ensureValidSession() async throws {
+        if !loggedIn, store.accessToken != nil {
+            loggedIn = true   // App 重启后本地仍有 token
+        }
+
+        guard loggedIn else { throw AuthError.sessionExpired }
+
+        do {
+            try await refreshIfNeeded()
+        } catch {
+            store.clearSession()
+            loggedIn = false
+            throw AuthError.sessionExpired
+        }
+    }
+
+    // MARK: - Token 刷新
+
+    /// 距上次刷新超过阈值时主动刷新（默认 5 分钟）。
+    private var lastRefreshAt: Date?
+    private let refreshThreshold: TimeInterval = 300
+
+    private func refreshIfNeeded() async throws {
+        if let last = lastRefreshAt,
+           Date().timeIntervalSince(last) < refreshThreshold {
+            return
+        }
+        _ = try await refresh()
+    }
+
+    @discardableResult
+    func refresh() async throws -> String {
+        guard let refreshToken = store.refreshToken else {
+            throw AuthError.sessionExpired
+        }
+
+        let response = try await api.post(
+            path: Endpoint.refreshToken,
+            parameters: ["refresh_token": refreshToken]
+        )
+
+        guard response.isSuccess, let payload = response.data?.asDictionary else {
+            throw AuthError.sessionExpired
+        }
+
+        guard let token = payload["access_token"]?.asString ?? payload["accessToken"]?.asString else {
+            throw AuthError.credentialMissing
+        }
+
+        try store.saveSession(
+            accessToken: token,
+            refreshToken: payload["refresh_token"]?.asString ?? refreshToken
+        )
+        lastRefreshAt = Date()
+        return token
+    }
+
+    /// 服务端返回未授权时调用，刷新后重试一次。
+    ///
+    /// 对应文案「登录已过期」→ 刷新 → 若仍失败则「需要重新登录」。
+    func retryAfterUnauthorized<T>(_ operation: () async throws -> T) async throws -> T {
+        _ = try await refresh()
+        return try await operation()
+    }
+
+    // MARK: - 校验
+
+    /// 中国大陆手机号：1 开头 11 位。
+    static func isValidPhone(_ phone: String) -> Bool {
+        phone.count == 11 && phone.hasPrefix("1") && phone.allSatisfy(\.isNumber)
+    }
+}
+
+// MARK: - 响应辅助
+
+extension NetaResponse {
+    /// 业务状态判断。
+    ///
+    /// ⚠️ 成功码取值（0 / 200 / "0"）需抓包确认，此处宽松处理。
+    var isSuccess: Bool {
+        guard let status = status else {
+            // 无 status 字段时按 HTTP 层已通过、body 有 data 视为成功
+            return data != nil
+        }
+
+        switch status {
+        case 0, 200, "0", "200", "success":
+            return true
+        case 401, 40101, "401":
+            return false
+        default:
+            return false
+        }
+    }
+
+    /// 提取需要重新登录的错误。
+    var requiresRelogin: Bool {
+        guard let status = status else { return false }
+        return [401, 40101, "401", "40101"].contains(status)
+    }
+}
+
+extension Endpoint {
+    /// 发送短信验证码（推断端点）
+    static let requestSMSCode = "/api/account/sendSmsCode"
+    /// 登录（推断端点）
+    static let login = "/api/account/login"
+}
