@@ -1,1 +1,460 @@
-aW1wb3J0IEZvdW5kYXRpb24KaW1wb3J0IENvcmVCbHVldG9vdGgKCi8vLyBCTEUg5oqT5YyF5b2V5Yi25bel5YW344CCCi8vLwovLy8gKirov5nmmK/op6Pmjonnp7vmpI3mnIDlpKfpmLvloZ7ngrnnmoTlt6XlhbfjgIIqKiDljY/orq7op4TmoLzph4zmoIfkuLogYFvmnKrnn6VdYCDnmoQKLy8vIOW4p+agvOW8j+OAgeWIhueJh+inhOWImeOAgeaMkeaImOeggeetvuWQjeOAgeeZveWQjeWNlee7k+aehO+8jOWFqOmDqOimgemdoOWug+W9leWHuuadpeOAggovLy8KLy8vIOeUqOazle+8mgovLy8gMS4g5Zyo55yf5py677yI5LiN6IO955So5qih5ouf5Zmo77yJ5LiK6L+Q6KGM5pys5bel5YW3Ci8vLyAyLiDmiavmj4/lubbov57mjqXovabmnLogQkxFCi8vLyAzLiDoh6rliqjorqLpmIUgZmZmMSAvIGZmZjIg55qEIG5vdGlmeQovLy8gNC4g5omA5pyJ5pS25Y+R5bin5oyJ5pe26Ze05oiz6K6w5b2V77yM5Y+v5a+85Ye6IEpTT04KLy8vIDUuIOeUqCBtYWNPUyDkuIrnmoQgYEFuYWx5c2lzL2Ag6ISa5pys6Kej5p6QCi8vLwovLy8g5b2V5Yi25pe255qE5pON5L2c6aG65bqP5b6I6YeN6KaB77yI5bin5LmL6Ze06Z2g5pe26Ze05oiz5a+56b2Q77yJ77yaCi8vLyBgYGAKLy8vIOW9leWItuW8gOWniyDihpIg6L+e5o6lIOKGku+8iOi9puerr+S4i+WPkeaMkeaImOegge+8ieKGkiDljp8gQVBLIOS+p+aTjeS9nCDihpIKLy8vIOino+mUgS/kuIrnlLXnrYnmjIfku6Qg4oaSIOeZveWQjeWNleWQjOatpSDihpIg5pat5byACi8vLyBgYGAKZmluYWwgY2xhc3MgQmxlRnJhbWVSZWNvcmRlcjogTlNPYmplY3QgewoKICAgIHN0YXRpYyBsZXQgc2hhcmVkID0gQmxlRnJhbWVSZWNvcmRlcigpCgogICAgLy8gTUFSSzog5b2V5Yi25bin5qih5Z6LCgogICAgc3RydWN0IEZyYW1lIHsKICAgICAgICBlbnVtIERpcmVjdGlvbjogU3RyaW5nIHsKICAgICAgICAgICAgY2FzZSB0eCA9ICJUWCIgICAvLyDkuLvmnLog4oaSIOi9puerrwogICAgICAgICAgICBjYXNlIHJ4ID0gIlJYIiAgIC8vIOi9puerryDihpIg5Li75py6CiAgICAgICAgfQoKICAgICAgICBsZXQgdGltZXN0YW1wOiBUaW1lSW50ZXJ2YWwKICAgICAgICBsZXQgcmVsYXRpdmVUaW1lOiBUaW1lSW50ZXJ2YWwKICAgICAgICBsZXQgZGlyZWN0aW9uOiBEaXJlY3Rpb24KICAgICAgICBsZXQgY2hhcmFjdGVyaXN0aWM6IFN0cmluZwogICAgICAgIGxldCBwYXlsb2FkOiBEYXRhCgogICAgICAgIHZhciBoZXg6IFN0cmluZyB7CiAgICAgICAgICAgIHBheWxvYWQubWFwIHsgU3RyaW5nKGZvcm1hdDogIiUwMlgiLCAkMCkgfS5qb2luZWQoc2VwYXJhdG9yOiAiICIpCiAgICAgICAgfQoKICAgICAgICAvLy8g5Y+v6K+76aKE6KeI44CC5LiN5Y+v5omT5Y2w5a2X6IqC55SoIGAuYCDku6Pmm7/vvIzkvr/kuo7lv6vpgJ/ogonnnLzor4bliKvljY/orq7lrZfmrrXjgIIKICAgICAgICB2YXIgYXNjaWlQcmV2aWV3OiBTdHJpbmcgewogICAgICAgICAgICBTdHJpbmcocGF5bG9hZC5tYXAgeyBieXRlIC0+IENoYXJhY3RlciBpbgogICAgICAgICAgICAgICAgKDB4MjAuLi4weDdFKS5jb250YWlucyhieXRlKSA/IENoYXJhY3RlcihVbmljb2RlU2NhbGFyKGJ5dGUpKSA6ICIuIgogICAgICAgICAgICB9KQogICAgICAgIH0KICAgIH0KCiAgICAvLyBNQVJLOiDnirbmgIEKCiAgICBwcml2YXRlKHNldCkgdmFyIGZyYW1lczogW0ZyYW1lXSA9IFtdCiAgICBwcml2YXRlKHNldCkgdmFyIGlzUmVjb3JkaW5nID0gZmFsc2UKICAgIHByaXZhdGUoc2V0KSB2YXIgZGlzY292ZXJlZFBlcmlwaGVyYWxzOiBbKGlkOiBVVUlELCBuYW1lOiBTdHJpbmcsIHJzc2k6IEludCldID0gW10KCiAgICB2YXIgc3RhcnRUaW1lOiBEYXRlPwoKICAgIC8vLyDlvZXliLbml6Xlv5flm57osIPvvIjkvpsgVUkg5a6e5pe25pi+56S677yJCiAgICB2YXIgb25GcmFtZTogKChGcmFtZSkgLT4gVm9pZCk/CiAgICAvLy8g6K6+5aSH5Y+R546w5Zue6LCDCiAgICB2YXIgb25QZXJpcGhlcmFsRGlzY292ZXJlZDogKCgpIC0+IFZvaWQpPwogICAgLy8vIOeKtuaAgeWPmOWMluWbnuiwgwogICAgdmFyIG9uU3RhdGVDaGFuZ2U6ICgoU3RyaW5nKSAtPiBWb2lkKT8KCiAgICAvLyBNQVJLOiBDb3JlQmx1ZXRvb3RoCgogICAgcHJpdmF0ZSB2YXIgY2VudHJhbE1hbmFnZXI6IENCQ2VudHJhbE1hbmFnZXIhCiAgICBwcml2YXRlIHZhciBjb25uZWN0ZWRQZXJpcGhlcmFsOiBDQlBlcmlwaGVyYWw/CiAgICBwcml2YXRlIHZhciBzdWJzY3JpYmVkQ2hhcmFjdGVyaXN0aWNzOiBbQ0JDaGFyYWN0ZXJpc3RpY10gPSBbXQogICAgcHJpdmF0ZSB2YXIgbm90aWZ5Q291bnQgPSAwCiAgICBwcml2YXRlIHZhciB3cml0ZUNvdW50ID0gMAoKICAgIHByaXZhdGUgb3ZlcnJpZGUgaW5pdCgpIHsKICAgICAgICBzdXBlci5pbml0KCkKICAgICAgICBjZW50cmFsTWFuYWdlciA9IENCQ2VudHJhbE1hbmFnZXIoZGVsZWdhdGU6IHNlbGYsIHF1ZXVlOiAubWFpbikKICAgIH0KCiAgICAvLyBNQVJLOiAtIOW9leWItuaOp+WItgoKICAgIGZ1bmMgc3RhcnRSZWNvcmRpbmcoKSB7CiAgICAgICAgZnJhbWVzLnJlbW92ZUFsbCgpCiAgICAgICAgZGlzY292ZXJlZFBlcmlwaGVyYWxzLnJlbW92ZUFsbCgpCiAgICAgICAgc3Vic2NyaWJlZENoYXJhY3RlcmlzdGljcy5yZW1vdmVBbGwoKQogICAgICAgIG5vdGlmeUNvdW50ID0gMAogICAgICAgIHdyaXRlQ291bnQgPSAwCiAgICAgICAgc3RhcnRUaW1lID0gRGF0ZSgpCiAgICAgICAgaXNSZWNvcmRpbmcgPSB0cnVlCiAgICAgICAgb25TdGF0ZUNoYW5nZT8oIuW9leWItuW3suW8gOWniyIpCiAgICB9CgogICAgZnVuYyBzdG9wUmVjb3JkaW5nKCkgLT4gVVJMPyB7CiAgICAgICAgaXNSZWNvcmRpbmcgPSBmYWxzZQogICAgICAgIHN0b3BTY2FuKCkKICAgICAgICBndWFyZCBsZXQgc3RhcnRUaW1lIGVsc2UgeyByZXR1cm4gbmlsIH0KCiAgICAgICAgdmFyIHJlY29yZHM6IFtGcmFtZVJlY29yZF0gPSBbXQogICAgICAgIHJlY29yZHMucmVzZXJ2ZUNhcGFjaXR5KGZyYW1lcy5jb3VudCkKICAgICAgICBmb3IgKGksIGYpIGluIGZyYW1lcy5lbnVtZXJhdGVkKCkgewogICAgICAgICAgICByZWNvcmRzLmFwcGVuZCgKICAgICAgICAgICAgICAgIEZyYW1lUmVjb3JkKAogICAgICAgICAgICAgICAgICAgIGluZGV4OiBpLAogICAgICAgICAgICAgICAgICAgIHRpbWVzdGFtcDogZi50aW1lc3RhbXAsCiAgICAgICAgICAgICAgICAgICAgcmVsYXRpdmVUaW1lOiBmLnJlbGF0aXZlVGltZSwKICAgICAgICAgICAgICAgICAgICBkaXJlY3Rpb246IGYuZGlyZWN0aW9uLnJhd1ZhbHVlLAogICAgICAgICAgICAgICAgICAgIGNoYXJhY3RlcmlzdGljOiBmLmNoYXJhY3RlcmlzdGljLAogICAgICAgICAgICAgICAgICAgIGhleDogZi5wYXlsb2FkLm1hcCB7IFN0cmluZyhmb3JtYXQ6ICIlMDJYIiwgJDApIH0uam9pbmVkKCksCiAgICAgICAgICAgICAgICAgICAgYXNjaWk6IGYuYXNjaWlQcmV2aWV3CiAgICAgICAgICAgICAgICApCiAgICAgICAgICAgICkKICAgICAgICB9CgogICAgICAgIGxldCBleHBvcnQgPSBGcmFtZUxvZygKICAgICAgICAgICAgZXhwb3J0ZWRBdDogRGF0ZSgpLAogICAgICAgICAgICBkZXZpY2U6IERldmljZUluZm8uY3VycmVudC5kZXZpY2VNb2RlbCwKICAgICAgICAgICAgc3lzdGVtVmVyc2lvbjogRGV2aWNlSW5mby5jdXJyZW50LnN5c3RlbVZlcnNpb24sCiAgICAgICAgICAgIHBlZXI6IGNvbm5lY3RlZFBlcmlwaGVyYWw/Lm5hbWUgPz8gInVua25vd24iLAogICAgICAgICAgICBwZWVySWRlbnRpZmllcjogY29ubmVjdGVkUGVyaXBoZXJhbD8uaWRlbnRpZmllci51dWlkU3RyaW5nID8/ICJ1bmtub3duIiwKICAgICAgICAgICAgdG90YWxGcmFtZXM6IGZyYW1lcy5jb3VudCwKICAgICAgICAgICAgZnJhbWVzOiByZWNvcmRzCiAgICAgICAgKQoKICAgICAgICByZXR1cm4gRnJhbWVMb2dXcml0ZXIud3JpdGUoZXhwb3J0KQogICAgfQoKICAgIHByaXZhdGUgZnVuYyByZWNvcmQoXyBwYXlsb2FkOiBEYXRhLCBkaXJlY3Rpb246IEZyYW1lLkRpcmVjdGlvbiwgY2hhcmFjdGVyaXN0aWM6IENCQ2hhcmFjdGVyaXN0aWMpIHsKICAgICAgICBndWFyZCBpc1JlY29yZGluZyBlbHNlIHsgcmV0dXJuIH0KCiAgICAgICAgbGV0IG5vdyA9IERhdGUoKQogICAgICAgIGxldCBzdGFydCA9IHN0YXJ0VGltZSA/PyBub3cKICAgICAgICBsZXQgZnJhbWUgPSBGcmFtZSgKICAgICAgICAgICAgdGltZXN0YW1wOiBub3cudGltZUludGVydmFsU2luY2UxOTcwLAogICAgICAgICAgICByZWxhdGl2ZVRpbWU6IG5vdy50aW1lSW50ZXJ2YWxTaW5jZShzdGFydCksCiAgICAgICAgICAgIGRpcmVjdGlvbjogZGlyZWN0aW9uLAogICAgICAgICAgICBjaGFyYWN0ZXJpc3RpYzogY2hhcmFjdGVyaXN0aWMudXVpZC51dWlkU3RyaW5nLAogICAgICAgICAgICBwYXlsb2FkOiBwYXlsb2FkCiAgICAgICAgKQoKICAgICAgICBmcmFtZXMuYXBwZW5kKGZyYW1lKQogICAgICAgIG9uRnJhbWU/KGZyYW1lKQogICAgfQoKICAgIC8vIE1BUks6IC0g5omr5o+PCgogICAgLy8vIOaJq+aPj+aJgOacieW5v+aSreiuvuWkh++8iOS4jeaMiSBzZXJ2aWNlIOi/h+a7pO+8jOehruS/neS4jea8j+aOiei9puacuu+8ieOAggogICAgZnVuYyBzdGFydFNjYW4oKSB7CiAgICAgICAgZ3VhcmQgY2VudHJhbE1hbmFnZXIuc3RhdGUgPT0gLnBvd2VyZWRPbiBlbHNlIHsKICAgICAgICAgICAgb25TdGF0ZUNoYW5nZT8oIuiTneeJmeacquW8gOWQryIpCiAgICAgICAgICAgIHJldHVybgogICAgICAgIH0KCiAgICAgICAgY2VudHJhbE1hbmFnZXIuc2NhbkZvclBlcmlwaGVyYWxzKAogICAgICAgICAgICB3aXRoU2VydmljZXM6IG5pbCwKICAgICAgICAgICAgb3B0aW9uczogWwogICAgICAgICAgICAgICAgQ0JDZW50cmFsTWFuYWdlclNjYW5PcHRpb25BbGxvd0R1cGxpY2F0ZXNLZXk6IHRydWUKICAgICAgICAgICAgXQogICAgICAgICkKICAgICAgICBvblN0YXRlQ2hhbmdlPygi5omr5o+P5LitIikKICAgIH0KCiAgICBmdW5jIHN0b3BTY2FuKCkgewogICAgICAgIGNlbnRyYWxNYW5hZ2VyLnN0b3BTY2FuKCkKICAgICAgICBvblN0YXRlQ2hhbmdlPygi5omr5o+P5bey5YGc5q2iIikKICAgIH0KCiAgICBmdW5jIGNvbm5lY3QodG8gaWQ6IFVVSUQpIHsKICAgICAgICBndWFyZCBsZXQgcGVyaXBoZXJhbCA9IGNlbnRyYWxNYW5hZ2VyCiAgICAgICAgICAgIC5yZXRyaWV2ZVBlcmlwaGVyYWxzKHdpdGhJZGVudGlmaWVyczogW2lkXSkKICAgICAgICAgICAgLmZpcnN0IGVsc2UgewogICAgICAgICAgICBvblN0YXRlQ2hhbmdlPygi5om+5LiN5Yiw6K+l6K6+5aSHIikKICAgICAgICAgICAgcmV0dXJuCiAgICAgICAgfQoKICAgICAgICBjb25uZWN0ZWRQZXJpcGhlcmFsID0gcGVyaXBoZXJhbAogICAgICAgIHBlcmlwaGVyYWwuZGVsZWdhdGUgPSBzZWxmCgogICAgICAgIC8vIEVuYWJsZUF1dG9SZWNvbm5lY3Qg6ZyA6KaBIGlPUyAxNyvvvIzov5nph4zkuI3kvp3otZblroMKICAgICAgICBjZW50cmFsTWFuYWdlci5jb25uZWN0KHBlcmlwaGVyYWwsIG9wdGlvbnM6IFsKICAgICAgICAgICAgQ0JDb25uZWN0UGVyaXBoZXJhbE9wdGlvbk5vdGlmeU9uRGlzY29ubmVjdGlvbktleTogdHJ1ZQogICAgICAgIF0pCiAgICAgICAgb25TdGF0ZUNoYW5nZT8oIui/nuaOpeS4rSDihpIgXChwZXJpcGhlcmFsLm5hbWUgPz8gaWQudXVpZFN0cmluZykiKQogICAgfQoKICAgIGZ1bmMgZGlzY29ubmVjdCgpIHsKICAgICAgICBndWFyZCBsZXQgcGVyaXBoZXJhbCA9IGNvbm5lY3RlZFBlcmlwaGVyYWwgZWxzZSB7IHJldHVybiB9CiAgICAgICAgY2VudHJhbE1hbmFnZXIuY2FuY2VsUGVyaXBoZXJhbENvbm5lY3Rpb24ocGVyaXBoZXJhbCkKICAgIH0KCiAgICAvLyBNQVJLOiAtIOS4u+WKqOWPkemAgQoKICAgIC8vLyDlkJHlt7LorqLpmIXnibnlvoHlhpnlhaXljp/lp4vmlbDmja7jgIIKICAgIC8vLwogICAgLy8vIOeUqOi/meS4quaWueazleaJi+W3peivleaOouWNj+iuru+8muWhq+WFpeeMnOa1i+eahOW4p+agvOW8j++8jOinguWvn+i9puerr+WTjeW6lOOAggogICAgZnVuYyBzZW5kUmF3KGhleFN0cmluZzogU3RyaW5nLCB1c2VQcmltYXJ5OiBCb29sID0gdHJ1ZSkgewogICAgICAgIGxldCBoZXggPSBoZXhTdHJpbmcKICAgICAgICAgICAgLnJlcGxhY2luZ09jY3VycmVuY2VzKG9mOiAiICIsIHdpdGg6ICIiKQogICAgICAgICAgICAuZmlsdGVyIHsgJDAuaXNIZXhEaWdpdCB9CgogICAgICAgIGd1YXJkICFoZXguaXNFbXB0eSwgaGV4LmNvdW50ICUgMiA9PSAwIGVsc2UgewogICAgICAgICAgICBvblN0YXRlQ2hhbmdlPygiSEVYIOagvOW8j+aXoOaViCIpCiAgICAgICAgICAgIHJldHVybgogICAgICAgIH0KCiAgICAgICAgdmFyIGRhdGEgPSBEYXRhKGNhcGFjaXR5OiBoZXguY291bnQgLyAyKQogICAgICAgIHZhciBpbmRleCA9IGhleC5zdGFydEluZGV4CiAgICAgICAgd2hpbGUgaW5kZXggPCBoZXguZW5kSW5kZXggewogICAgICAgICAgICBsZXQgbmV4dCA9IGhleC5pbmRleChpbmRleCwgb2Zmc2V0Qnk6IDIpCiAgICAgICAgICAgIGlmIGxldCBieXRlID0gVUludDgoaGV4W2luZGV4Li48bmV4dF0sIHJhZGl4OiAxNikgewogICAgICAgICAgICAgICAgZGF0YS5hcHBlbmQoYnl0ZSkKICAgICAgICAgICAgfQogICAgICAgICAgICBpbmRleCA9IG5leHQKICAgICAgICB9CgogICAgICAgIGd1YXJkIGxldCBwZXJpcGhlcmFsID0gY29ubmVjdGVkUGVyaXBoZXJhbCwKICAgICAgICAgICAgICBsZXQgY2hhcmFjdGVyaXN0aWMgPSBzdWJzY3JpYmVkQ2hhcmFjdGVyaXN0aWNzLmZpcnN0KHdoZXJlOiB7CiAgICAgICAgICAgICAgICAgIHVzZVByaW1hcnkKICAgICAgICAgICAgICAgICAgICAgID8gJDAudXVpZCA9PSBUYm9lVVVJRC5wcmltYXJ5U2VydmljZQogICAgICAgICAgICAgICAgICAgICAgOiAkMC51dWlkID09IFRib2VVVUlELnNlY29uZGFyeVNlcnZpY2UKICAgICAgICAgICAgICB9KQogICAgICAgIGVsc2UgewogICAgICAgICAgICBvblN0YXRlQ2hhbmdlPygi55uu5qCH54m55b6B5pyq5bCx57uqIikKICAgICAgICAgICAgcmV0dXJuCiAgICAgICAgfQoKICAgICAgICAvLyDmjIkgTVRVIOWIhueJh+WPkemAge+8iOWNj+iuruWIhueJh+inhOWImeacquefpe+8jOWFiOactOe0oOWIh+WIhu+8iQogICAgICAgIGxldCBtdHUgPSBwZXJpcGhlcmFsLm1heGltdW1Xcml0ZVZhbHVlTGVuZ3RoKGZvcjogLndpdGhSZXNwb25zZSkKICAgICAgICB2YXIgb2Zmc2V0ID0gMAogICAgICAgIHdoaWxlIG9mZnNldCA8IGRhdGEuY291bnQgewogICAgICAgICAgICBsZXQgZW5kID0gbWluKG9mZnNldCArIG10dSwgZGF0YS5jb3VudCkKICAgICAgICAgICAgcGVyaXBoZXJhbC53cml0ZVZhbHVlKGRhdGEuc3ViZGF0YShpbjogb2Zmc2V0Li48ZW5kKSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZvcjogY2hhcmFjdGVyaXN0aWMsIHR5cGU6IC53aXRoUmVzcG9uc2UpCiAgICAgICAgICAgIHJlY29yZChkYXRhLnN1YmRhdGEoaW46IG9mZnNldC4uPGVuZCksIGRpcmVjdGlvbjogLnR4LCBjaGFyYWN0ZXJpc3RpYzogY2hhcmFjdGVyaXN0aWMpCiAgICAgICAgICAgIG9mZnNldCA9IGVuZAogICAgICAgIH0KICAgIH0KCiAgICAvLy8g6K+75Y+W5b2T5YmNIE1UVeOAggogICAgZnVuYyBjdXJyZW50TVRVKCkgLT4gSW50PyB7CiAgICAgICAgY29ubmVjdGVkUGVyaXBoZXJhbD8ubWF4aW11bVdyaXRlVmFsdWVMZW5ndGgoZm9yOiAud2l0aFJlc3BvbnNlKQogICAgfQp9CgovLyBNQVJLOiAtIENCQ2VudHJhbE1hbmFnZXJEZWxlZ2F0ZQoKZXh0ZW5zaW9uIEJsZUZyYW1lUmVjb3JkZXI6IENCQ2VudHJhbE1hbmFnZXJEZWxlZ2F0ZSB7CgogICAgZnVuYyBjZW50cmFsTWFuYWdlckRpZFVwZGF0ZVN0YXRlKF8gY2VudHJhbDogQ0JDZW50cmFsTWFuYWdlcikgewogICAgICAgIHN3aXRjaCBjZW50cmFsLnN0YXRlIHsKICAgICAgICBjYXNlIC5wb3dlcmVkT246CiAgICAgICAgICAgIG9uU3RhdGVDaGFuZ2U/KCLok53niZnlt7LlsLHnu6oiKQogICAgICAgIGNhc2UgLnBvd2VyZWRPZmY6CiAgICAgICAgICAgIG9uU3RhdGVDaGFuZ2U/KCLor7flnKjns7vnu5/orr7nva7ph4zmiZPlvIDok53niZkiKQogICAgICAgIGNhc2UgLnVuYXV0aG9yaXplZDoKICAgICAgICAgICAgb25TdGF0ZUNoYW5nZT8oIuiTneeJmeaJq+aPj+i9pui+humcgOimgeWumuS9jeadg+mZkCIpCiAgICAgICAgY2FzZSAudW5zdXBwb3J0ZWQ6CiAgICAgICAgICAgIG9uU3RhdGVDaGFuZ2U/KCLmnKzmnLrmsqHmnInlj6/nlKjnmoTok53niZnpgILphY3lmagiKQogICAgICAgIGNhc2UgLnJlc2V0dGluZzoKICAgICAgICAgICAgb25TdGF0ZUNoYW5nZT8oIuiTneeJmeato+WcqOmHjee9riIpCiAgICAgICAgY2FzZSAudW5rbm93bjoKICAgICAgICAgICAgb25TdGF0ZUNoYW5nZT8oIuiTneeJmeeKtuaAgeacquefpSIpCiAgICAgICAgQHVua25vd24gZGVmYXVsdDoKICAgICAgICAgICAgYnJlYWsKICAgICAgICB9CiAgICB9CgogICAgZnVuYyBjZW50cmFsTWFuYWdlcigKICAgICAgICBfIGNlbnRyYWw6IENCQ2VudHJhbE1hbmFnZXIsCiAgICAgICAgZGlkRGlzY292ZXIgcGVyaXBoZXJhbDogQ0JQZXJpcGhlcmFsLAogICAgICAgIGFkdmVydGlzZW1lbnREYXRhOiBbU3RyaW5nOiBBbnldLAogICAgICAgIHJzc2kgUlNTSTogTlNOdW1iZXIKICAgICkgewogICAgICAgIGxldCBuYW1lID0gKGFkdmVydGlzZW1lbnREYXRhW0NCQWR2ZXJ0aXNlbWVudERhdGFMb2NhbE5hbWVLZXldIGFzPyBTdHJpbmcpCiAgICAgICAgICAgID8/IHBlcmlwaGVyYWwubmFtZQogICAgICAgICAgICA/PyAi5pyq5ZG95ZCNIgoKICAgICAgICAvLyDmjIkgaWQg5Y676YeN77yM5L+d55WZ5pyA5pawIFJTU0kKICAgICAgICBkaXNjb3ZlcmVkUGVyaXBoZXJhbHMucmVtb3ZlQWxsIHsgJDAuaWQgPT0gcGVyaXBoZXJhbC5pZGVudGlmaWVyIH0KICAgICAgICBkaXNjb3ZlcmVkUGVyaXBoZXJhbHMuYXBwZW5kKChwZXJpcGhlcmFsLmlkZW50aWZpZXIsIG5hbWUsIFJTU0kuaW50VmFsdWUpKQogICAgICAgIGRpc2NvdmVyZWRQZXJpcGhlcmFscy5zb3J0IHsgJDAucnNzaSA+ICQxLnJzc2kgfQogICAgICAgIG9uUGVyaXBoZXJhbERpc2NvdmVyZWQ/KCkKICAgIH0KCiAgICBmdW5jIGNlbnRyYWxNYW5hZ2VyKF8gY2VudHJhbDogQ0JDZW50cmFsTWFuYWdlciwgZGlkQ29ubmVjdCBwZXJpcGhlcmFsOiBDQlBlcmlwaGVyYWwpIHsKICAgICAgICBvblN0YXRlQ2hhbmdlPygi5bey6L+e5o6lIFwocGVyaXBoZXJhbC5uYW1lID8/ICLorr7lpIciKSIpCiAgICAgICAgLy8g5Y+R546w5omA5pyJ5pyN5Yqh77yM5LiN5YGaIFVVSUQg6L+H5rukIOKAlOKAlCDovabmnLrlj6/og73nlKjpnZ7moIflh4Ygc2VydmljZQogICAgICAgIHBlcmlwaGVyYWwuZGlzY292ZXJTZXJ2aWNlcyhuaWwpCiAgICB9CgogICAgZnVuYyBjZW50cmFsTWFuYWdlcigKICAgICAgICBfIGNlbnRyYWw6IENCQ2VudHJhbE1hbmFnZXIsCiAgICAgICAgZGlkRmFpbFRvQ29ubmVjdCBwZXJpcGhlcmFsOiBDQlBlcmlwaGVyYWwsCiAgICAgICAgZXJyb3I6IEVycm9yPwogICAgKSB7CiAgICAgICAgb25TdGF0ZUNoYW5nZT8oIui/nuaOpeWksei0pe+8mlwoZXJyb3I/LmxvY2FsaXplZERlc2NyaXB0aW9uID8/ICLmnKrnn6Xljp/lm6AiKSIpCiAgICB9CgogICAgZnVuYyBjZW50cmFsTWFuYWdlcigKICAgICAgICBfIGNlbnRyYWw6IENCQ2VudHJhbE1hbmFnZXIsCiAgICAgICAgZGlkRGlzY29ubmVjdFBlcmlwaGVyYWwgcGVyaXBoZXJhbDogQ0JQZXJpcGhlcmFsLAogICAgICAgIGVycm9yOiBFcnJvcj8KICAgICkgewogICAgICAgIHN1YnNjcmliZWRDaGFyYWN0ZXJpc3RpY3MucmVtb3ZlQWxsKCkKICAgICAgICBvblN0YXRlQ2hhbmdlPygi5bey5pat5byA77yaXChlcnJvcj8ubG9jYWxpemVkRGVzY3JpcHRpb24gPz8gIuato+W4uOaWreW8gCIpIikKICAgIH0KCiAgICBmdW5jIGNlbnRyYWxNYW5hZ2VyKAogICAgICAgIF8gY2VudHJhbDogQ0JDZW50cmFsTWFuYWdlciwKICAgICAgICB3aWxsUmVzdG9yZVN0YXRlIGRpY3Q6IFtTdHJpbmc6IEFueV0KICAgICkgewogICAgICAgIG9uU3RhdGVDaGFuZ2U/KCLnirbmgIHlt7LmgaLlpI0iKQogICAgfQp9CgovLyBNQVJLOiAtIENCUGVyaXBoZXJhbERlbGVnYXRlCgpleHRlbnNpb24gQmxlRnJhbWVSZWNvcmRlcjogQ0JQZXJpcGhlcmFsRGVsZWdhdGUgewoKICAgIGZ1bmMgcGVyaXBoZXJhbChfIHBlcmlwaGVyYWw6IENCUGVyaXBoZXJhbCwgZGlkRGlzY292ZXJTZXJ2aWNlcyBlcnJvcjogRXJyb3I/KSB7CiAgICAgICAgaWYgbGV0IGVycm9yIHsKICAgICAgICAgICAgb25TdGF0ZUNoYW5nZT8oIuacjeWKoeWPkeeOsOWksei0pe+8mlwoZXJyb3IubG9jYWxpemVkRGVzY3JpcHRpb24pIikKICAgICAgICAgICAgcmV0dXJuCiAgICAgICAgfQoKICAgICAgICBndWFyZCBsZXQgc2VydmljZXMgPSBwZXJpcGhlcmFsLnNlcnZpY2VzLCAhc2VydmljZXMuaXNFbXB0eSBlbHNlIHsKICAgICAgICAgICAgb25TdGF0ZUNoYW5nZT8oIuacquWPkeeOsOS7u+S9leacjeWKoSIpCiAgICAgICAgICAgIHJldHVybgogICAgICAgIH0KCiAgICAgICAgb25TdGF0ZUNoYW5nZT8oIuWPkeeOsCBcKHNlcnZpY2VzLmNvdW50KSDkuKrmnI3liqHvvIzlj5HnjrDlhajpg6jnibnlvoEiKQogICAgICAgIGZvciBzZXJ2aWNlIGluIHNlcnZpY2VzIHsKICAgICAgICAgICAgcGVyaXBoZXJhbC5kaXNjb3ZlckNoYXJhY3RlcmlzdGljcyhuaWwsIGZvcjogc2VydmljZSkKICAgICAgICB9CiAgICB9CgogICAgZnVuYyBwZXJpcGhlcmFsKAogICAgICAgIF8gcGVyaXBoZXJhbDogQ0JQZXJpcGhlcmFsLAogICAgICAgIGRpZERpc2NvdmVyQ2hhcmFjdGVyaXN0aWNzRm9yIHNlcnZpY2U6IENCU2VydmljZSwKICAgICAgICBlcnJvcjogRXJyb3I/CiAgICApIHsKICAgICAgICBpZiBsZXQgZXJyb3IgewogICAgICAgICAgICBvblN0YXRlQ2hhbmdlPygi54m55b6B5Y+R546w5aSx6LSl77yaXChlcnJvci5sb2NhbGl6ZWREZXNjcmlwdGlvbikiKQogICAgICAgICAgICByZXR1cm4KICAgICAgICB9CgogICAgICAgIGZvciBjaGFyYWN0ZXJpc3RpYyBpbiBzZXJ2aWNlLmNoYXJhY3RlcmlzdGljcyA/PyBbXSB7CiAgICAgICAgICAgIGxldCBzdXBwb3J0c05vdGlmeSA9IGNoYXJhY3RlcmlzdGljLnByb3BlcnRpZXMuY29udGFpbnMoLm5vdGlmeSkgfHwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY2hhcmFjdGVyaXN0aWMucHJvcGVydGllcy5jb250YWlucyguaW5kaWNhdGUpCgogICAgICAgICAgICBpZiBzdXBwb3J0c05vdGlmeSB7CiAgICAgICAgICAgICAgICBwZXJpcGhlcmFsLnNldE5vdGlmeVZhbHVlKHRydWUsIGZvcjogY2hhcmFjdGVyaXN0aWMpCiAgICAgICAgICAgICAgICBpZiAhc3Vic2NyaWJlZENoYXJhY3RlcmlzdGljcy5jb250YWlucyh3aGVyZTogeyAkMC51dWlkID09IGNoYXJhY3RlcmlzdGljLnV1aWQgfSkgewogICAgICAgICAgICAgICAgICAgIHN1YnNjcmliZWRDaGFyYWN0ZXJpc3RpY3MuYXBwZW5kKGNoYXJhY3RlcmlzdGljKQogICAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CgogICAgICAgICAgICBpZiBjaGFyYWN0ZXJpc3RpYy5wcm9wZXJ0aWVzLmNvbnRhaW5zKC5yZWFkKSB7CiAgICAgICAgICAgICAgICBwZXJpcGhlcmFsLnJlYWRWYWx1ZShmb3I6IGNoYXJhY3RlcmlzdGljKQogICAgICAgICAgICB9CgogICAgICAgICAgICBsZXQgcncgPSBjaGFyYWN0ZXJpc3RpYy5wcm9wZXJ0aWVzLmNvbnRhaW5zKC53cml0ZSkgfHwKICAgICAgICAgICAgICAgICAgICAgY2hhcmFjdGVyaXN0aWMucHJvcGVydGllcy5jb250YWlucygud3JpdGVXaXRob3V0UmVzcG9uc2UpCiAgICAgICAgICAgIGxldCBwcm9wcyA9IFtzdXBwb3J0c05vdGlmeSA/ICJub3RpZnkiIDogbmlsLAogICAgICAgICAgICAgICAgICAgICAgICAgcncgPyAid3JpdGUiIDogbmlsLAogICAgICAgICAgICAgICAgICAgICAgICAgY2hhcmFjdGVyaXN0aWMucHJvcGVydGllcy5jb250YWlucygucmVhZCkgPyAicmVhZCIgOiBuaWxdCiAgICAgICAgICAgICAgICAuY29tcGFjdE1hcCB7ICQwIH0KICAgICAgICAgICAgICAgIC5qb2luZWQoc2VwYXJhdG9yOiAiLyIpCgogICAgICAgICAgICBvblN0YXRlQ2hhbmdlPygi54m55b6BIFwoY2hhcmFjdGVyaXN0aWMudXVpZCkgW1wocHJvcHMuaXNFbXB0eSA/ICLml6DlsZ7mgKciIDogcHJvcHMpXSIpCiAgICAgICAgfQogICAgfQoKICAgIGZ1bmMgcGVyaXBoZXJhbCgKICAgICAgICBfIHBlcmlwaGVyYWw6IENCUGVyaXBoZXJhbCwKICAgICAgICBkaWRVcGRhdGVWYWx1ZUZvciBjaGFyYWN0ZXJpc3RpYzogQ0JDaGFyYWN0ZXJpc3RpYywKICAgICAgICBlcnJvcjogRXJyb3I/CiAgICApIHsKICAgICAgICBpZiBsZXQgZXJyb3IgewogICAgICAgICAgICBvblN0YXRlQ2hhbmdlPygi6K+75Y+W5aSx6LSl77yaXChlcnJvci5sb2NhbGl6ZWREZXNjcmlwdGlvbikiKQogICAgICAgICAgICByZXR1cm4KICAgICAgICB9CiAgICAgICAgZ3VhcmQgbGV0IGRhdGEgPSBjaGFyYWN0ZXJpc3RpYy52YWx1ZSBlbHNlIHsgcmV0dXJuIH0KCiAgICAgICAgbm90aWZ5Q291bnQgKz0gMQogICAgICAgIHJlY29yZChkYXRhLCBkaXJlY3Rpb246IC5yeCwgY2hhcmFjdGVyaXN0aWM6IGNoYXJhY3RlcmlzdGljKQogICAgfQoKICAgIGZ1bmMgcGVyaXBoZXJhbCgKICAgICAgICBfIHBlcmlwaGVyYWw6IENCUGVyaXBoZXJhbCwKICAgICAgICBkaWRXcml0ZVZhbHVlRm9yIGNoYXJhY3RlcmlzdGljOiBDQkNoYXJhY3RlcmlzdGljLAogICAgICAgIGVycm9yOiBFcnJvcj8KICAgICkgewogICAgICAgIHdyaXRlQ291bnQgKz0gMQogICAgICAgIGlmIGxldCBlcnJvciB7CiAgICAgICAgICAgIG9uU3RhdGVDaGFuZ2U/KCLlhpnlhaXlpLHotKXvvJpcKGVycm9yLmxvY2FsaXplZERlc2NyaXB0aW9uKSIpCiAgICAgICAgfQogICAgfQoKICAgIGZ1bmMgcGVyaXBoZXJhbElzUmVhZHkodG9TZW5kV3JpdGVXaXRob3V0UmVzcG9uc2UgcGVyaXBoZXJhbDogQ0JQZXJpcGhlcmFsKSB7fQoKICAgIGZ1bmMgcGVyaXBoZXJhbChfIHBlcmlwaGVyYWw6IENCUGVyaXBoZXJhbCwgZGlkUmVhZFJTU0kgUlNTSTogTlNOdW1iZXIsIGVycm9yOiBFcnJvcj8pIHsKICAgICAgICBpZiBlcnJvciA9PSBuaWwgewogICAgICAgICAgICBvblN0YXRlQ2hhbmdlPygiUlNTSTogXChSU1NJLmludFZhbHVlKSBkQm0iKQogICAgICAgIH0KICAgIH0KfQoKLy8gTUFSSzogLSDlr7zlh7rmqKHlnosKCnN0cnVjdCBGcmFtZVJlY29yZDogQ29kYWJsZSB7CiAgICBsZXQgaW5kZXg6IEludAogICAgbGV0IHRpbWVzdGFtcDogVGltZUludGVydmFsCiAgICBsZXQgcmVsYXRpdmVUaW1lOiBUaW1lSW50ZXJ2YWwKICAgIGxldCBkaXJlY3Rpb246IFN0cmluZwogICAgbGV0IGNoYXJhY3RlcmlzdGljOiBTdHJpbmcKICAgIGxldCBoZXg6IFN0cmluZwogICAgbGV0IGFzY2lpOiBTdHJpbmcKfQoKc3RydWN0IEZyYW1lTG9nOiBDb2RhYmxlIHsKICAgIGxldCBleHBvcnRlZEF0OiBEYXRlCiAgICBsZXQgZGV2aWNlOiBTdHJpbmcKICAgIGxldCBzeXN0ZW1WZXJzaW9uOiBTdHJpbmcKICAgIGxldCBwZWVyOiBTdHJpbmcKICAgIGxldCBwZWVySWRlbnRpZmllcjogU3RyaW5nCiAgICBsZXQgdG90YWxGcmFtZXM6IEludAogICAgbGV0IGZyYW1lczogW0ZyYW1lUmVjb3JkXQp9CgplbnVtIEZyYW1lTG9nV3JpdGVyIHsKCiAgICAvLy8gRG9jdW1lbnRzIOebruW9le+8iGlPUy9tYWNPUyDpgJrnlKjvvIkKICAgIHN0YXRpYyB2YXIgZG9jdW1lbnRzRGlyZWN0b3J5OiBVUkwgewogICAgICAgIEZpbGVNYW5hZ2VyLmRlZmF1bHQudXJscyhmb3I6IC5kb2N1bWVudERpcmVjdG9yeSwgaW46IC51c2VyRG9tYWluTWFzaykuZmlyc3QKICAgICAgICAgICAgPz8gVVJMKGZpbGVVUkxXaXRoUGF0aDogTlNUZW1wb3JhcnlEaXJlY3RvcnkoKSkKICAgIH0KCiAgICAvLy8g5a+85Ye65YiwIERvY3VtZW50cyDnm67lvZXvvIzov5Tlm57mlofku7YgVVJM44CCCiAgICBzdGF0aWMgZnVuYyB3cml0ZShfIGxvZzogRnJhbWVMb2cpIC0+IFVSTD8gewogICAgICAgIGxldCBlbmNvZGVyID0gSlNPTkVuY29kZXIoKQogICAgICAgIGVuY29kZXIub3V0cHV0Rm9ybWF0dGluZyA9IFsucHJldHR5UHJpbnRlZCwgLnNvcnRlZEtleXNdCiAgICAgICAgZW5jb2Rlci5kYXRlRW5jb2RpbmdTdHJhdGVneSA9IC5pc284NjAxCgogICAgICAgIGd1YXJkIGxldCBkYXRhID0gdHJ5PyBlbmNvZGVyLmVuY29kZShsb2cpIGVsc2UgeyByZXR1cm4gbmlsIH0KCiAgICAgICAgbGV0IGZpbGVuYW1lID0gInRib2UtY2FwdHVyZS1cKEludChEYXRlKCkudGltZUludGVydmFsU2luY2UxOTcwKSkuanNvbiIKICAgICAgICBsZXQgdXJsID0gZG9jdW1lbnRzRGlyZWN0b3J5LmFwcGVuZGluZ1BhdGhDb21wb25lbnQoZmlsZW5hbWUpCgogICAgICAgIGRvIHsKICAgICAgICAgICAgdHJ5IGRhdGEud3JpdGUodG86IHVybCkKICAgICAgICAgICAgcmV0dXJuIHVybAogICAgICAgIH0gY2F0Y2ggewogICAgICAgICAgICByZXR1cm4gbmlsCiAgICAgICAgfQogICAgfQoKICAgIC8vLyDkvr/mjbfor7vlj5bvvIjkvpsgQW5hbHlzaXMg6ISa5pys55Sf5oiQ5Zmo5L2/55So77yJ44CCCiAgICBzdGF0aWMgZnVuYyBjYXB0dXJlRGlyZWN0b3J5KCkgLT4gVVJMIHsKICAgICAgICBkb2N1bWVudHNEaXJlY3RvcnkKICAgIH0KfQ==
+import Foundation
+import CoreBluetooth
+
+/// BLE 抓包录制工具。
+///
+/// **这是解掉移植最大阻塞点的工具。** 协议规格里标为 `[未知]` 的
+/// 帧格式、分片规则、挑战码签名、白名单结构，全部要靠它录出来。
+///
+/// 用法：
+/// 1. 在真机（不能用模拟器）上运行本工具
+/// 2. 扫描并连接车机 BLE
+/// 3. 自动订阅 fff1 / fff2 的 notify
+/// 4. 所有收发帧按时间戳记录，可导出 JSON
+/// 5. 用 macOS 上的 `Analysis/` 脚本解析
+///
+/// 录制时的操作顺序很重要（帧之间靠时间戳对齐）：
+/// ```
+/// 录制开始 → 连接 →（车端下发挑战码）→ 原 APK 侧操作 →
+/// 解锁/上电等指令 → 白名单同步 → 断开
+/// ```
+final class BleFrameRecorder: NSObject {
+
+    static let shared = BleFrameRecorder()
+
+    // MARK: 录制帧模型
+
+    struct Frame {
+        enum Direction: String {
+            case tx = "TX"   // 主机 → 车端
+            case rx = "RX"   // 车端 → 主机
+        }
+
+        let timestamp: TimeInterval
+        let relativeTime: TimeInterval
+        let direction: Direction
+        let characteristic: String
+        let payload: Data
+
+        var hex: String {
+            payload.map { String(format: "%02X", $0) }.joined(separator: " ")
+        }
+
+        /// 可读预览。不可打印字节用 `.` 代替，便于快速肉眼识别协议字段。
+        var asciiPreview: String {
+            String(payload.map { byte -> Character in
+                (0x20...0x7E).contains(byte) ? Character(UnicodeScalar(byte)) : "."
+            })
+        }
+    }
+
+    // MARK: 状态
+
+    private(set) var frames: [Frame] = []
+    private(set) var isRecording = false
+    private(set) var discoveredPeripherals: [(id: UUID, name: String, rssi: Int)] = []
+
+    var startTime: Date?
+
+    /// 录制日志回调（供 UI 实时显示）
+    var onFrame: ((Frame) -> Void)?
+    /// 设备发现回调
+    var onPeripheralDiscovered: (() -> Void)?
+    /// 状态变化回调
+    var onStateChange: ((String) -> Void)?
+
+    // MARK: CoreBluetooth
+
+    private var centralManager: CBCentralManager!
+    private var connectedPeripheral: CBPeripheral?
+    private var subscribedCharacteristics: [CBCharacteristic] = []
+    private var notifyCount = 0
+    private var writeCount = 0
+
+    private override init() {
+        super.init()
+        centralManager = CBCentralManager(delegate: self, queue: .main)
+    }
+
+    // MARK: - 录制控制
+
+    func startRecording() {
+        frames.removeAll()
+        discoveredPeripherals.removeAll()
+        subscribedCharacteristics.removeAll()
+        notifyCount = 0
+        writeCount = 0
+        startTime = Date()
+        isRecording = true
+        onStateChange?("录制已开始")
+    }
+
+    func stopRecording() -> URL? {
+        isRecording = false
+        stopScan()
+        guard let startTime else { return nil }
+
+        var records: [FrameRecord] = []
+        records.reserveCapacity(frames.count)
+        for (i, f) in frames.enumerated() {
+            records.append(
+                FrameRecord(
+                    index: i,
+                    timestamp: f.timestamp,
+                    relativeTime: f.relativeTime,
+                    direction: f.direction.rawValue,
+                    characteristic: f.characteristic,
+                    hex: f.payload.map { String(format: "%02X", $0) }.joined(),
+                    ascii: f.asciiPreview
+                )
+            )
+        }
+
+        let export = FrameLog(
+            exportedAt: Date(),
+            device: DeviceInfo.current.deviceModel,
+            systemVersion: DeviceInfo.current.systemVersion,
+            peer: connectedPeripheral?.name ?? "unknown",
+            peerIdentifier: connectedPeripheral?.identifier.uuidString ?? "unknown",
+            totalFrames: frames.count,
+            frames: records
+        )
+
+        return FrameLogWriter.write(export)
+    }
+
+    private func record(_ payload: Data, direction: Frame.Direction, characteristic: CBCharacteristic) {
+        guard isRecording else { return }
+
+        let now = Date()
+        let start = startTime ?? now
+        let frame = Frame(
+            timestamp: now.timeIntervalSince1970,
+            relativeTime: now.timeIntervalSince(start),
+            direction: direction,
+            characteristic: characteristic.uuid.uuidString,
+            payload: payload
+        )
+
+        frames.append(frame)
+        onFrame?(frame)
+    }
+
+    // MARK: - 扫描
+
+    /// 扫描所有广播设备（不按 service 过滤，确保不漏掉车机）。
+    func startScan() {
+        guard centralManager.state == .poweredOn else {
+            onStateChange?("蓝牙未开启")
+            return
+        }
+
+        centralManager.scanForPeripherals(
+            withServices: nil,
+            options: [
+                CBCentralManagerScanOptionAllowDuplicatesKey: true
+            ]
+        )
+        onStateChange?("扫描中")
+    }
+
+    func stopScan() {
+        centralManager.stopScan()
+        onStateChange?("扫描已停止")
+    }
+
+    func connect(to id: UUID) {
+        guard let peripheral = centralManager
+            .retrievePeripherals(withIdentifiers: [id])
+            .first else {
+            onStateChange?("找不到该设备")
+            return
+        }
+
+        connectedPeripheral = peripheral
+        peripheral.delegate = self
+
+        // EnableAutoReconnect 需要 iOS 17+，这里不依赖它
+        centralManager.connect(peripheral, options: [
+            CBConnectPeripheralOptionNotifyOnDisconnectionKey: true
+        ])
+        onStateChange?("连接中 → \(peripheral.name ?? id.uuidString)")
+    }
+
+    func disconnect() {
+        guard let peripheral = connectedPeripheral else { return }
+        centralManager.cancelPeripheralConnection(peripheral)
+    }
+
+    // MARK: - 主动发送
+
+    /// 向已订阅特征写入原始数据。
+    ///
+    /// 用这个方法手工试探协议：填入猜测的帧格式，观察车端响应。
+    func sendRaw(hexString: String, usePrimary: Bool = true) {
+        let hex = hexString
+            .replacingOccurrences(of: " ", with: "")
+            .filter { $0.isHexDigit }
+
+        guard !hex.isEmpty, hex.count % 2 == 0 else {
+            onStateChange?("HEX 格式无效")
+            return
+        }
+
+        var data = Data(capacity: hex.count / 2)
+        var index = hex.startIndex
+        while index < hex.endIndex {
+            let next = hex.index(index, offsetBy: 2)
+            if let byte = UInt8(hex[index..<next], radix: 16) {
+                data.append(byte)
+            }
+            index = next
+        }
+
+        guard let peripheral = connectedPeripheral,
+              let characteristic = subscribedCharacteristics.first(where: {
+                  usePrimary
+                      ? $0.uuid == TboeUUID.primaryService
+                      : $0.uuid == TboeUUID.secondaryService
+              })
+        else {
+            onStateChange?("目标特征未就绪")
+            return
+        }
+
+        // 按 MTU 分片发送（协议分片规则未知，先朴素切分）
+        let mtu = peripheral.maximumWriteValueLength(for: .withResponse)
+        var offset = 0
+        while offset < data.count {
+            let end = min(offset + mtu, data.count)
+            peripheral.writeValue(data.subdata(in: offset..<end),
+                                  for: characteristic, type: .withResponse)
+            record(data.subdata(in: offset..<end), direction: .tx, characteristic: characteristic)
+            offset = end
+        }
+    }
+
+    /// 读取当前 MTU。
+    func currentMTU() -> Int? {
+        connectedPeripheral?.maximumWriteValueLength(for: .withResponse)
+    }
+}
+
+// MARK: - CBCentralManagerDelegate
+
+extension BleFrameRecorder: CBCentralManagerDelegate {
+
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        switch central.state {
+        case .poweredOn:
+            onStateChange?("蓝牙已就绪")
+        case .poweredOff:
+            onStateChange?("请在系统设置里打开蓝牙")
+        case .unauthorized:
+            onStateChange?("蓝牙扫描车辆需要定位权限")
+        case .unsupported:
+            onStateChange?("本机没有可用的蓝牙适配器")
+        case .resetting:
+            onStateChange?("蓝牙正在重置")
+        case .unknown:
+            onStateChange?("蓝牙状态未知")
+        @unknown default:
+            break
+        }
+    }
+
+    func centralManager(
+        _ central: CBCentralManager,
+        didDiscover peripheral: CBPeripheral,
+        advertisementData: [String: Any],
+        rssi RSSI: NSNumber
+    ) {
+        let name = (advertisementData[CBAdvertisementDataLocalNameKey] as? String)
+            ?? peripheral.name
+            ?? "未命名"
+
+        // 按 id 去重，保留最新 RSSI
+        discoveredPeripherals.removeAll { $0.id == peripheral.identifier }
+        discoveredPeripherals.append((peripheral.identifier, name, RSSI.intValue))
+        discoveredPeripherals.sort { $0.rssi > $1.rssi }
+        onPeripheralDiscovered?()
+    }
+
+    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        onStateChange?("已连接 \(peripheral.name ?? "设备")")
+        // 发现所有服务，不做 UUID 过滤 —— 车机可能用非标准 service
+        peripheral.discoverServices(nil)
+    }
+
+    func centralManager(
+        _ central: CBCentralManager,
+        didFailToConnect peripheral: CBPeripheral,
+        error: Error?
+    ) {
+        onStateChange?("连接失败：\(error?.localizedDescription ?? "未知原因")")
+    }
+
+    func centralManager(
+        _ central: CBCentralManager,
+        didDisconnectPeripheral peripheral: CBPeripheral,
+        error: Error?
+    ) {
+        subscribedCharacteristics.removeAll()
+        onStateChange?("已断开：\(error?.localizedDescription ?? "正常断开")")
+    }
+
+    func centralManager(
+        _ central: CBCentralManager,
+        willRestoreState dict: [String: Any]
+    ) {
+        onStateChange?("状态已恢复")
+    }
+}
+
+// MARK: - CBPeripheralDelegate
+
+extension BleFrameRecorder: CBPeripheralDelegate {
+
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        if let error {
+            onStateChange?("服务发现失败：\(error.localizedDescription)")
+            return
+        }
+
+        guard let services = peripheral.services, !services.isEmpty else {
+            onStateChange?("未发现任何服务")
+            return
+        }
+
+        onStateChange?("发现 \(services.count) 个服务，发现全部特征")
+        for service in services {
+            peripheral.discoverCharacteristics(nil, for: service)
+        }
+    }
+
+    func peripheral(
+        _ peripheral: CBPeripheral,
+        didDiscoverCharacteristicsFor service: CBService,
+        error: Error?
+    ) {
+        if let error {
+            onStateChange?("特征发现失败：\(error.localizedDescription)")
+            return
+        }
+
+        for characteristic in service.characteristics ?? [] {
+            let supportsNotify = characteristic.properties.contains(.notify) ||
+                                 characteristic.properties.contains(.indicate)
+
+            if supportsNotify {
+                peripheral.setNotifyValue(true, for: characteristic)
+                if !subscribedCharacteristics.contains(where: { $0.uuid == characteristic.uuid }) {
+                    subscribedCharacteristics.append(characteristic)
+                }
+            }
+
+            if characteristic.properties.contains(.read) {
+                peripheral.readValue(for: characteristic)
+            }
+
+            let rw = characteristic.properties.contains(.write) ||
+                     characteristic.properties.contains(.writeWithoutResponse)
+            let props = [supportsNotify ? "notify" : nil,
+                         rw ? "write" : nil,
+                         characteristic.properties.contains(.read) ? "read" : nil]
+                .compactMap { $0 }
+                .joined(separator: "/")
+
+            onStateChange?("特征 \(characteristic.uuid) [\(props.isEmpty ? "无属性" : props)]")
+        }
+    }
+
+    func peripheral(
+        _ peripheral: CBPeripheral,
+        didUpdateValueFor characteristic: CBCharacteristic,
+        error: Error?
+    ) {
+        if let error {
+            onStateChange?("读取失败：\(error.localizedDescription)")
+            return
+        }
+        guard let data = characteristic.value else { return }
+
+        notifyCount += 1
+        record(data, direction: .rx, characteristic: characteristic)
+    }
+
+    func peripheral(
+        _ peripheral: CBPeripheral,
+        didWriteValueFor characteristic: CBCharacteristic,
+        error: Error?
+    ) {
+        writeCount += 1
+        if let error {
+            onStateChange?("写入失败：\(error.localizedDescription)")
+        }
+    }
+
+    func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheral) {}
+
+    func peripheral(_ peripheral: CBPeripheral, didReadRSSI RSSI: NSNumber, error: Error?) {
+        if error == nil {
+            onStateChange?("RSSI: \(RSSI.intValue) dBm")
+        }
+    }
+}
+
+// MARK: - 导出模型
+
+struct FrameRecord: Codable {
+    let index: Int
+    let timestamp: TimeInterval
+    let relativeTime: TimeInterval
+    let direction: String
+    let characteristic: String
+    let hex: String
+    let ascii: String
+}
+
+struct FrameLog: Codable {
+    let exportedAt: Date
+    let device: String
+    let systemVersion: String
+    let peer: String
+    let peerIdentifier: String
+    let totalFrames: Int
+    let frames: [FrameRecord]
+}
+
+enum FrameLogWriter {
+
+    /// Documents 目录（iOS/macOS 通用）
+    static var documentsDirectory: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+            ?? URL(fileURLWithPath: NSTemporaryDirectory())
+    }
+
+    /// 导出到 Documents 目录，返回文件 URL。
+    static func write(_ log: FrameLog) -> URL? {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        encoder.dateEncodingStrategy = .iso8601
+
+        guard let data = try? encoder.encode(log) else { return nil }
+
+        let filename = "tboe-capture-\(Int(Date().timeIntervalSince1970)).json"
+        let url = documentsDirectory.appendingPathComponent(filename)
+
+        do {
+            try data.write(to: url)
+            return url
+        } catch {
+            return nil
+        }
+    }
+
+    /// 便捷读取（供 Analysis 脚本生成器使用）。
+    static func captureDirectory() -> URL {
+        documentsDirectory
+    }
+}
