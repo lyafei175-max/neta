@@ -1,1 +1,13 @@
-ewogICJpbWFnZXMiIDogWwogICAgewogICAgICAiaWRpb20iIDogInVuaXZlcnNhbCIsCiAgICAgICJwbGF0Zm9ybSIgOiAiaW9zIiwKICAgICAgInNpemUiIDogIjEwMjR4MTAyNCIKICAgIH0KICBdLAogICJpbmZvIiA6IHsKICAgICJhdXRob3IiIDogInhjb2RlIiwKICAgICJ2ZXJzaW9uIiA6IDEKICB9Cn0=
+{
+  "images" : [
+    {
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
