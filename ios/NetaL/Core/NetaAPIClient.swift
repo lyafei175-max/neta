@@ -69,12 +69,10 @@ struct NetaAPIClient {
         for (k, v) in headers {
             request.setValue(v, forHTTPHeaderField: k)
         }
-        // 实测：网关对验签 header 名大小写敏感（全大写会返回 30253「验签信息缺失」）。
-        // URLSession 可能把首字母大写化成 `Appid`，因此同时补发全小写别名，
-        // 保证服务端能命中其中一种（小写形式已实测可通）。
-        for (k, v) in headers where k.lowercased() != k {
-            request.addValue(v, forHTTPHeaderField: k.lowercased())
-        }
+        // ⚠️ 不要在这里补发全小写别名（曾导致 30256「第三方主体密钥已失效」）。
+        // HTTP header 名不区分大小写，URLSession 会把 `appId` 和 `appid` 合并成
+        // 一行逗号分隔的值（appId: HOZON-..., HOZON-...），服务端读到的 appId
+        // 就不再是合法主体。只发这一套驼峰 header 即可（已实测服务端认可）。
 
         if isJSON {
             request.httpBody = jsonBody?.data(using: .utf8)
