@@ -32,7 +32,7 @@ struct VehicleService {
         try await AuthService.shared.ensureValidSession()
 
         let response = try await api.post(
-            path: Endpoint.vehicleList,
+            path: Endpoint.vehicleStatus,
             parameters: [:]
         )
 
@@ -66,7 +66,7 @@ struct VehicleService {
         try await AuthService.shared.ensureValidSession()
 
         let response = try await api.post(
-            path: Endpoint.bindVehicle,
+            path: Endpoint.rvcSend,
             parameters: ["vehicle_id": vehicleId, "nickname": nickname]
         )
 
@@ -80,7 +80,7 @@ struct VehicleService {
         try await AuthService.shared.ensureValidSession()
 
         let response = try await api.post(
-            path: Endpoint.unbindVehicle,
+            path: Endpoint.rvcSend,
             parameters: ["vehicle_id": vehicleId]
         )
 
@@ -138,10 +138,4 @@ extension JSONValue {
         if case .array(let a) = self { return a }
         return nil
     }
-}
-
-extension Endpoint {
-    static let vehicleList = "/api/vehicle/list"
-    static let bindVehicle = "/api/vehicle/bind"
-    static let unbindVehicle = "/api/vehicle/unbind"
 }
