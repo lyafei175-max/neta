@@ -1,12 +1,21 @@
 name: Build IPA
 
+# ============================================================
+#  编译检查 + 打包无签名 IPA
+#
+#  不需要任何证书或 Secret。
+#  公开仓库：macOS runner 免费不限量
+#
+#  用法：Actions → Build IPA → Run workflow
+# ============================================================
+
 on:
   workflow_dispatch:
     inputs:
       mode:
         description: '构建模式'
         required: true
-        default: 'compile-only'
+        default: 'ipa'
         type: choice
         options:
           - compile-only
@@ -65,7 +74,6 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             build > compile-log.txt 2>&1
           set -e
-
           if grep -qE "error:" compile-log.txt; then
             echo "=== 编译错误 ==="
             grep -oE "error: .*" compile-log.txt | sort -u | head -40
@@ -73,13 +81,11 @@ jobs:
           fi
           echo "编译通过"
 
-      - name: Build unsigned IPA
+      - name: Archive and package IPA
         if: github.event.inputs.mode == 'ipa'
         run: |
           cd $PROJECT_DIR
           set +e
-
-          # 1. Archive（无签名）
           xcodebuild \
             -project NetaL.xcodeproj \
             -scheme NetaL \
@@ -98,37 +104,29 @@ jobs:
           fi
           echo "Archive 完成"
 
-          # 2. 从 .app 直接构造 Payload 结构
-          #    无签名时 xcodebuild -exportArchive 会静默失败，
-          #    所以手动按 IPA 规范（Payload/NetaL.app）打包
-          APP_PATH=$(find build/NetaL.xcarchive/Products/Applications -name "*.app" -maxdepth 1 | head -1)
+          APP_PATH=$(find build/NetaL.xcarchive/Products/Applications -maxdepth 1 -name "*.app" | head -1)
           echo "APP: $APP_PATH"
-
           if [ -z "$APP_PATH" ]; then
             echo "未找到 .app"
-            ls -R build/NetaL.xcarchive/Products/ 2>/dev/null | head -20
+            find build/NetaL.xcarchive/Products -maxdepth 3 | head -20
             exit 1
           fi
 
           rm -rf unsigned-ipa
-          mkdir -p "unsigned-ipa/Payload"
-          cp -R "$APP_PATH" "unsigned-ipa/Payload/"
-
-          # 3. 打成 zip 再改名为 .ipa
+          mkdir -p unsigned-ipa/Payload
+          cp -R "$APP_PATH" unsigned-ipa/Payload/
           cd unsigned-ipa
-          zip -qry "../NetaL-unsigned.ipa" Payload
+          zip -qry ../NetaL-unsigned.ipa Payload
           cd ..
           rm -rf unsigned-ipa
 
           echo "=== 产物 ==="
           ls -lh NetaL-unsigned.ipa
-
-          # 4. 验证 IPA 结构
-          echo "=== IPA 内容（前 20 项）==="
-          unzip -l NetaL-unsigned.ipa | head -25
+          echo "=== IPA 内容 ==="
+          unzip -l NetaL-unsigned.ipa | head -20
           set -e
 
-      - name: Upload IPA
+      - name: Upload artifacts
         if: always() && github.event.inputs.mode == 'ipa'
         uses: actions/upload-artifact@v4
         with:
@@ -138,25 +136,22 @@ jobs:
             ios/compile-log.txt
             ios/archive-log.txt
           retention-days: 30
+          if-no-files-found: warn
 
       - name: Summary
         if: always()
         run: |
           cd $PROJECT_DIR
           {
-            echo "## 构建结果"
-            echo ""
+            echo "## 结果"
             if [ "${{ github.event.inputs.mode }}" = "ipa" ]; then
               if ls NetaL-unsigned.ipa >/dev/null 2>&1; then
-                echo "### IPA 导出成功"
-                echo ""
+                echo "IPA 导出成功"
                 echo '```'
                 ls -lh NetaL-unsigned.ipa
                 echo '```'
-                echo ""
-                echo "在页面底部 **Artifacts** 下载 `NetaL-ipa`"
-                echo ""
-                echo "> 未签名 IPA **无法安装到 iPhone**，仅验证构建产物"
+                echo "在 Artifacts 下载 NetaL-ipa"
+                echo "> 未签名，无法安装到 iPhone"
               else
                 echo "IPA 导出失败"
               fi
