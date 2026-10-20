@@ -1,1 +1,288 @@
-aW1wb3J0IEZvdW5kYXRpb24KCi8vLyDovabmjqfmjIfku6TjgIIKLy8vCi8vLyDmlbDmja7mnaXmupDvvJpgYXNzZXRzL2Nhcl9jb25maWcuanNvbmDvvIjovablnosgRVAzMCAvIOWTquWQkiBM77yJ44CCCi8vLyA0NiDmnaHmjIfku6TnmoTnvJbnoIHlgLzjgIF0YWfjgIHotoXml7bjgIFpT1Mg5o6l5Y+j5ZCN5Z2H5Li6IEFQSyDlhoXmmI7mlofvvIzlt7Lnoa7orqTjgIIKZW51bSBWZWhpY2xlQ29tbWFuZDogVUludDgsIENhc2VJdGVyYWJsZSB7CgogICAgY2FzZSBkb29yVW5sb2NrICAgICAgICA9IDEKICAgIGNhc2UgZG9vckxvY2sgICAgICAgICAgPSAyCiAgICBjYXNlIHRydW5rVW5sb2NrICAgICAgID0gMwogICAgY2FzZSB0cnVua0xvY2sgICAgICAgICA9IDQKICAgIGNhc2Ugc3Vucm9vZkNsb3NlICAgICAgPSA1CiAgICBjYXNlIHN1bnJvb2ZPcGVuICAgICAgID0gNgogICAgY2FzZSBzdW5yb29mVmVudGlsYXRlICA9IDcKICAgIGNhc2UgY2FyU2VhcmNoICAgICAgICAgPSA4CiAgICBjYXNlIHN0YXJ0Q2hhcmdlICAgICAgID0gOQogICAgY2FzZSBzdG9wQ2hhcmdlICAgICAgICA9IDEwCiAgICBjYXNlIHBvd2VyT24gICAgICAgICAgID0gMTEKICAgIGNhc2UgcG93ZXJPZmYgICAgICAgICAgPSAxMgogICAgY2FzZSB0b3BMZWZ0V2luZG93T3BlbiAgID0gMTMKICAgIGNhc2UgdG9wTGVmdFdpbmRvd0Nsb3NlICA9IDE0CiAgICBjYXNlIHRvcFJpZ2h0V2luZG93T3BlbiAgPSAxNQogICAgY2FzZSB0b3BSaWdodFdpbmRvd0Nsb3NlID0gMTYKICAgIGNhc2UgYm90dG9tTGVmdFdpbmRvd09wZW4gICA9IDE3CiAgICBjYXNlIGJvdHRvbUxlZnRXaW5kb3dDbG9zZSAgPSAxOAogICAgY2FzZSBib3R0b21SaWdodFdpbmRvd09wZW4gID0gMTkKICAgIGNhc2UgYm90dG9tUmlnaHRXaW5kb3dDbG9zZSA9IDIwCiAgICBjYXNlIHJlYXJ2aWV3TWlycm9yT3BlbiAgPSAyMQogICAgY2FzZSByZWFydmlld01pcnJvckNsb3NlID0gMjIKICAgIGNhc2UgYWlyQ29uZGl0aW9uZXJPcGVuICAgICAgPSAyMwogICAgY2FzZSBhaXJDb25kaXRpb25lckNsb3NlICAgICA9IDI0CiAgICBjYXNlIGFpckNvbmRpdGlvbmVyUmVmcmlnZXJhdGlvbiA9IDI1CiAgICBjYXNlIGFpckNvbmRpdGlvbmVySGVhdGluZyAgICAgID0gMjYKICAgIGNhc2UgcGFya2luZ1N0YXJ0ID0gMjcKICAgIGNhc2UgcGFya2luZ1N0b3AgID0gMjgKICAgIGNhc2Ugd2luZG93T3BlbiAgICA9IDI5CiAgICBjYXNlIHdpbmRvd0Nsb3NlICAgPSAzMAogICAgY2FzZSB2ZW50aWxhdGVDbG9zZSAgICAgPSAzMQogICAgY2FzZSB2ZW50aWxhdGVUZW5QZXJjZW50ID0gMzIKICAgIGNhc2UgYWNjQ29udHJvbE9uICAgPSAzMwogICAgY2FzZSBhY2NDb250cm9sT2ZmICA9IDM0CiAgICBjYXNlIHJlbW90ZUhlYXRpbmdPbiAgPSAzNQogICAgY2FzZSByZW1vdGVIZWF0aW5nT2ZmID0gMzYKICAgIGNhc2Ugd2luZFNwZWVkTGV2ZWwxICA9IDM3CiAgICBjYXNlIHdpbmRTcGVlZExldmVsMiAgPSAzOAogICAgY2FzZSB3aW5kU3BlZWRMZXZlbDMgID0gMzkKICAgIGNhc2Ugd2luZFNwZWVkTGV2ZWw0ICA9IDQwCiAgICBjYXNlIHdpbmRTcGVlZExldmVsNSAgPSA0MQogICAgY2FzZSB3aW5kU3BlZWRMZXZlbDYgID0gNDIKICAgIGNhc2Ugd2luZFNwZWVkTGV2ZWw3ICA9IDQzCiAgICBjYXNlIHdpbmRTcGVlZExldmVsOCAgPSA0NAogICAgY2FzZSB3aW5kU3BlZWRMZXZlbDkgID0gNDUKICAgIGNhc2Ugd2luZFNwZWVkTGV2ZWwxMCA9IDQ2CgogICAgLy8vIOWFreS9jeWNgeWFrei/m+WItue8lueggSBgW+WKn+iDvee7hDrnirbmgIE65Yqo5L2cXWDvvIxBUEsg5YaF5piO5paH77yM5bey56Gu6K6k44CCCiAgICB2YXIgdmFsdWU6IFN0cmluZyB7CiAgICAgICAgc3dpdGNoIHNlbGYgewogICAgICAgIGNhc2UgLmRvb3JVbmxvY2s6ICAgICAgICAgICAgcmV0dXJuICIwMTAxMDEiCiAgICAgICAgY2FzZSAuZG9vckxvY2s6ICAgICAgICAgICAgICByZXR1cm4gIjAxMDEwMCIKICAgICAgICBjYXNlIC50cnVua1VubG9jazogICAgICAgICAgIHJldHVybiAiMDkwMTAxIgogICAgICAgIGNhc2UgLnRydW5rTG9jazogICAgICAgICAgICAgcmV0dXJuICIwOTAxMDAiCiAgICAgICAgY2FzZSAuc3Vucm9vZkNsb3NlOiAgICAgICAgICByZXR1cm4gIjAzMDEwMCIKICAgICAgICBjYXNlIC5zdW5yb29mT3BlbjogICAgICAgICAgIHJldHVybiAiMDMwMTAxIgogICAgICAgIGNhc2UgLnN1bnJvb2ZWZW50aWxhdGU6ICAgICAgcmV0dXJuICIwMzAxMDIiCiAgICAgICAgY2FzZSAuY2FyU2VhcmNoOiAgICAgICAgICAgICByZXR1cm4gIjE1MDEwMSIKICAgICAgICBjYXNlIC5zdGFydENoYXJnZTogICAgICAgICAgIHJldHVybiAiMjUwMTAxIgogICAgICAgIGNhc2UgLnN0b3BDaGFyZ2U6ICAgICAgICAgICAgcmV0dXJuICIyNTAxMDAiCiAgICAgICAgY2FzZSAucG93ZXJPbjogICAgICAgICAgICAgICByZXR1cm4gIjI2MDEwMSIKICAgICAgICBjYXNlIC5wb3dlck9mZjogICAgICAgICAgICAgIHJldHVybiAiMjYwMTAwIgogICAgICAgIGNhc2UgLnRvcExlZnRXaW5kb3dPcGVuOiAgICAgcmV0dXJuICIyNzAxMDEiCiAgICAgICAgY2FzZSAudG9wTGVmdFdpbmRvd0Nsb3NlOiAgICByZXR1cm4gIjI3MDEwMCIKICAgICAgICBjYXNlIC50b3BSaWdodFdpbmRvd09wZW46ICAgIHJldHVybiAiMjgwMTAxIgogICAgICAgIGNhc2UgLnRvcFJpZ2h0V2luZG93Q2xvc2U6ICAgcmV0dXJuICIyODAxMDAiCiAgICAgICAgY2FzZSAuYm90dG9tTGVmdFdpbmRvd09wZW46ICByZXR1cm4gIjI5MDEwMSIKICAgICAgICBjYXNlIC5ib3R0b21MZWZ0V2luZG93Q2xvc2U6IHJldHVybiAiMjkwMTAwIgogICAgICAgIGNhc2UgLmJvdHRvbVJpZ2h0V2luZG93T3BlbjogICByZXR1cm4gIjMwMDEwMSIKICAgICAgICBjYXNlIC5ib3R0b21SaWdodFdpbmRvd0Nsb3NlOiAgcmV0dXJuICIzMDAxMDAiCiAgICAgICAgY2FzZSAucmVhcnZpZXdNaXJyb3JPcGVuOiAgICByZXR1cm4gIjIwMDEwMSIKICAgICAgICBjYXNlIC5yZWFydmlld01pcnJvckNsb3NlOiAgIHJldHVybiAiMjAwMTAwIgogICAgICAgIGNhc2UgLmFpckNvbmRpdGlvbmVyT3BlbjogICAgICByZXR1cm4gIjA0MDEwMSIKICAgICAgICBjYXNlIC5haXJDb25kaXRpb25lckNsb3NlOiAgICAgcmV0dXJuICIwNDAxMDAiCiAgICAgICAgY2FzZSAuYWlyQ29uZGl0aW9uZXJSZWZyaWdlcmF0aW9uOiByZXR1cm4gIjA1MDEwMCIKICAgICAgICBjYXNlIC5haXJDb25kaXRpb25lckhlYXRpbmc6ICAgICAgcmV0dXJuICIwNTAxMDEiCiAgICAgICAgY2FzZSAucGFya2luZ1N0YXJ0OiAgICAgICAgICByZXR1cm4gIjFBMDEwMSIKICAgICAgICBjYXNlIC5wYXJraW5nU3RvcDogICAgICAgICAgIHJldHVybiAiMUEwMTAwIgogICAgICAgIGNhc2UgLndpbmRvd09wZW46ICAgICAgICAgICAgcmV0dXJuICIzMTAxMDEiCiAgICAgICAgY2FzZSAud2luZG93Q2xvc2U6ICAgICAgICAgICByZXR1cm4gIjMxMDEwMCIKICAgICAgICBjYXNlIC52ZW50aWxhdGVDbG9zZTogICAgICAgIHJldHVybiAiMzIwMTAwIgogICAgICAgIGNhc2UgLnZlbnRpbGF0ZVRlblBlcmNlbnQ6ICAgcmV0dXJuICIzMjAxMDEiCiAgICAgICAgY2FzZSAuYWNjQ29udHJvbE9uOiAgICAgICAgICByZXR1cm4gIjMzMDEwMSIKICAgICAgICBjYXNlIC5hY2NDb250cm9sT2ZmOiAgICAgICAgIHJldHVybiAiMzMwMTAyIgogICAgICAgIGNhc2UgLnJlbW90ZUhlYXRpbmdPbjogICAgICAgcmV0dXJuICIzNDAxMDEiCiAgICAgICAgY2FzZSAucmVtb3RlSGVhdGluZ09mZjogICAgICByZXR1cm4gIjM0MDEwMiIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDE6ICAgICAgIHJldHVybiAiMzUwMTAxIgogICAgICAgIGNhc2UgLndpbmRTcGVlZExldmVsMjogICAgICAgcmV0dXJuICIzNTAxMDIiCiAgICAgICAgY2FzZSAud2luZFNwZWVkTGV2ZWwzOiAgICAgICByZXR1cm4gIjM1MDEwMyIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDQ6ICAgICAgIHJldHVybiAiMzUwMTA0IgogICAgICAgIGNhc2UgLndpbmRTcGVlZExldmVsNTogICAgICAgcmV0dXJuICIzNTAxMDUiCiAgICAgICAgY2FzZSAud2luZFNwZWVkTGV2ZWw2OiAgICAgICByZXR1cm4gIjM1MDEwNiIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDc6ICAgICAgIHJldHVybiAiMzUwMTA3IgogICAgICAgIGNhc2UgLndpbmRTcGVlZExldmVsODogICAgICAgcmV0dXJuICIzNTAxMDgiCiAgICAgICAgY2FzZSAud2luZFNwZWVkTGV2ZWw5OiAgICAgICByZXR1cm4gIjM1MDEwOSIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDEwOiAgICAgIHJldHVybiAiMzUwMTBBIgogICAgICAgIH0KICAgIH0KCiAgICAvLy8g5Yqf6IO957uE77yI57yW56CB6aaW5q6177yJ44CC5ZCM5LiAIHRhZyDnmoTmjIfku6TlhbHkuqvliIbnu4TmoIfor4bjgIIKICAgIHZhciB0YWc6IFVJbnQ4IHsKICAgICAgICBVSW50OCh2YWx1ZS5wcmVmaXgoMiksIHJhZGl4OiAxNikgPz8gMAogICAgfQoKICAgIC8vLyDmiafooYzotoXml7bvvIjnp5LvvInvvIzmnaXoh6ogY2FyX2NvbmZpZy5qc29u77yM5bey56Gu6K6k44CCCiAgICB2YXIgdGltZW91dDogVGltZUludGVydmFsIHsKICAgICAgICBzd2l0Y2ggc2VsZiB7CiAgICAgICAgY2FzZSAuZG9vclVubG9jaywgLmRvb3JMb2NrOgogICAgICAgICAgICByZXR1cm4gMwogICAgICAgIGNhc2UgLnRydW5rVW5sb2NrLCAudHJ1bmtMb2NrOgogICAgICAgICAgICByZXR1cm4gMTAKICAgICAgICBjYXNlIC5zdW5yb29mQ2xvc2UsIC5zdW5yb29mT3BlbiwgLnN1bnJvb2ZWZW50aWxhdGU6CiAgICAgICAgICAgIHJldHVybiAxNQogICAgICAgIGRlZmF1bHQ6CiAgICAgICAgICAgIHJldHVybiA1CiAgICAgICAgfQogICAgfQoKICAgIC8vLyDkuK3mloflkI3vvIzlt7Lnoa7orqTjgIIKICAgIHZhciBkaXNwbGF5TmFtZTogU3RyaW5nIHsKICAgICAgICBzd2l0Y2ggc2VsZiB7CiAgICAgICAgY2FzZSAuZG9vclVubG9jazogICAgICAgICAgICByZXR1cm4gIuino+mUgei9pumXqCIKICAgICAgICBjYXNlIC5kb29yTG9jazogICAgICAgICAgICAgIHJldHVybiAi6Zet6ZSB6L2m6ZeoIgogICAgICAgIGNhc2UgLnRydW5rVW5sb2NrOiAgICAgICAgICAgcmV0dXJuICLlvIDlkI7lpIfnrrEiCiAgICAgICAgY2FzZSAudHJ1bmtMb2NrOiAgICAgICAgICAgICByZXR1cm4gIuWFs+WQjuWkh+eusSIKICAgICAgICBjYXNlIC5zdW5yb29mQ2xvc2U6ICAgICAgICAgIHJldHVybiAi5YWz6Zet5aSp56qXIgogICAgICAgIGNhc2UgLnN1bnJvb2ZPcGVuOiAgICAgICAgICAgcmV0dXJuICLlvIDlkK/lpKnnqpciCiAgICAgICAgY2FzZSAuc3Vucm9vZlZlbnRpbGF0ZTogICAgICByZXR1cm4gIuWkqeeql+mAmumjjiIKICAgICAgICBjYXNlIC5jYXJTZWFyY2g6ICAgICAgICAgICAgIHJldHVybiAi5a+76L2mIgogICAgICAgIGNhc2UgLnN0YXJ0Q2hhcmdlOiAgICAgICAgICAgcmV0dXJuICLlvIDlp4vlhYXnlLUiCiAgICAgICAgY2FzZSAuc3RvcENoYXJnZTogICAgICAgICAgICByZXR1cm4gIuWBnOatouWFheeUtSIKICAgICAgICBjYXNlIC5wb3dlck9uOiAgICAgICAgICAgICAgIHJldHVybiAi5LiA6ZSu5LiK55S1IgogICAgICAgIGNhc2UgLnBvd2VyT2ZmOiAgICAgICAgICAgICAgcmV0dXJuICLkuIDplK7kuIvnlLUiCiAgICAgICAgY2FzZSAudG9wTGVmdFdpbmRvd09wZW46ICAgICByZXR1cm4gIuW3puWJjei9pueqly3lvIDlkK8iCiAgICAgICAgY2FzZSAudG9wTGVmdFdpbmRvd0Nsb3NlOiAgICByZXR1cm4gIuW3puWJjei9pueqly3lhbPpl60iCiAgICAgICAgY2FzZSAudG9wUmlnaHRXaW5kb3dPcGVuOiAgICByZXR1cm4gIuWPs+WJjei9pueqly3lvIDlkK8iCiAgICAgICAgY2FzZSAudG9wUmlnaHRXaW5kb3dDbG9zZTogICByZXR1cm4gIuWPs+WJjei9pueqly3lhbPpl60iCiAgICAgICAgY2FzZSAuYm90dG9tTGVmdFdpbmRvd09wZW46ICByZXR1cm4gIuW3puWQjui9pueqly3lvIDlkK8iCiAgICAgICAgY2FzZSAuYm90dG9tTGVmdFdpbmRvd0Nsb3NlOiByZXR1cm4gIuW3puWQjui9pueqly3lhbPpl60iCiAgICAgICAgY2FzZSAuYm90dG9tUmlnaHRXaW5kb3dPcGVuOiAgIHJldHVybiAi5Y+z5ZCO6L2m56qXLeW8gOWQryIKICAgICAgICBjYXNlIC5ib3R0b21SaWdodFdpbmRvd0Nsb3NlOiAgcmV0dXJuICLlj7PlkI7ovabnqpct5YWz6ZetIgogICAgICAgIGNhc2UgLnJlYXJ2aWV3TWlycm9yT3BlbjogICAgcmV0dXJuICLlkI7op4bplZwt5byA5ZCvIgogICAgICAgIGNhc2UgLnJlYXJ2aWV3TWlycm9yQ2xvc2U6ICAgcmV0dXJuICLlkI7op4bplZwt5YWz6ZetIgogICAgICAgIGNhc2UgLmFpckNvbmRpdGlvbmVyT3BlbjogICAgICByZXR1cm4gIuepuuiwgy3lvIDlkK8iCiAgICAgICAgY2FzZSAuYWlyQ29uZGl0aW9uZXJDbG9zZTogICAgIHJldHVybiAi56m66LCDLeWFs+mXrSIKICAgICAgICBjYXNlIC5haXJDb25kaXRpb25lclJlZnJpZ2VyYXRpb246IHJldHVybiAi56m66LCDLeWItuWGtyIKICAgICAgICBjYXNlIC5haXJDb25kaXRpb25lckhlYXRpbmc6ICAgICAgcmV0dXJuICLnqbrosIMt5Yi254OtIgogICAgICAgIGNhc2UgLnBhcmtpbmdTdGFydDogICAgICAgICAgcmV0dXJuICLms4rovaYt5byA5ZCvIgogICAgICAgIGNhc2UgLnBhcmtpbmdTdG9wOiAgICAgICAgICAgcmV0dXJuICLms4rovaYt5YGc5q2iIgogICAgICAgIGNhc2UgLndpbmRvd09wZW46ICAgICAgICAgICAgcmV0dXJuICLkuIDplK7ovabnqpfmjqfliLYt5byA5ZCvIgogICAgICAgIGNhc2UgLndpbmRvd0Nsb3NlOiAgICAgICAgICAgcmV0dXJuICLkuIDplK7ovabnqpfmjqfliLYt5YWz6ZetIgogICAgICAgIGNhc2UgLnZlbnRpbGF0ZUNsb3NlOiAgICAgICAgcmV0dXJuICLkuIDplK7pgJrpo44t5YWz6ZetIgogICAgICAgIGNhc2UgLnZlbnRpbGF0ZVRlblBlcmNlbnQ6ICAgcmV0dXJuICLkuIDplK7pgJrpo44tMTAlIgogICAgICAgIGNhc2UgLmFjY0NvbnRyb2xPbjogICAgICAgICAgcmV0dXJuICJBL0PmjqfliLbmjIfku6QtT24iCiAgICAgICAgY2FzZSAuYWNjQ29udHJvbE9mZjogICAgICAgICByZXR1cm4gIkEvQ+aOp+WItuaMh+S7pC1PZmYiCiAgICAgICAgY2FzZSAucmVtb3RlSGVhdGluZ09uOiAgICAgICByZXR1cm4gIui/nOeoi+WKoOeDreaMh+S7pC1PbiIKICAgICAgICBjYXNlIC5yZW1vdGVIZWF0aW5nT2ZmOiAgICAgIHJldHVybiAi6L+c56iL5Yqg54Ot5oyH5LukLU9mZiIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDE6ICAgICAgIHJldHVybiAi6L+c56iL6aOO6YCfLUxldmVsMSIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDI6ICAgICAgIHJldHVybiAi6L+c56iL6aOO6YCfLUxldmVsMiIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDM6ICAgICAgIHJldHVybiAi6L+c56iL6aOO6YCfLUxldmVsMyIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDQ6ICAgICAgIHJldHVybiAi6L+c56iL6aOO6YCfLUxldmVsNCIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDU6ICAgICAgIHJldHVybiAi6L+c56iL6aOO6YCfLUxldmVsNSIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDY6ICAgICAgIHJldHVybiAi6L+c56iL6aOO6YCfLUxldmVsNiIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDc6ICAgICAgIHJldHVybiAi6L+c56iL6aOO6YCfLUxldmVsNyIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDg6ICAgICAgIHJldHVybiAi6L+c56iL6aOO6YCfLUxldmVsOCIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDk6ICAgICAgIHJldHVybiAi6L+c56iL6aOO6YCfLUxldmVsOSIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDEwOiAgICAgIHJldHVybiAi6L+c56iL6aOO6YCfLUxldmVsMTAiCiAgICAgICAgfQogICAgfQoKICAgIC8vLyDlrpjmlrkgaU9TIFNESyDmjqXlj6PlkI3jgIIKICAgIC8vLwogICAgLy8vIOesrCAx4oCTMjgg5p2h5Li6IEFQSyDlhoXmmI7mlofvvIjlt7Lnoa7orqTvvInvvJvnrKwgMjnigJM0NiDmnaHooqsgUjgg5Y6L57yp77yMCiAgICAvLy8g5q2k5aSE5oyJ5ZG95ZCN6KeE5b6L5o6o5pat77yM5LuF5L2c5Y+C6ICD5qCH6K+G77yM5a6e6ZmF6LCD55So6ZyA5a+554Wn5a6Y5pa5IGlPUyBTREvjgIIKICAgIHZhciBpT1NBcGlOYW1lOiBTdHJpbmcgewogICAgICAgIHN3aXRjaCBzZWxmIHsKICAgICAgICBjYXNlIC5kb29yVW5sb2NrOiAgICAgICAgICAgIHJldHVybiAiSW5nZWVrQ29tbWFuZERvb3JVbmxvY2siCiAgICAgICAgY2FzZSAuZG9vckxvY2s6ICAgICAgICAgICAgICByZXR1cm4gIkluZ2Vla0NvbW1hbmREb29yTG9jayIKICAgICAgICBjYXNlIC50cnVua1VubG9jazogICAgICAgICAgIHJldHVybiAiSW5nZWVrQ29tbWFuZFRydW5rVW5sb2NrIgogICAgICAgIGNhc2UgLnRydW5rTG9jazogICAgICAgICAgICAgcmV0dXJuICJJbmdlZWtDb21tYW5kVHJ1bmtMb2NrIgogICAgICAgIGNhc2UgLnN1bnJvb2ZDbG9zZTogICAgICAgICAgcmV0dXJuICJJbmdlZWtDb21tYW5kU3VuUm9vZkNsb3NlIgogICAgICAgIGNhc2UgLnN1bnJvb2ZPcGVuOiAgICAgICAgICAgcmV0dXJuICJJbmdlZWtDb21tYW5kU3VuUm9vZk9wZW4iCiAgICAgICAgY2FzZSAuc3Vucm9vZlZlbnRpbGF0ZTogICAgICByZXR1cm4gIkluZ2Vla0NvbW1hbmRTdW5Sb29mVmVudGlsYXRlIgogICAgICAgIGNhc2UgLmNhclNlYXJjaDogICAgICAgICAgICAgcmV0dXJuICJJbmdlZWtDb21tYW5kQ2FyU2VhcmNoIgogICAgICAgIGNhc2UgLnN0YXJ0Q2hhcmdlOiAgICAgICAgICAgcmV0dXJuICJJbmdlZWtDb21tYW5kU3RhcnRDaGFyZ2UiCiAgICAgICAgY2FzZSAuc3RvcENoYXJnZTogICAgICAgICAgICByZXR1cm4gIkluZ2Vla0NvbW1hbmRTdG9wQ2hhcmdlIgogICAgICAgIGNhc2UgLnBvd2VyT246ICAgICAgICAgICAgICAgcmV0dXJuICJJbmdlZWtDb21tYW5kUG93ZXJPbiIKICAgICAgICBjYXNlIC5wb3dlck9mZjogICAgICAgICAgICAgIHJldHVybiAiSW5nZWVrQ29tbWFuZFBvd2VyT2ZmIgogICAgICAgIGNhc2UgLnRvcExlZnRXaW5kb3dPcGVuOiAgICAgcmV0dXJuICJJbmdlZWtDb21tYW5kVG9wTGVmdFdpbmRvd09wZW4iCiAgICAgICAgY2FzZSAudG9wTGVmdFdpbmRvd0Nsb3NlOiAgICByZXR1cm4gIkluZ2Vla0NvbW1hbmRUb3BMZWZ0V2luZG93Q2xvc2UiCiAgICAgICAgY2FzZSAudG9wUmlnaHRXaW5kb3dPcGVuOiAgICByZXR1cm4gIkluZ2Vla0NvbW1hbmRUb3BSaWdodFdpbmRvd09wZW4iCiAgICAgICAgY2FzZSAudG9wUmlnaHRXaW5kb3dDbG9zZTogICByZXR1cm4gIkluZ2Vla0NvbW1hbmRUb3BSaWdodFdpbmRvd0Nsb3NlIgogICAgICAgIGNhc2UgLmJvdHRvbUxlZnRXaW5kb3dPcGVuOiAgcmV0dXJuICJJbmdlZWtDb21tYW5kQm90dG9tTGVmdFdpbmRvd09wZW4iCiAgICAgICAgY2FzZSAuYm90dG9tTGVmdFdpbmRvd0Nsb3NlOiByZXR1cm4gIkluZ2Vla0NvbW1hbmRCb3R0b21MZWZ0V2luZG93Q2xvc2UiCiAgICAgICAgY2FzZSAuYm90dG9tUmlnaHRXaW5kb3dPcGVuOiAgIHJldHVybiAiSW5nZWVrQ29tbWFuZEJvdHRvbVJpZ2h0V2luZG93T3BlbiIKICAgICAgICBjYXNlIC5ib3R0b21SaWdodFdpbmRvd0Nsb3NlOiAgcmV0dXJuICJJbmdlZWtDb21tYW5kQm90dG9tUmlnaHRXaW5kb3dDbG9zZSIKICAgICAgICBjYXNlIC5yZWFydmlld01pcnJvck9wZW46ICAgIHJldHVybiAiSW5nZWVrQ29tbWFuZFJlYXJ2aWV3TWlycm9yT3BlbiIKICAgICAgICBjYXNlIC5yZWFydmlld01pcnJvckNsb3NlOiAgIHJldHVybiAiSW5nZWVrQ29tbWFuZFJlYXJ2aWV3TWlycm9yQ2xvc2UiCiAgICAgICAgY2FzZSAuYWlyQ29uZGl0aW9uZXJPcGVuOiAgICAgIHJldHVybiAiSW5nZWVrQ29tbWFuZEFpckNvbmRpdGlvbmVyT3BlbiIKICAgICAgICBjYXNlIC5haXJDb25kaXRpb25lckNsb3NlOiAgICAgcmV0dXJuICJJbmdlZWtDb21tYW5kQWlyQ29uZGl0aW9uZXJDbG9zZSIKICAgICAgICBjYXNlIC5haXJDb25kaXRpb25lclJlZnJpZ2VyYXRpb246IHJldHVybiAiSW5nZWVrQ29tbWFuZEFpckNvbmRpdGlvbmVyUmVmcmlnZXJhdGlvbiIKICAgICAgICBjYXNlIC5haXJDb25kaXRpb25lckhlYXRpbmc6ICAgICAgcmV0dXJuICJJbmdlZWtDb21tYW5kQWlyQ29uZGl0aW9uZXJIZWF0aW5nIgogICAgICAgIGNhc2UgLnBhcmtpbmdTdGFydDogICAgICAgICAgcmV0dXJuICJJbmdlZWtDb21tYW5kUGFya2luZ1N0YXJ0IgogICAgICAgIGNhc2UgLnBhcmtpbmdTdG9wOiAgICAgICAgICAgcmV0dXJuICJJbmdlZWtDb21tYW5kUGFya2luZ1N0b3AiCiAgICAgICAgY2FzZSAud2luZG93T3BlbjogICAgICAgICAgICByZXR1cm4gIkluZ2Vla0NvbW1hbmRXaW5kb3dPcGVuIgogICAgICAgIGNhc2UgLndpbmRvd0Nsb3NlOiAgICAgICAgICAgcmV0dXJuICJJbmdlZWtDb21tYW5kV2luZG93Q2xvc2UiCiAgICAgICAgY2FzZSAudmVudGlsYXRlQ2xvc2U6ICAgICAgICByZXR1cm4gIkluZ2Vla0NvbW1hbmRWZW50aWxhdGVDbG9zZSIKICAgICAgICBjYXNlIC52ZW50aWxhdGVUZW5QZXJjZW50OiAgIHJldHVybiAiSW5nZWVrQ29tbWFuZFZlbnRpbGF0ZVRlblBlcmNlbnQiCiAgICAgICAgY2FzZSAuYWNjQ29udHJvbE9uOiAgICAgICAgICByZXR1cm4gIkluZ2Vla0NvbW1hbmRBY2NDb250cm9sT24iCiAgICAgICAgY2FzZSAuYWNjQ29udHJvbE9mZjogICAgICAgICByZXR1cm4gIkluZ2Vla0NvbW1hbmRBY2NDb250cm9sT2ZmIgogICAgICAgIGNhc2UgLnJlbW90ZUhlYXRpbmdPbjogICAgICAgcmV0dXJuICJJbmdlZWtDb21tYW5kUmVtb3RlSGVhdGluZ09uIgogICAgICAgIGNhc2UgLnJlbW90ZUhlYXRpbmdPZmY6ICAgICAgcmV0dXJuICJJbmdlZWtDb21tYW5kUmVtb3RlSGVhdGluZ09mZiIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDE6ICAgICAgIHJldHVybiAiSW5nZWVrQ29tbWFuZFJlbW90ZVdpbmRzcGVlZExldmVsMSIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDI6ICAgICAgIHJldHVybiAiSW5nZWVrQ29tbWFuZFJlbW90ZVdpbmRzcGVlZExldmVsMiIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDM6ICAgICAgIHJldHVybiAiSW5nZWVrQ29tbWFuZFJlbW90ZVdpbmRzcGVlZExldmVsMyIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDQ6ICAgICAgIHJldHVybiAiSW5nZWVrQ29tbWFuZFJlbW90ZVdpbmRzcGVlZExldmVsNCIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDU6ICAgICAgIHJldHVybiAiSW5nZWVrQ29tbWFuZFJlbW90ZVdpbmRzcGVlZExldmVsNSIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDY6ICAgICAgIHJldHVybiAiSW5nZWVrQ29tbWFuZFJlbW90ZVdpbmRzcGVlZExldmVsNiIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDc6ICAgICAgIHJldHVybiAiSW5nZWVrQ29tbWFuZFJlbW90ZVdpbmRzcGVlZExldmVsNyIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDg6ICAgICAgIHJldHVybiAiSW5nZWVrQ29tbWFuZFJlbW90ZVdpbmRzcGVlZExldmVsOCIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDk6ICAgICAgIHJldHVybiAiSW5nZWVrQ29tbWFuZFJlbW90ZVdpbmRzcGVlZExldmVsOSIKICAgICAgICBjYXNlIC53aW5kU3BlZWRMZXZlbDEwOiAgICAgIHJldHVybiAiSW5nZWVrQ29tbWFuZFJlbW90ZVdpbmRzcGVlZExldmVsMTAiCiAgICAgICAgfQogICAgfQoKICAgIC8vLyDor6XmjIfku6TmmK/lkKbmnInov5HlnLrvvIhCTEXvvInlrp7njrDjgIIKICAgIC8vLwogICAgLy8vIEFQSyDkuK3mlofmlofmoYjmmL7npLrlubbpnZ7miYDmnInliqjkvZzpg73mlK/mjIHov5HlnLrvvJoKICAgIC8vLyDjgIzor6XliqjkvZzmsqHmnInov5HlnLrlkb3ku6TjgI3jgIzlj6rmlK/mjIHnvZHnu5znmoTliqjkvZzku43otbDnvZHnu5zjgI3jgIIKICAgIC8vLyDpgJDmnaHnmoTlrp7pmYXmlK/mjIHmg4XlhrXpnIDmipPljIXnoa7orqTvvIzmraTlpITmjInovabljoLluLjop4HlgZrms5Xnu5nlh7rkv53lrojpu5jorqTjgIIKICAgIHZhciBzdXBwb3J0c05lYXJGaWVsZDogQm9vbCB7CiAgICAgICAgc3dpdGNoIHNlbGYgewogICAgICAgIGNhc2UgLndpbmRvd09wZW4sIC53aW5kb3dDbG9zZSwKICAgICAgICAgICAgIC52ZW50aWxhdGVDbG9zZSwgLnZlbnRpbGF0ZVRlblBlcmNlbnQsCiAgICAgICAgICAgICAuYWNjQ29udHJvbE9uLCAuYWNjQ29udHJvbE9mZiwKICAgICAgICAgICAgIC5yZW1vdGVIZWF0aW5nT24sIC5yZW1vdGVIZWF0aW5nT2ZmLAogICAgICAgICAgICAgLndpbmRTcGVlZExldmVsMSwgLndpbmRTcGVlZExldmVsMiwgLndpbmRTcGVlZExldmVsMywKICAgICAgICAgICAgIC53aW5kU3BlZWRMZXZlbDQsIC53aW5kU3BlZWRMZXZlbDUsIC53aW5kU3BlZWRMZXZlbDYsCiAgICAgICAgICAgICAud2luZFNwZWVkTGV2ZWw3LCAud2luZFNwZWVkTGV2ZWw4LCAud2luZFNwZWVkTGV2ZWw5LAogICAgICAgICAgICAgLndpbmRTcGVlZExldmVsMTA6CiAgICAgICAgICAgIC8vIOi/meS6m+aJuemHjy/nsr7nu4bmjqfliLbpobnmlofmoYjlvZLnsbvkuLrjgIzmjInlrpjmlrnpu5jorqTlgLzkuIDmrKHkuIvlj5HjgI3vvIwKICAgICAgICAgICAgLy8g5pu05Y+v6IO96LWw572R57uc6YCa6YGT44CC6Iul5oqT5YyF56Gu6K6k5pyJ6L+R5Zy65a6e546w77yM5pS55Li6IHRydWXjgIIKICAgICAgICAgICAgcmV0dXJuIGZhbHNlCiAgICAgICAgZGVmYXVsdDoKICAgICAgICAgICAgcmV0dXJuIHRydWUKICAgICAgICB9CiAgICB9CgogICAgLy8vIOS4i+WPkeaKpeaWh+S4reeahCBjb21tYW5kIOWtl+auteOAggogICAgLy8vCiAgICAvLy8g5a2X5q615ZCNIGBjb21tYW5kYCAvIGBjb21tYW5kX2lkYCAvIGBjb21tYW5kSWRgIOWdh+WcqCBERVgg5Lit5Ye6546w77yI5bey56Gu6K6k77yJ77yMCiAgICAvLy8g5L2G5YW35L2T5Lyg5pWw5a2X57yW5Y+36L+Y5pivIGhleCDlgLzlvoXmipPljIXpqozor4HjgIIKICAgIHZhciBjbG91ZFBheWxvYWQ6IFtTdHJpbmc6IFN0cmluZ10gewogICAgICAgIFsKICAgICAgICAgICAgImNvbW1hbmRfaWQiOiBTdHJpbmcocmF3VmFsdWUpLAogICAgICAgICAgICAiY29tbWFuZCI6IHZhbHVlLAogICAgICAgICAgICAicGFyYW1ldGVyIjogIjAiCiAgICAgICAgXQogICAgfQp9CgovLyBNQVJLOiAtIOi9puaOp+mAmumBk+etlueVpQoKLy8vIOi9puaOp+mAmumBk+mAieaLqeOAguWOnyBBUEsg55qE5LiJ56eN5qih5byP77yM5Lit5paH5paH5qGI5bey56Gu6K6k44CCCmVudW0gQ29udHJvbENoYW5uZWw6IFN0cmluZywgQ2FzZUl0ZXJhYmxlIHsKICAgIC8vLyDok53niZnlt7Lov57mjqXkvJjlhYggQkxF77yM5pyq6L+e5o6l5oiW5LiL5Y+R5aSx6LSl5Zue6YCA572R57ucCiAgICBjYXNlIGF1dG9tYXRpYwogICAgLy8vIOW3suaMieiuvue9ruWPqui1sOiTneeJme+8jOS4jeWPkee9kee7nOivt+axggogICAgY2FzZSBibHVldG9vdGhPbmx5CiAgICAvLy8g5Y+q57uP5pyN5Yqh56uv5LiL5Y+RCiAgICBjYXNlIG5ldHdvcmtPbmx5CgogICAgdmFyIGRpc3BsYXlOYW1lOiBTdHJpbmcgewogICAgICAgIHN3aXRjaCBzZWxmIHsKICAgICAgICBjYXNlIC5hdXRvbWF0aWM6ICAgICAgcmV0dXJuICLoh6rliqgiCiAgICAgICAgY2FzZSAuYmx1ZXRvb3RoT25seTogIHJldHVybiAi5LuF6JOd54mZIgogICAgICAgIGNhc2UgLm5ldHdvcmtPbmx5OiAgICByZXR1cm4gIuS7hee9kee7nCIKICAgICAgICB9CiAgICB9Cn0=
+import Foundation
+
+/// 车控指令。
+///
+/// 数据来源：`assets/car_config.json`（车型 EP30 / 哪吒 L）。
+/// 46 条指令的编码值、tag、超时、iOS 接口名均为 APK 内明文，已确认。
+enum VehicleCommand: UInt8, CaseIterable {
+
+    case doorUnlock        = 1
+    case doorLock          = 2
+    case trunkUnlock       = 3
+    case trunkLock         = 4
+    case sunroofClose      = 5
+    case sunroofOpen       = 6
+    case sunroofVentilate  = 7
+    case carSearch         = 8
+    case startCharge       = 9
+    case stopCharge        = 10
+    case powerOn           = 11
+    case powerOff          = 12
+    case topLeftWindowOpen   = 13
+    case topLeftWindowClose  = 14
+    case topRightWindowOpen  = 15
+    case topRightWindowClose = 16
+    case bottomLeftWindowOpen   = 17
+    case bottomLeftWindowClose  = 18
+    case bottomRightWindowOpen  = 19
+    case bottomRightWindowClose = 20
+    case rearviewMirrorOpen  = 21
+    case rearviewMirrorClose = 22
+    case airConditionerOpen      = 23
+    case airConditionerClose     = 24
+    case airConditionerRefrigeration = 25
+    case airConditionerHeating      = 26
+    case parkingStart = 27
+    case parkingStop  = 28
+    case windowOpen    = 29
+    case windowClose   = 30
+    case ventilateClose     = 31
+    case ventilateTenPercent = 32
+    case accControlOn   = 33
+    case accControlOff  = 34
+    case remoteHeatingOn  = 35
+    case remoteHeatingOff = 36
+    case windSpeedLevel1  = 37
+    case windSpeedLevel2  = 38
+    case windSpeedLevel3  = 39
+    case windSpeedLevel4  = 40
+    case windSpeedLevel5  = 41
+    case windSpeedLevel6  = 42
+    case windSpeedLevel7  = 43
+    case windSpeedLevel8  = 44
+    case windSpeedLevel9  = 45
+    case windSpeedLevel10 = 46
+
+    /// 六位十六进制编码 `[功能组:状态:动作]`，APK 内明文，已确认。
+    var value: String {
+        switch self {
+        case .doorUnlock:            return "010101"
+        case .doorLock:              return "010100"
+        case .trunkUnlock:           return "090101"
+        case .trunkLock:             return "090100"
+        case .sunroofClose:          return "030100"
+        case .sunroofOpen:           return "030101"
+        case .sunroofVentilate:      return "030102"
+        case .carSearch:             return "150101"
+        case .startCharge:           return "250101"
+        case .stopCharge:            return "250100"
+        case .powerOn:               return "260101"
+        case .powerOff:              return "260100"
+        case .topLeftWindowOpen:     return "270101"
+        case .topLeftWindowClose:    return "270100"
+        case .topRightWindowOpen:    return "280101"
+        case .topRightWindowClose:   return "280100"
+        case .bottomLeftWindowOpen:  return "290101"
+        case .bottomLeftWindowClose: return "290100"
+        case .bottomRightWindowOpen:   return "300101"
+        case .bottomRightWindowClose:  return "300100"
+        case .rearviewMirrorOpen:    return "200101"
+        case .rearviewMirrorClose:   return "200100"
+        case .airConditionerOpen:      return "040101"
+        case .airConditionerClose:     return "040100"
+        case .airConditionerRefrigeration: return "050100"
+        case .airConditionerHeating:      return "050101"
+        case .parkingStart:          return "1A0101"
+        case .parkingStop:           return "1A0100"
+        case .windowOpen:            return "310101"
+        case .windowClose:           return "310100"
+        case .ventilateClose:        return "320100"
+        case .ventilateTenPercent:   return "320101"
+        case .accControlOn:          return "330101"
+        case .accControlOff:         return "330102"
+        case .remoteHeatingOn:       return "340101"
+        case .remoteHeatingOff:      return "340102"
+        case .windSpeedLevel1:       return "350101"
+        case .windSpeedLevel2:       return "350102"
+        case .windSpeedLevel3:       return "350103"
+        case .windSpeedLevel4:       return "350104"
+        case .windSpeedLevel5:       return "350105"
+        case .windSpeedLevel6:       return "350106"
+        case .windSpeedLevel7:       return "350107"
+        case .windSpeedLevel8:       return "350108"
+        case .windSpeedLevel9:       return "350109"
+        case .windSpeedLevel10:      return "35010A"
+        }
+    }
+
+    /// 功能组（编码首段）。同一 tag 的指令共享分组标识。
+    var tag: UInt8 {
+        UInt8(value.prefix(2), radix: 16) ?? 0
+    }
+
+    /// 执行超时（秒），来自 car_config.json，已确认。
+    var timeout: TimeInterval {
+        switch self {
+        case .doorUnlock, .doorLock:
+            return 3
+        case .trunkUnlock, .trunkLock:
+            return 10
+        case .sunroofClose, .sunroofOpen, .sunroofVentilate:
+            return 15
+        default:
+            return 5
+        }
+    }
+
+    /// 中文名，已确认。
+    var displayName: String {
+        switch self {
+        case .doorUnlock:            return "解锁车门"
+        case .doorLock:              return "闭锁车门"
+        case .trunkUnlock:           return "开后备箱"
+        case .trunkLock:             return "关后备箱"
+        case .sunroofClose:          return "关闭天窗"
+        case .sunroofOpen:           return "开启天窗"
+        case .sunroofVentilate:      return "天窗通风"
+        case .carSearch:             return "寻车"
+        case .startCharge:           return "开始充电"
+        case .stopCharge:            return "停止充电"
+        case .powerOn:               return "一键上电"
+        case .powerOff:              return "一键下电"
+        case .topLeftWindowOpen:     return "左前车窗-开启"
+        case .topLeftWindowClose:    return "左前车窗-关闭"
+        case .topRightWindowOpen:    return "右前车窗-开启"
+        case .topRightWindowClose:   return "右前车窗-关闭"
+        case .bottomLeftWindowOpen:  return "左后车窗-开启"
+        case .bottomLeftWindowClose: return "左后车窗-关闭"
+        case .bottomRightWindowOpen:   return "右后车窗-开启"
+        case .bottomRightWindowClose:  return "右后车窗-关闭"
+        case .rearviewMirrorOpen:    return "后视镜-开启"
+        case .rearviewMirrorClose:   return "后视镜-关闭"
+        case .airConditionerOpen:      return "空调-开启"
+        case .airConditionerClose:     return "空调-关闭"
+        case .airConditionerRefrigeration: return "空调-制冷"
+        case .airConditionerHeating:      return "空调-制热"
+        case .parkingStart:          return "泊车-开启"
+        case .parkingStop:           return "泊车-停止"
+        case .windowOpen:            return "一键车窗控制-开启"
+        case .windowClose:           return "一键车窗控制-关闭"
+        case .ventilateClose:        return "一键通风-关闭"
+        case .ventilateTenPercent:   return "一键通风-10%"
+        case .accControlOn:          return "A/C控制指令-On"
+        case .accControlOff:         return "A/C控制指令-Off"
+        case .remoteHeatingOn:       return "远程加热指令-On"
+        case .remoteHeatingOff:      return "远程加热指令-Off"
+        case .windSpeedLevel1:       return "远程风速-Level1"
+        case .windSpeedLevel2:       return "远程风速-Level2"
+        case .windSpeedLevel3:       return "远程风速-Level3"
+        case .windSpeedLevel4:       return "远程风速-Level4"
+        case .windSpeedLevel5:       return "远程风速-Level5"
+        case .windSpeedLevel6:       return "远程风速-Level6"
+        case .windSpeedLevel7:       return "远程风速-Level7"
+        case .windSpeedLevel8:       return "远程风速-Level8"
+        case .windSpeedLevel9:       return "远程风速-Level9"
+        case .windSpeedLevel10:      return "远程风速-Level10"
+        }
+    }
+
+    /// 官方 iOS SDK 接口名。
+    ///
+    /// 第 1–28 条为 APK 内明文（已确认）；第 29–46 条被 R8 压缩，
+    /// 此处按命名规律推断，仅作参考标识，实际调用需对照官方 iOS SDK。
+    var iOSApiName: String {
+        switch self {
+        case .doorUnlock:            return "IngeekCommandDoorUnlock"
+        case .doorLock:              return "IngeekCommandDoorLock"
+        case .trunkUnlock:           return "IngeekCommandTrunkUnlock"
+        case .trunkLock:             return "IngeekCommandTrunkLock"
+        case .sunroofClose:          return "IngeekCommandSunRoofClose"
+        case .sunroofOpen:           return "IngeekCommandSunRoofOpen"
+        case .sunroofVentilate:      return "IngeekCommandSunRoofVentilate"
+        case .carSearch:             return "IngeekCommandCarSearch"
+        case .startCharge:           return "IngeekCommandStartCharge"
+        case .stopCharge:            return "IngeekCommandStopCharge"
+        case .powerOn:               return "IngeekCommandPowerOn"
+        case .powerOff:              return "IngeekCommandPowerOff"
+        case .topLeftWindowOpen:     return "IngeekCommandTopLeftWindowOpen"
+        case .topLeftWindowClose:    return "IngeekCommandTopLeftWindowClose"
+        case .topRightWindowOpen:    return "IngeekCommandTopRightWindowOpen"
+        case .topRightWindowClose:   return "IngeekCommandTopRightWindowClose"
+        case .bottomLeftWindowOpen:  return "IngeekCommandBottomLeftWindowOpen"
+        case .bottomLeftWindowClose: return "IngeekCommandBottomLeftWindowClose"
+        case .bottomRightWindowOpen:   return "IngeekCommandBottomRightWindowOpen"
+        case .bottomRightWindowClose:  return "IngeekCommandBottomRightWindowClose"
+        case .rearviewMirrorOpen:    return "IngeekCommandRearviewMirrorOpen"
+        case .rearviewMirrorClose:   return "IngeekCommandRearviewMirrorClose"
+        case .airConditionerOpen:      return "IngeekCommandAirConditionerOpen"
+        case .airConditionerClose:     return "IngeekCommandAirConditionerClose"
+        case .airConditionerRefrigeration: return "IngeekCommandAirConditionerRefrigeration"
+        case .airConditionerHeating:      return "IngeekCommandAirConditionerHeating"
+        case .parkingStart:          return "IngeekCommandParkingStart"
+        case .parkingStop:           return "IngeekCommandParkingStop"
+        case .windowOpen:            return "IngeekCommandWindowOpen"
+        case .windowClose:           return "IngeekCommandWindowClose"
+        case .ventilateClose:        return "IngeekCommandVentilateClose"
+        case .ventilateTenPercent:   return "IngeekCommandVentilateTenPercent"
+        case .accControlOn:          return "IngeekCommandAccControlOn"
+        case .accControlOff:         return "IngeekCommandAccControlOff"
+        case .remoteHeatingOn:       return "IngeekCommandRemoteHeatingOn"
+        case .remoteHeatingOff:      return "IngeekCommandRemoteHeatingOff"
+        case .windSpeedLevel1:       return "IngeekCommandRemoteWindspeedLevel1"
+        case .windSpeedLevel2:       return "IngeekCommandRemoteWindspeedLevel2"
+        case .windSpeedLevel3:       return "IngeekCommandRemoteWindspeedLevel3"
+        case .windSpeedLevel4:       return "IngeekCommandRemoteWindspeedLevel4"
+        case .windSpeedLevel5:       return "IngeekCommandRemoteWindspeedLevel5"
+        case .windSpeedLevel6:       return "IngeekCommandRemoteWindspeedLevel6"
+        case .windSpeedLevel7:       return "IngeekCommandRemoteWindspeedLevel7"
+        case .windSpeedLevel8:       return "IngeekCommandRemoteWindspeedLevel8"
+        case .windSpeedLevel9:       return "IngeekCommandRemoteWindspeedLevel9"
+        case .windSpeedLevel10:      return "IngeekCommandRemoteWindspeedLevel10"
+        }
+    }
+
+    /// 该指令是否有近场（BLE）实现。
+    ///
+    /// APK 中文文案显示并非所有动作都支持近场：
+    /// 「该动作没有近场命令」「只支持网络的动作仍走网络」。
+    /// 逐条的实际支持情况需抓包确认，此处按车厂常见做法给出保守默认。
+    var supportsNearField: Bool {
+        switch self {
+        case .windowOpen, .windowClose,
+             .ventilateClose, .ventilateTenPercent,
+             .accControlOn, .accControlOff,
+             .remoteHeatingOn, .remoteHeatingOff,
+             .windSpeedLevel1, .windSpeedLevel2, .windSpeedLevel3,
+             .windSpeedLevel4, .windSpeedLevel5, .windSpeedLevel6,
+             .windSpeedLevel7, .windSpeedLevel8, .windSpeedLevel9,
+             .windSpeedLevel10:
+            // 这些批量/精细控制项文案归类为「按官方默认值一次下发」，
+            // 更可能走网络通道。若抓包确认有近场实现，改为 true。
+            return false
+        default:
+            return true
+        }
+    }
+
+    /// 下发报文中的 command 字段。
+    ///
+    /// 字段名 `command` / `command_id` / `commandId` 均在 DEX 中出现（已确认），
+    /// 但具体传数字编号还是 hex 值待抓包验证。
+    var cloudPayload: [String: String] {
+        [
+            "command_id": String(rawValue),
+            "command": value,
+            "parameter": "0"
+        ]
+    }
+}
+
+// MARK: - 车控通道策略
+
+/// 车控通道选择。原 APK 的三种模式，中文文案已确认。
+enum ControlChannel: String, CaseIterable {
+    /// 蓝牙已连接优先 BLE，未连接或下发失败回退网络
+    case automatic
+    /// 已按设置只走蓝牙，不发网络请求
+    case bluetoothOnly
+    /// 只经服务端下发
+    case networkOnly
+
+    var displayName: String {
+        switch self {
+        case .automatic:      return "自动"
+        case .bluetoothOnly:  return "仅蓝牙"
+        case .networkOnly:    return "仅网络"
+        }
+    }
+}
