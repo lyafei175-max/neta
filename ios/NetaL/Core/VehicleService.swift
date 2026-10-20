@@ -1,1 +1,147 @@
-aW1wb3J0IEZvdW5kYXRpb24KaW1wb3J0IENvcmVMb2NhdGlvbgoKLy8vIOi9pui+hueuoeeQhu+8muWIl+ihqOOAgee7keWumuOAgempu+i9puWdkOagh+OAggovLy8KLy8vIOaWh+ahiOS9kOivge+8iEFQSyDlhoXmmI7mlofvvInvvJoKLy8vIGDmsqHmnInnu5HlrprovabovoZg44CBYOeZu+W9leWQjueuoeeQhui9pui+huS4jui9puaOp2DjgIFg57uR5a6a6L2m6L6GYOOAgQovLy8gYOino+aekOmpu+i9puWcsOWdgGDjgIFg5a+86Iiq5Y676am76L2m5L2N572uYOOAgWDml6DpqbvovablnZDmoIdgCnN0cnVjdCBWZWhpY2xlU3VtbWFyeTogQ29kYWJsZSwgSWRlbnRpZmlhYmxlLCBFcXVhdGFibGUgewogICAgdmFyIGlkOiBTdHJpbmcgICAgICAgICAgICAvLyDovabovoYgSUQgLyBWSU4KICAgIHZhciBuYW1lOiBTdHJpbmcgICAgICAgICAgLy8g6L2m6L6G5pi156ewCiAgICB2YXIgbW9kZWw6IFN0cmluZz8gICAgICAgIC8vIOi9puWei++8iOWmgiBFUDMw77yJCiAgICB2YXIgcGxhdGU6IFN0cmluZz8gICAgICAgIC8vIOi9pueJjAogICAgdmFyIHBhcmtlZExhdGl0dWRlOiBEb3VibGU/CiAgICB2YXIgcGFya2VkTG9uZ2l0dWRlOiBEb3VibGU/CiAgICB2YXIgcGFya2VkQWRkcmVzczogU3RyaW5nPwp9CgovLy8g6L2m6L6G5pyN5Yqh44CCCi8vLwovLy8g4pqg77iPIOaJgOacieerr+eCueWdh+S4uuaOqOaWre+8jOmcgOaKk+WMheabv+aNouOAggpzdHJ1Y3QgVmVoaWNsZVNlcnZpY2UgewoKICAgIHByaXZhdGUgbGV0IGFwaTogTmV0YUFQSUNsaWVudAoKICAgIGluaXQoYXBpOiBOZXRhQVBJQ2xpZW50ID0gTmV0YUFQSUNsaWVudCgpKSB7CiAgICAgICAgc2VsZi5hcGkgPSBhcGkKICAgIH0KCiAgICAvLy8g6L2m6L6G5YiX6KGo44CCCiAgICBmdW5jIGxpc3RWZWhpY2xlcygpIGFzeW5jIHRocm93cyAtPiBbVmVoaWNsZVN1bW1hcnldIHsKICAgICAgICB0cnkgYXdhaXQgQXV0aFNlcnZpY2Uuc2hhcmVkLmVuc3VyZVZhbGlkU2Vzc2lvbigpCgogICAgICAgIGxldCByZXNwb25zZSA9IHRyeSBhd2FpdCBhcGkucG9zdCgKICAgICAgICAgICAgcGF0aDogRW5kcG9pbnQudmVoaWNsZUxpc3QsCiAgICAgICAgICAgIHBhcmFtZXRlcnM6IFs6XQogICAgICAgICkKCiAgICAgICAgZ3VhcmQgcmVzcG9uc2UuaXNTdWNjZXNzIGVsc2UgewogICAgICAgICAgICB0aHJvdyBWZWhpY2xlRXJyb3Iuc2VydmVyUmVqZWN0ZWQocmVzcG9uc2UubWVzc2FnZSA/PyAiIikKICAgICAgICB9CgogICAgICAgIGd1YXJkIGxldCBwYXlsb2FkID0gcmVzcG9uc2UuZGF0YT8uYXNEaWN0aW9uYXJ5LAogICAgICAgICAgICAgIGxldCByYXdMaXN0ID0gcGF5bG9hZFsibGlzdCJdPy5hc0FycmF5ID8/IHBheWxvYWRbInZlaGljbGVzIl0/LmFzQXJyYXkKICAgICAgICBlbHNlIHsKICAgICAgICAgICAgcmV0dXJuIFtdCiAgICAgICAgfQoKICAgICAgICByZXR1cm4gcmF3TGlzdC5jb21wYWN0TWFwIHsgaXRlbSBpbgogICAgICAgICAgICBndWFyZCBjYXNlIC5vYmplY3QobGV0IGRpY3QpID0gaXRlbSBlbHNlIHsgcmV0dXJuIG5pbCB9CiAgICAgICAgICAgIC8vIOWFvOWuueWkmuenjeWtl+auteWRveWQjQogICAgICAgICAgICByZXR1cm4gVmVoaWNsZVN1bW1hcnkoCiAgICAgICAgICAgICAgICBpZDogZGljdFsidmVoaWNsZUlkIl0/LmFzU3RyaW5nID8/IGRpY3RbImlkIl0/LmFzU3RyaW5nID8/ICIiLAogICAgICAgICAgICAgICAgbmFtZTogZGljdFsibmFtZSJdPy5hc1N0cmluZyA/PyBkaWN0WyJuaWNrTmFtZSJdPy5hc1N0cmluZyA/PyAi5oiR55qE6L2mIiwKICAgICAgICAgICAgICAgIG1vZGVsOiBkaWN0WyJtb2RlbCJdPy5hc1N0cmluZyA/PyBkaWN0WyJ2ZWhpY2xlTW9kZWwiXT8uYXNTdHJpbmcsCiAgICAgICAgICAgICAgICBwbGF0ZTogZGljdFsicGxhdGUiXT8uYXNTdHJpbmcgPz8gZGljdFsibGljZW5zZVBsYXRlIl0/LmFzU3RyaW5nLAogICAgICAgICAgICAgICAgcGFya2VkTGF0aXR1ZGU6IGRpY3RbImxhdGl0dWRlIl0/LmFzRG91YmxlID8/IGRpY3RbImxhdCJdPy5hc0RvdWJsZSwKICAgICAgICAgICAgICAgIHBhcmtlZExvbmdpdHVkZTogZGljdFsibG9uZ2l0dWRlIl0/LmFzRG91YmxlID8/IGRpY3RbImxuZyJdPy5hc0RvdWJsZSwKICAgICAgICAgICAgICAgIHBhcmtlZEFkZHJlc3M6IGRpY3RbImFkZHJlc3MiXT8uYXNTdHJpbmcKICAgICAgICAgICAgKQogICAgICAgIH0uZmlsdGVyIHsgISQwLmlkLmlzRW1wdHkgfQogICAgfQoKICAgIC8vLyDnu5HlrprovabovobjgIIKICAgIGZ1bmMgYmluZCh2ZWhpY2xlSWQ6IFN0cmluZywgbmlja25hbWU6IFN0cmluZykgYXN5bmMgdGhyb3dzIHsKICAgICAgICB0cnkgYXdhaXQgQXV0aFNlcnZpY2Uuc2hhcmVkLmVuc3VyZVZhbGlkU2Vzc2lvbigpCgogICAgICAgIGxldCByZXNwb25zZSA9IHRyeSBhd2FpdCBhcGkucG9zdCgKICAgICAgICAgICAgcGF0aDogRW5kcG9pbnQuYmluZFZlaGljbGUsCiAgICAgICAgICAgIHBhcmFtZXRlcnM6IFsidmVoaWNsZV9pZCI6IHZlaGljbGVJZCwgIm5pY2tuYW1lIjogbmlja25hbWVdCiAgICAgICAgKQoKICAgICAgICBndWFyZCByZXNwb25zZS5pc1N1Y2Nlc3MgZWxzZSB7CiAgICAgICAgICAgIHRocm93IFZlaGljbGVFcnJvci5iaW5kRmFpbGVkKHJlc3BvbnNlLm1lc3NhZ2UgPz8gIiIpCiAgICAgICAgfQogICAgfQoKICAgIC8vLyDop6Pnu5HovabovobjgIIKICAgIGZ1bmMgdW5iaW5kKHZlaGljbGVJZDogU3RyaW5nKSBhc3luYyB0aHJvd3MgewogICAgICAgIHRyeSBhd2FpdCBBdXRoU2VydmljZS5zaGFyZWQuZW5zdXJlVmFsaWRTZXNzaW9uKCkKCiAgICAgICAgbGV0IHJlc3BvbnNlID0gdHJ5IGF3YWl0IGFwaS5wb3N0KAogICAgICAgICAgICBwYXRoOiBFbmRwb2ludC51bmJpbmRWZWhpY2xlLAogICAgICAgICAgICBwYXJhbWV0ZXJzOiBbInZlaGljbGVfaWQiOiB2ZWhpY2xlSWRdCiAgICAgICAgKQoKICAgICAgICBndWFyZCByZXNwb25zZS5pc1N1Y2Nlc3MgZWxzZSB7CiAgICAgICAgICAgIHRocm93IFZlaGljbGVFcnJvci5iaW5kRmFpbGVkKHJlc3BvbnNlLm1lc3NhZ2UgPz8gIiIpCiAgICAgICAgfQogICAgfQoKICAgIC8vLyDlvZPliY3kuLvovabovobjgILmnKrnu5Hlrprml7bmipsgYG5vdEJvdW5kYO+8iOWvueW6lOaWh+ahiOOAjOayoeaciee7keWumui9pui+huOAje+8ieOAggogICAgZnVuYyBwcmltYXJ5VmVoaWNsZSgpIGFzeW5jIHRocm93cyAtPiBWZWhpY2xlU3VtbWFyeSB7CiAgICAgICAgbGV0IHZlaGljbGVzID0gdHJ5IGF3YWl0IGxpc3RWZWhpY2xlcygpCiAgICAgICAgZ3VhcmQgbGV0IGZpcnN0ID0gdmVoaWNsZXMuZmlyc3QgZWxzZSB7IHRocm93IFZlaGljbGVFcnJvci5ub3RCb3VuZCB9CiAgICAgICAgcmV0dXJuIGZpcnN0CiAgICB9CgogICAgLy8vIOmpu+i9puWdkOagh+OAgueUqOS6juWcsOeQhuWbtOagj+mdoOi/keino+mUgeOAggogICAgZnVuYyBwYXJraW5nQ29vcmRpbmF0ZSgpIGFzeW5jIHRocm93cyAtPiBDTExvY2F0aW9uQ29vcmRpbmF0ZTJEIHsKICAgICAgICBsZXQgdmVoaWNsZSA9IHRyeSBhd2FpdCBwcmltYXJ5VmVoaWNsZSgpCgogICAgICAgIGd1YXJkIGxldCBsYXQgPSB2ZWhpY2xlLnBhcmtlZExhdGl0dWRlLAogICAgICAgICAgICAgIGxldCBsb24gPSB2ZWhpY2xlLnBhcmtlZExvbmdpdHVkZSBlbHNlIHsKICAgICAgICAgICAgdGhyb3cgVmVoaWNsZUVycm9yLm5vUGFya2luZ0Nvb3JkaW5hdGUKICAgICAgICB9CgogICAgICAgIHJldHVybiBDTExvY2F0aW9uQ29vcmRpbmF0ZTJEKGxhdGl0dWRlOiBsYXQsIGxvbmdpdHVkZTogbG9uKQogICAgfQp9CgplbnVtIFZlaGljbGVFcnJvcjogRXJyb3IsIExvY2FsaXplZEVycm9yIHsKICAgIGNhc2Ugbm90Qm91bmQKICAgIGNhc2Ugbm9QYXJraW5nQ29vcmRpbmF0ZQogICAgY2FzZSBiaW5kRmFpbGVkKFN0cmluZykKICAgIGNhc2Ugc2VydmVyUmVqZWN0ZWQoU3RyaW5nKQoKICAgIHZhciBlcnJvckRlc2NyaXB0aW9uOiBTdHJpbmc/IHsKICAgICAgICBzd2l0Y2ggc2VsZiB7CiAgICAgICAgY2FzZSAubm90Qm91bmQ6ICAgICAgICAgICAgcmV0dXJuICLmsqHmnInnu5HlrprovabovoYiCiAgICAgICAgY2FzZSAubm9QYXJraW5nQ29vcmRpbmF0ZTogcmV0dXJuICLml6DpqbvovablnZDmoIciCiAgICAgICAgY2FzZSAuYmluZEZhaWxlZChsZXQgbSk6ICAgcmV0dXJuIG0uaXNFbXB0eSA/ICLnu5HlrprovabovoblpLHotKUiIDogbQogICAgICAgIGNhc2UgLnNlcnZlclJlamVjdGVkKGxldCBtKTogcmV0dXJuIG0uaXNFbXB0eSA/ICLor7fmsYLlpLHotKUiIDogbQogICAgICAgIH0KICAgIH0KfQoKLy8gTUFSSzogLSDovoXliqkKCmV4dGVuc2lvbiBKU09OVmFsdWUgewogICAgdmFyIGFzRG91YmxlOiBEb3VibGU/IHsKICAgICAgICBpZiBjYXNlIC5udW1iZXIobGV0IGQpID0gc2VsZiB7IHJldHVybiBkIH0KICAgICAgICBpZiBjYXNlIC5zdHJpbmcobGV0IHMpID0gc2VsZiB7IHJldHVybiBEb3VibGUocykgfQogICAgICAgIHJldHVybiBuaWwKICAgIH0KCiAgICB2YXIgYXNBcnJheTogW0pTT05WYWx1ZV0/IHsKICAgICAgICBpZiBjYXNlIC5hcnJheShsZXQgYSkgPSBzZWxmIHsgcmV0dXJuIGEgfQogICAgICAgIHJldHVybiBuaWwKICAgIH0KfQoKZXh0ZW5zaW9uIEVuZHBvaW50IHsKICAgIHN0YXRpYyBsZXQgdmVoaWNsZUxpc3QgPSAiL2FwaS92ZWhpY2xlL2xpc3QiCiAgICBzdGF0aWMgbGV0IGJpbmRWZWhpY2xlID0gIi9hcGkvdmVoaWNsZS9iaW5kIgogICAgc3RhdGljIGxldCB1bmJpbmRWZWhpY2xlID0gIi9hcGkvdmVoaWNsZS91bmJpbmQiCn0=
+import Foundation
+import CoreLocation
+
+/// 车辆管理：列表、绑定、驻车坐标。
+///
+/// 文案佐证（APK 内明文）：
+/// `没有绑定车辆`、`登录后管理车辆与车控`、`绑定车辆`、
+/// `解析驻车地址`、`导航去驻车位置`、`无驻车坐标`
+struct VehicleSummary: Codable, Identifiable, Equatable {
+    var id: String            // 车辆 ID / VIN
+    var name: String          // 车辆昵称
+    var model: String?        // 车型（如 EP30）
+    var plate: String?        // 车牌
+    var parkedLatitude: Double?
+    var parkedLongitude: Double?
+    var parkedAddress: String?
+}
+
+/// 车辆服务。
+///
+/// ⚠️ 所有端点均为推断，需抓包替换。
+struct VehicleService {
+
+    private let api: NetaAPIClient
+
+    init(api: NetaAPIClient = NetaAPIClient()) {
+        self.api = api
+    }
+
+    /// 车辆列表。
+    func listVehicles() async throws -> [VehicleSummary] {
+        try await AuthService.shared.ensureValidSession()
+
+        let response = try await api.post(
+            path: Endpoint.vehicleList,
+            parameters: [:]
+        )
+
+        guard response.isSuccess else {
+            throw VehicleError.serverRejected(response.message ?? "")
+        }
+
+        guard let payload = response.data?.asDictionary,
+              let rawList = payload["list"]?.asArray ?? payload["vehicles"]?.asArray
+        else {
+            return []
+        }
+
+        return rawList.compactMap { item in
+            guard case .object(let dict) = item else { return nil }
+            // 兼容多种字段命名
+            return VehicleSummary(
+                id: dict["vehicleId"]?.asString ?? dict["id"]?.asString ?? "",
+                name: dict["name"]?.asString ?? dict["nickName"]?.asString ?? "我的车",
+                model: dict["model"]?.asString ?? dict["vehicleModel"]?.asString,
+                plate: dict["plate"]?.asString ?? dict["licensePlate"]?.asString,
+                parkedLatitude: dict["latitude"]?.asDouble ?? dict["lat"]?.asDouble,
+                parkedLongitude: dict["longitude"]?.asDouble ?? dict["lng"]?.asDouble,
+                parkedAddress: dict["address"]?.asString
+            )
+        }.filter { !$0.id.isEmpty }
+    }
+
+    /// 绑定车辆。
+    func bind(vehicleId: String, nickname: String) async throws {
+        try await AuthService.shared.ensureValidSession()
+
+        let response = try await api.post(
+            path: Endpoint.bindVehicle,
+            parameters: ["vehicle_id": vehicleId, "nickname": nickname]
+        )
+
+        guard response.isSuccess else {
+            throw VehicleError.bindFailed(response.message ?? "")
+        }
+    }
+
+    /// 解绑车辆。
+    func unbind(vehicleId: String) async throws {
+        try await AuthService.shared.ensureValidSession()
+
+        let response = try await api.post(
+            path: Endpoint.unbindVehicle,
+            parameters: ["vehicle_id": vehicleId]
+        )
+
+        guard response.isSuccess else {
+            throw VehicleError.bindFailed(response.message ?? "")
+        }
+    }
+
+    /// 当前主车辆。未绑定时抛 `notBound`（对应文案「没有绑定车辆」）。
+    func primaryVehicle() async throws -> VehicleSummary {
+        let vehicles = try await listVehicles()
+        guard let first = vehicles.first else { throw VehicleError.notBound }
+        return first
+    }
+
+    /// 驻车坐标。用于地理围栏靠近解锁。
+    func parkingCoordinate() async throws -> CLLocationCoordinate2D {
+        let vehicle = try await primaryVehicle()
+
+        guard let lat = vehicle.parkedLatitude,
+              let lon = vehicle.parkedLongitude else {
+            throw VehicleError.noParkingCoordinate
+        }
+
+        return CLLocationCoordinate2D(latitude: lat, longitude: lon)
+    }
+}
+
+enum VehicleError: Error, LocalizedError {
+    case notBound
+    case noParkingCoordinate
+    case bindFailed(String)
+    case serverRejected(String)
+
+    var errorDescription: String? {
+        switch self {
+        case .notBound:            return "没有绑定车辆"
+        case .noParkingCoordinate: return "无驻车坐标"
+        case .bindFailed(let m):   return m.isEmpty ? "绑定车辆失败" : m
+        case .serverRejected(let m): return m.isEmpty ? "请求失败" : m
+        }
+    }
+}
+
+// MARK: - 辅助
+
+extension JSONValue {
+    var asDouble: Double? {
+        if case .number(let d) = self { return d }
+        if case .string(let s) = self { return Double(s) }
+        return nil
+    }
+
+    var asArray: [JSONValue]? {
+        if case .array(let a) = self { return a }
+        return nil
+    }
+}
+
+extension Endpoint {
+    static let vehicleList = "/api/vehicle/list"
+    static let bindVehicle = "/api/vehicle/bind"
+    static let unbindVehicle = "/api/vehicle/unbind"
+}
