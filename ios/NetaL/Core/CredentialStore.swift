@@ -102,6 +102,9 @@ final class CredentialStore {
         for (k, v) in headers {
             request.setValue(v, forHTTPHeaderField: k)
         }
+        for (k, v) in headers where k.lowercased() != k {
+            request.addValue(v, forHTTPHeaderField: k.lowercased())
+        }
         request.setValue(
             "application/x-www-form-urlencoded;charset=utf-8",
             forHTTPHeaderField: "Content-Type"
@@ -191,6 +194,15 @@ final class CredentialStore {
         let series = UUID().uuidString.replacingOccurrences(of: "-", with: "").lowercased()
         try KeychainHelper.set(series, account: "seriesNo")
         return series
+    }
+
+    /// 登录响应的默认车辆 VIN（`data.vin`，已确认）。
+    func saveVin(_ vin: String) throws {
+        try KeychainHelper.set(vin, account: "defaultVin")
+    }
+
+    var defaultVin: String? {
+        try? KeychainHelper.get(account: "defaultVin")
     }
 
     // MARK: - PEM 工具
