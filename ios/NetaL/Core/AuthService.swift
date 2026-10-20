@@ -61,7 +61,7 @@ actor AuthService {
         guard Self.isValidPhone(phone) else { throw AuthError.invalidPhone }
 
         let response = try await api.post(
-            path: Endpoint.requestSMSCode,
+            path: Endpoint.sendCode,
             parameters: ["mobile": phone]
         )
 
@@ -124,7 +124,7 @@ actor AuthService {
         guard isAuthenticated else { return false }
         do {
             let response = try await NetaAPIClient().post(
-                path: Endpoint.accountInfo,
+                path: Endpoint.login,
                 parameters: [:]
             )
             return response.isSuccess
@@ -237,13 +237,4 @@ extension NetaResponse {
         let text = String(describing: status)
         return ["401", "40101", "403"].contains(text)
     }
-}
-
-extension Endpoint {
-    /// 发送短信验证码（推断端点）
-    static let requestSMSCode = "/api/account/sendSmsCode"
-    /// 登录（推断端点）
-    static let login = "/api/account/login"
-    /// 账户信息，用于校验会话（推断端点）
-    static let accountInfo = "/api/account/info"
 }
