@@ -56,13 +56,13 @@ actor AuthService {
 
     /// 发送短信验证码。
     ///
-    /// ⚠️ 端点为推断，需抓包确认。
+    /// 端点与参数已确认（`LA1/s0;->a`）：POST 表单，唯一字段 `phone`。
     func requestSMSCode(phone: String) async throws {
         guard Self.isValidPhone(phone) else { throw AuthError.invalidPhone }
 
         let response = try await api.post(
             path: Endpoint.sendCode,
-            parameters: ["mobile": phone]
+            parameters: ["phone": phone]
         )
 
         guard response.isSuccess else {
@@ -75,16 +75,24 @@ actor AuthService {
     // MARK: - 登录
 
     /// 提交手机号 + 验证码登录。
+    ///
+    /// 请求体已确认（`LA1/e0;->a`，JSON）：
+    /// `{ phone, code, appVersion, seriesNo, deviceType, pushToken }`
     func login(phone: String, code: String) async throws {
         guard Self.isValidPhone(phone) else { throw AuthError.invalidPhone }
         guard !code.isEmpty else { throw AuthError.codeNotRequested }
 
-        let response = try await api.post(
+        let seriesNo = try CredentialStore.shared.deviceSeriesNo()
+
+        let response = try await api.postJSON(
             path: Endpoint.login,
-            parameters: [
-                "mobile": phone,
-                "verifyCode": code,
-                "login_channel": String(NetaAPIConfig.default.loginChannel)
+            jsonBody: [
+                "phone": phone,
+                "code": code,
+                "appVersion": NetaAPIConfig.default.appVersion,
+                "seriesNo": seriesNo,
+                "deviceType": NetaAPIConfig.default.deviceType,
+                "pushToken": NetaAPIConfig.default.pushToken
             ]
         )
 
@@ -119,15 +127,12 @@ actor AuthService {
 
     /// 校验本地会话是否仍然有效。
     ///
-    /// ⚠️ 端点与响应结构待抓包校准。
+    /// 通过刷新 token 验证（会话失效时刷新必然失败）。
     func verifySession() async -> Bool {
         guard isAuthenticated else { return false }
         do {
-            let response = try await NetaAPIClient().post(
-                path: Endpoint.login,
-                parameters: [:]
-            )
-            return response.isSuccess
+            _ = try await refresh()
+            return true
         } catch {
             return false
         }
@@ -214,27 +219,19 @@ actor AuthService {
 extension NetaResponse {
     /// 业务状态判断。
     ///
-    /// ⚠️ 成功码取值（0 / 200 / "0"）需抓包确认，此处宽松处理。
-    /// `status` 在 Codable 中声明为 Int?，但服务端可能返回字符串，
-    /// 因此这里先归一化成字符串再比较，避免类型不匹配。
+    /// 响应结构来自 APK `Ly1/m;->a` 的解析：`code`(Int) / `message` / `data`。
+    /// 成功码集合 `Ly1/m;->h` 无法静态还原，按惯例放宽为 0 / 200。
     var isSuccess: Bool {
-        guard let status else {
-            // 无 status 字段时按 HTTP 层已通过、body 有 data 视为成功
+        guard let code else {
+            // 无 code 字段时按 HTTP 层已通过、body 有 data 视为成功
             return data != nil
         }
-
-        switch String(describing: status) {
-        case "0", "200", "success", "SUCCESS":
-            return true
-        default:
-            return false
-        }
+        return code == 0 || code == 200
     }
 
     /// 提取需要重新登录的错误。
     var requiresRelogin: Bool {
-        guard let status else { return false }
-        let text = String(describing: status)
-        return ["401", "40101", "403"].contains(text)
+        guard let code else { return false }
+        return [401, 40101, 403].contains(code)
     }
 }
