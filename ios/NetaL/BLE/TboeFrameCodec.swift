@@ -154,7 +154,7 @@ struct TboeFrameCodec {
         // 长度字段
         if layout.lengthBytes > 0 && layout.lengthOffset >= 0 {
             let value = layout.lengthIncludesHeader ? declaredLength : payload.count
-            frame.append(uintBytes(value, width: layout.lengthBytes))
+            frame.append(contentsOf: uintBytes(value, width: layout.lengthBytes))
         }
 
         // 预留类型与序号位置，按偏移填入
@@ -162,14 +162,14 @@ struct TboeFrameCodec {
         let needed = layout.typeOffset + layout.typeBytes
         while frameWithHoles.count < needed { frameWithHoles.append(0) }
 
-        if let seqOffset = layout.sequenceOffset {
-            var target = seqOffset
-            if target < frameWithHoles.count {
-                frameWithHoles[target] = sequence ?? 0
-            }
+        if let seqOffset = layout.sequenceOffset,
+           seqOffset >= 0,
+           seqOffset < frameWithHoles.count {
+            frameWithHoles[seqOffset] = sequence ?? 0
         }
 
-        if layout.typeOffset < frameWithHoles.count {
+        if layout.typeOffset >= 0,
+           layout.typeOffset < frameWithHoles.count {
             frameWithHoles[layout.typeOffset] = type.rawValue
         }
 
