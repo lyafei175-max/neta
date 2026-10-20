@@ -42,11 +42,9 @@ artifacts:
   - path: ios/NetaL-unsigned.ipa
     type: file
     name: NetaL-unsigned.ipa
-
   - path: ios/compile-log.txt
     type: file
     name: compile-log.txt
-
   - path: ios/archive-log.txt
     type: file
     name: archive-log.txt
