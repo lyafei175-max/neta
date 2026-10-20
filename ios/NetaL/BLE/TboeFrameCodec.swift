@@ -160,7 +160,7 @@ struct TboeFrameCodec {
         // 预留类型与序号位置，按偏移填入
         var frameWithHoles = frame
         let needed = layout.typeOffset + layout.typeBytes
-        while frameWithHoles.count < needed { frameWithHoles.append(0) }
+        while frameWithHoles.count < needed { frameWithHoles.append(0x00) }
 
         if let seqOffset = layout.sequenceOffset,
            seqOffset >= 0,
@@ -174,12 +174,12 @@ struct TboeFrameCodec {
         }
 
         frame = frameWithHoles
-        frame.append(payload)
+        frame.append(contentsOf: payload)
 
         // 校验
         if layout.checksum != .none && layout.checksum != .unknown {
             let sum = computeChecksum(frame, excludingLast: true)
-            frame.append(uintBytes(sum, width: layout.checksumBytes))
+            frame.append(contentsOf: uintBytes(sum, width: layout.checksumBytes))
         }
 
         return frame
