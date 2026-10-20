@@ -178,7 +178,7 @@ struct TboeFrameCodec {
 
         // 校验
         if layout.checksum != .none && layout.checksum != .unknown {
-            let sum = computeChecksum(frame, excludingLast: true)
+            let sum = Int(computeChecksum(frame, excludingLast: true))
             frame.append(contentsOf: uintBytes(sum, width: layout.checksumBytes))
         }
 
