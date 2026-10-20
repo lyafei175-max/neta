@@ -1,1 +1,11 @@
-ewogICJjb2xvcnMiIDogWwogICAgewogICAgICAiaWRpb20iIDogInVuaXZlcnNhbCIKICAgIH0KICBdLAogICJpbmZvIiA6IHsKICAgICJhdXRob3IiIDogInhjb2RlIiwKICAgICJ2ZXJzaW9uIiA6IDEKICB9Cn0=
+{
+  "colors" : [
+    {
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
