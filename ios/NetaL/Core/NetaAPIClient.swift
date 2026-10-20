@@ -64,6 +64,11 @@ struct NetaAPIClient {
             ? "application/json"
             : "application/x-www-form-urlencoded;charset=utf-8"
 
+        // 30229 修复：业务请求必须带 accessToken。登录/刷新接口 injectAuth=false。
+        if injectAuth, let token = CredentialStore.shared.accessToken, !token.isEmpty {
+            headers["Authorization"] = "Bearer " + token
+        }
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         for (k, v) in headers {
