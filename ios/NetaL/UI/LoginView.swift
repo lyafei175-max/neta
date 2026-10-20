@@ -8,6 +8,9 @@ import SwiftUI
 /// `登录已过期`、`退出登录`
 struct LoginView: View {
 
+    /// 登录成功回调。未传则成功后自行 dismiss。
+    var onSuccess: (() -> Void)?
+
     @Environment(\.dismiss) private var dismiss
     @StateObject private var model = LoginModel()
 
@@ -41,10 +44,13 @@ struct LoginView: View {
                     if model.isLoggedIn {
                         Button("退出登录") { model.logout() }
                             .foregroundStyle(.red)
+                    } else if onSuccess == nil {
+                        Button("取消") { dismiss() }
                     }
                 }
             }
         }
+        .onAppear { model.onSuccess = onSuccess }
     }
 
     private var header: some View {
@@ -112,6 +118,9 @@ struct LoginView: View {
 
 @MainActor
 final class LoginModel: ObservableObject {
+
+    /// 登录成功回调，由 View 注入
+    var onSuccess: (() -> Void)?
 
     @Published var phone = ""
     @Published var code = ""
@@ -181,6 +190,7 @@ final class LoginModel: ObservableObject {
                 isLoading = false
                 isLoggedIn = true
                 show("登录成功", error: false)
+                onSuccess?()
             } catch {
                 isLoading = false
                 show(error.localizedDescription, error: true)
