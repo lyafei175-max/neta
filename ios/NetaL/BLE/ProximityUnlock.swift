@@ -177,8 +177,13 @@ final class GeofenceUnlockCoordinator {
 
     static func currentRegionStatus(_ manager: CLLocationManager,
                                     identifier: String) -> CLRegionState {
-        manager.monitoredRegions
-            .first { $0.identifier == identifier }
-            .map { manager.regionState(for: $0) } ?? .unknown
+        guard let region = manager.monitoredRegions
+            .first(where: { $0.identifier == identifier })
+        else { return .unknown }
+
+        // CLLocationManager 没有 regionState(for:) 实例方法，
+        // 状态需通过 delegate 回调 locationManager(_:didChangeAuthorization:)
+        // 或 monitoringDidFail 获得。这里保守返回 unknown。
+        return .unknown
     }
 }
