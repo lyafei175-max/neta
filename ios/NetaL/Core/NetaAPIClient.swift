@@ -13,6 +13,8 @@ struct NetaAPIClient {
 
     let config: NetaAPIConfig
     let session: URLSession
+    /// 最近一次车况接口原始返回（调试用）
+    var lastRawVehicleSnapshot: String = ""
 
     /// 是否自动注入 accessToken。登录/注册/刷新接口应设为 false。
     var injectAuth: Bool = true
@@ -141,6 +143,8 @@ struct NetaAPIClient {
         guard let data = response.data else {
             throw APIError.serverDetail("车况无数据 code=\(response.code ?? -1) desc=\(response.description ?? "-") vin=\(CredentialStore.shared.defaultVin ?? "nil") body=\(response.rawPreview)")
         }
+
+        lastRawVehicleSnapshot = response.rawPreview
 
         // data 是 JSONValue enum，不能直接喂给 JSONSerialization.data(withJSONObject:)
         // （那会因 NSInvalidArgumentException 直接 crash）。正确做法：用 JSONEncoder
