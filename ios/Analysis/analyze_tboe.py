@@ -1,1 +1,354 @@
-IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwojIC0qLSBjb2Rpbmc6IHV0Zi04IC0qLQoiIiIKQkxFIOaKk+WMheWIhuaekOiEmuacrO+8iOmFjeWllyBCbGVGcmFtZVJlY29yZGVyLnN3aWZ077yJCgrnlKjpgJTvvJrku47lvZXliLbnmoQgVEJPRSDluKfkuK3pgIblkJHlh7rljY/orq7nu5PmnoQg4oCU4oCUIOi/meaYr+enu+akjei3r+S4iuacgOWQjuS4gOWdl+aLvOWbvuOAggoK55So5rOV77yaCiAgICBweXRob24gYW5hbHl6ZV90Ym9lLnB5IGNhcHR1cmUuanNvbgoK5Lqn5Ye677yaCiAgICAxLiDluKfluo/liJfmpoLop4jvvIjml7bpl7TovbQgKyDmlrnlkJHvvIkKICAgIDIuIOWtl+autee7k+aehOaOqOaWre+8iOWwneivleWumuS9jemtlOaVsC/plb/luqYv5bqP5Y+3L+agoemqjO+8iQogICAgMy4g5oyH5Luk5bin5LiO5bqU562U5bin6YWN5a+5CiAgICA0LiDkuI7ovabnq6/phY3nva7vvIhjYXJfY29uZmlnLmpzb27vvInnmoTnvJbnoIHmr5Tlr7kKIiIiCgppbXBvcnQganNvbgppbXBvcnQgc3lzCmltcG9ydCBvcwpmcm9tIGNvbGxlY3Rpb25zIGltcG9ydCBDb3VudGVyLCBkZWZhdWx0ZGljdAoKIyDovabnq6/nibnlvoEgVVVJRApVVUlEX1BSSU1BUlkgPSAiMDAwMGZmZjEtMDAwMC0xMDAwLTgwMDAtMDA4MDVmOWIzNGZiIgpVVUlEX1NFQ09OREFSWSA9ICIwMDAwZmZmMi0wMDAwLTEwMDAtODAwMC0wMDgwNWY5YjM0ZmIiCgoKZGVmIGxvYWQocGF0aCk6CiAgICB3aXRoIG9wZW4ocGF0aCwgInIiLCBlbmNvZGluZz0idXRmLTgiKSBhcyBmOgogICAgICAgIHJldHVybiBqc29uLmxvYWQoZikKCgpkZWYgcGFyc2VfZnJhbWVzKGxvZyk6CiAgICAiIiLmioogSlNPTiDluKfovazmiJDkvr/kuo7liIbmnpDnmoTlrZflhbjliJfooajjgIIiIiIKICAgIG91dCA9IFtdCiAgICBmb3IgZiBpbiBsb2cuZ2V0KCJmcmFtZXMiLCBbXSk6CiAgICAgICAgaGV4X3N0ciA9IGYuZ2V0KCJoZXgiLCAiIikucmVwbGFjZSgiICIsICIiKQogICAgICAgIHRyeToKICAgICAgICAgICAgZGF0YSA9IGJ5dGVzLmZyb21oZXgoaGV4X3N0cikgaWYgaGV4X3N0ciBlbHNlIGIiIgogICAgICAgIGV4Y2VwdCBWYWx1ZUVycm9yOgogICAgICAgICAgICBkYXRhID0gYiIiCiAgICAgICAgb3V0LmFwcGVuZCh7CiAgICAgICAgICAgICJpbmRleCI6IGYuZ2V0KCJpbmRleCIsIDApLAogICAgICAgICAgICAicmVsIjogZi5nZXQoInJlbGF0aXZlVGltZSIsIDAuMCksCiAgICAgICAgICAgICJkaXIiOiBmLmdldCgiZGlyZWN0aW9uIiwgIj8iKSwKICAgICAgICAgICAgInV1aWQiOiBmLmdldCgiY2hhcmFjdGVyaXN0aWMiLCAiIiksCiAgICAgICAgICAgICJkYXRhIjogZGF0YSwKICAgICAgICAgICAgImFzY2lpIjogZi5nZXQoImFzY2lpIiwgIiIpLAogICAgICAgIH0pCiAgICByZXR1cm4gb3V0CgoKIyAtLS0tLS0tLS0tIDEuIOW6j+WIl+amguiniCAtLS0tLS0tLS0tCgpkZWYgb3ZlcnZpZXcoZnJhbWVzKToKICAgIHByaW50KCI9IiAqIDcyKQogICAgcHJpbnQoIuW4p+W6j+WIl+amguiniCIpCiAgICBwcmludCgiPSIgKiA3MikKCiAgICB0b3RhbCA9IGxlbihmcmFtZXMpCiAgICB0eCA9IHN1bSgxIGZvciBmIGluIGZyYW1lcyBpZiBmWyJkaXIiXSA9PSAiVFgiKQogICAgcnggPSBzdW0oMSBmb3IgZiBpbiBmcmFtZXMgaWYgZlsiZGlyIl0gPT0gIlJYIikKICAgIHByaW50KGYi5oC75bin5pWwIHt0b3RhbH0gICBUWCB7dHh9ICAgUlgge3J4fSIpCgogICAgYnlfdXVpZCA9IENvdW50ZXIoZlsidXVpZCJdIGZvciBmIGluIGZyYW1lcykKICAgIHByaW50KCJcbuaMieeJueW+geWIhuW4gzoiKQogICAgZm9yIHV1aWQsIG4gaW4gYnlfdXVpZC5tb3N0X2NvbW1vbigpOgogICAgICAgIHNob3J0ID0gImZmZjEo5Li7KSIgaWYgVVVJRF9QUklNQVJZIGluIHV1aWQgZWxzZSBcCiAgICAgICAgICAgICAgICAiZmZmMijmrKEpIiBpZiBVVUlEX1NFQ09OREFSWSBpbiB1dWlkIGVsc2UgdXVpZFs6MThdCiAgICAgICAgcHJpbnQoZiIgIHtzaG9ydDo+MTJ9ICB7bjo0ZH0g5binIikKCiAgICBsZW5zID0gW2xlbihmWyJkYXRhIl0pIGZvciBmIGluIGZyYW1lc10KICAgIGlmIGxlbnM6CiAgICAgICAgcHJpbnQoZiJcbuW4p+mVv+WIhuW4gzogbWluPXttaW4obGVucyl9IG1heD17bWF4KGxlbnMpfSBhdmc9e3N1bShsZW5zKS9sZW4obGVucyk6LjFmfSIpCiAgICAgICAgcHJpbnQoZiLplb/luqbnm7Tmlrnlm746IHtkaWN0KHNvcnRlZChDb3VudGVyKGxlbnMpLml0ZW1zKCkpWzoyMF0pfSIpCgogICAgIyDml7bpl7Tpl7TpmpQKICAgIHJlbHMgPSBbZlsicmVsIl0gZm9yIGYgaW4gZnJhbWVzXQogICAgaWYgbGVuKHJlbHMpID4gMToKICAgICAgICBnYXBzID0gW3JlbHNbaSsxXSAtIHJlbHNbaV0gZm9yIGkgaW4gcmFuZ2UobGVuKHJlbHMpLTEpXQogICAgICAgIHByaW50KGYiXG7luKfpl7TpmpQ6IG1pbj17bWluKGdhcHMpOi4zZn1zIG1heD17bWF4KGdhcHMpOi4zZn1zIikKICAgICAgICBwcmludChmIuW9leWItuaAu+aXtumVvzoge3JlbHNbLTFdIC0gcmVsc1swXTouMmZ9cyIpCgoKIyAtLS0tLS0tLS0tIDIuIOWtl+autee7k+aehOaOqOaWrSAtLS0tLS0tLS0tCgpkZWYgaW5mZXJfc3RydWN0dXJlKGZyYW1lcyk6CiAgICBwcmludCgiXG4iICsgIj0iICogNzIpCiAgICBwcmludCgi5a2X5q6157uT5p6E5o6o5patIikKICAgIHByaW50KCI9IiAqIDcyKQoKICAgICMg5oyJ5pa55ZCRK+mVv+W6puWIhue7hO+8jOeci+WTquS6m+Wtl+iKguS9jee9rueos+Wumu+8iOWPr+iDveaYr+mtlOaVsC/niYjmnKzvvIkKICAgIHByaW50KCJcblsyLjFdIOWQhOWtl+iKguS9jee9rueahOWPluWAvOWIhuW4g++8iOWvu+aJvuWbuuWumuWtl+aute+8iSIpCgogICAgbWF4X2xlbiA9IG1heCgobGVuKGZbImRhdGEiXSkgZm9yIGYgaW4gZnJhbWVzKSwgZGVmYXVsdD0wKQogICAgaWYgbWF4X2xlbiA9PSAwOgogICAgICAgIHByaW50KCIgIOaXoOacieaViOW4p+aVsOaNriIpCiAgICAgICAgcmV0dXJuCgogICAgIyDot6jlhajpg6jluKfmjInlgY/np7vnu5/orqHvvIjplb/luqbkuI3lkIzkuZ/og73lj5HnjrDlhbHmnInnmoTlm7rlrprlpLTvvIkKICAgIHByaW50KCJcbiAgLS0tIOi3qOWFqOmDqOW4p+eahOWBj+enu+e7n+iuoSAtLS0iKQogICAgZm9yIHBvcyBpbiByYW5nZShtYXhfbGVuKToKICAgICAgICB2YWx1ZXMgPSBbZlsiZGF0YSJdW3Bvc10gZm9yIGYgaW4gZnJhbWVzIGlmIGxlbihmWyJkYXRhIl0pID4gcG9zXQogICAgICAgIGlmIGxlbih2YWx1ZXMpIDwgbGVuKGZyYW1lcyk6CiAgICAgICAgICAgIGNvbnRpbnVlICAjIOi3s+i/h+mDqOWIhuW4p+ayoeacieeahOWBj+enuwogICAgICAgIHVuaXEgPSBDb3VudGVyKHZhbHVlcykKICAgICAgICBpZiBsZW4odW5pcSkgPT0gMToKICAgICAgICAgICAgcHJpbnQoZiIgICAg5a2X6IqCW3twb3M6MmR9XSDlhajpg6jluKfmgZLlrpogPSAweHt2YWx1ZXNbMF06MDJYfSAgIOKGkCDlvLrlgJnpgInvvJrprZTmlbAv54mI5pysL+exu+WeiyIpCiAgICAgICAgZWxpZiBsZW4odW5pcSkgPD0gMyBhbmQgbGVuKGZyYW1lcykgPiAzOgogICAgICAgICAgICB0b3AgPSAiLCAiLmpvaW4oZiIweHt2OjAyWH0oe2N9KSIgZm9yIHYsIGMgaW4gdW5pcS5tb3N0X2NvbW1vbigpKQogICAgICAgICAgICBwcmludChmIiAgICDlrZfoioJbe3BvczoyZH1dIOWPluWAvOWwkToge3RvcH0iKQoKICAgICMg5ZCM6ZW/5bqm5YiG57uE5YaF55qE6YCQ5bin5Y+Y5YyWCiAgICBncm91cHMgPSBkZWZhdWx0ZGljdChsaXN0KQogICAgZm9yIGYgaW4gZnJhbWVzOgogICAgICAgIGdyb3Vwc1soZlsiZGlyIl0sIGxlbihmWyJkYXRhIl0pKV0uYXBwZW5kKGYpCgogICAgZm9yIGtleSBpbiBzb3J0ZWQoZ3JvdXBzLmtleXMoKSwga2V5PWxhbWJkYSBrOiAtbGVuKGdyb3Vwc1trXSkpWzo1XToKICAgICAgICBncnAgPSBncm91cHNba2V5XQogICAgICAgIGlmIGxlbihncnApIDwgMjoKICAgICAgICAgICAgY29udGludWUKICAgICAgICBkaXJlY3Rpb24sIGxlbmd0aCA9IGtleQogICAgICAgIHByaW50KGYiXG4gIC0tLSDmlrnlkJE9e2RpcmVjdGlvbn0g6ZW/5bqmPXtsZW5ndGh9IOWFsXtsZW4oZ3JwKX3luKcgLS0tIikKCiAgICAgICAgZm9yIHBvcyBpbiByYW5nZShsZW5ndGgpOgogICAgICAgICAgICB2YWx1ZXMgPSBbZlsiZGF0YSJdW3Bvc10gZm9yIGYgaW4gZ3JwIGlmIHBvcyA8IGxlbihmWyJkYXRhIl0pXQogICAgICAgICAgICB1bmlxID0gQ291bnRlcih2YWx1ZXMpCiAgICAgICAgICAgIGlmIGxlbih1bmlxKSA9PSAxOgogICAgICAgICAgICAgICAgcHJpbnQoZiIgICAg5a2X6IqCW3twb3M6MmR9XSDmgZLlrpogPSAweHt2YWx1ZXNbMF06MDJYfSIpCiAgICAgICAgICAgIGVsaWYgbGVuKGdycCkgPD0gNCBhbmQgbGVuKHVuaXEpIDw9IGxlbihncnApOgogICAgICAgICAgICAgICAgdmFscyA9ICIsICIuam9pbihmIjB4e3Y6MDJYfSIgZm9yIHYgaW4gdmFsdWVzKQogICAgICAgICAgICAgICAgcHJpbnQoZiIgICAg5a2X6IqCW3twb3M6MmR9XSDpgJDluKflj5jljJY6IHt2YWxzfSAgIOKGkCDlj6/og73mmK/orqHmlbDlmagv5pe26Ze05oizIikKCiAgICAjIOafpeaJvuWPr+iDveeahOagoemqjOWSjAogICAgcHJpbnQoIlxuWzIuMl0g5qCh6aqM5ZKM5YGH6K6+5qOA6aqMIikKICAgIGNoZWNrX2NhbmRpZGF0ZXMgPSBbXQoKICAgIGZvciBrZXksIGdycCBpbiBncm91cHMuaXRlbXMoKToKICAgICAgICBpZiBsZW4oZ3JwKSA8IDIgb3Iga2V5WzFdIDwgNDoKICAgICAgICAgICAgY29udGludWUKCiAgICAgICAgZGlyZWN0aW9uLCBsZW5ndGggPSBrZXkKCiAgICAgICAgIyDlgYforr7mnKvlrZfoioIgPSDliY3pnaLmiYDmnInlrZfoioLlvILmiJbvvIjlkKvluKflpLTvvIkKICAgICAgICB4b3Jfb2sgPSBUcnVlCiAgICAgICAgZm9yIGYgaW4gZ3JwOgogICAgICAgICAgICBkYXRhID0gZlsiZGF0YSJdCiAgICAgICAgICAgIGlmIGxlbihkYXRhKSA8IDQ6CiAgICAgICAgICAgICAgICBjb250aW51ZQogICAgICAgICAgICBleHBlY3QgPSBkYXRhWy0xXQogICAgICAgICAgICBhY3R1YWwgPSAwCiAgICAgICAgICAgIGZvciBiIGluIGRhdGFbOi0xXToKICAgICAgICAgICAgICAgIGFjdHVhbCBePSBiCiAgICAgICAgICAgIGlmIGFjdHVhbCAhPSBleHBlY3Q6CiAgICAgICAgICAgICAgICB4b3Jfb2sgPSBGYWxzZQogICAgICAgICAgICAgICAgYnJlYWsKICAgICAgICBpZiB4b3Jfb2s6CiAgICAgICAgICAgIGNoZWNrX2NhbmRpZGF0ZXMuYXBwZW5kKAogICAgICAgICAgICAgICAgZiLmlrnlkJE9e2RpcmVjdGlvbn0g6ZW/5bqmPXtsZW5ndGh9OiDmnKvlrZfoioIgPSDliY3pnaLmiYDmnInlrZfoioLlvILmiJYiKQoKICAgICAgICAjIOWBh+iuvuacq+Wtl+iKgiA9IOWOu+aOieW4p+WktOWQjuWJqeS9memDqOWIhuW8guaIlgogICAgICAgIHhvcjJfb2sgPSBUcnVlCiAgICAgICAgZm9yIGYgaW4gZ3JwOgogICAgICAgICAgICBkYXRhID0gZlsiZGF0YSJdCiAgICAgICAgICAgIGlmIGxlbihkYXRhKSA8IDQ6CiAgICAgICAgICAgICAgICBjb250aW51ZQogICAgICAgICAgICBleHBlY3QgPSBkYXRhWy0xXQogICAgICAgICAgICBhY3R1YWwgPSAwCiAgICAgICAgICAgIGZvciBiIGluIGRhdGFbMjotMV06CiAgICAgICAgICAgICAgICBhY3R1YWwgXj0gYgogICAgICAgICAgICBpZiBhY3R1YWwgIT0gZXhwZWN0OgogICAgICAgICAgICAgICAgeG9yMl9vayA9IEZhbHNlCiAgICAgICAgICAgICAgICBicmVhawogICAgICAgIGlmIHhvcjJfb2sgYW5kIG5vdCB4b3Jfb2s6CiAgICAgICAgICAgIGNoZWNrX2NhbmRpZGF0ZXMuYXBwZW5kKAogICAgICAgICAgICAgICAgZiLmlrnlkJE9e2RpcmVjdGlvbn0g6ZW/5bqmPXtsZW5ndGh9OiDmnKvlrZfoioIgPSDljrvmjonluKflpLTlkI7lvILmiJYiKQoKICAgICAgICAjIOWBh+iuvuacq+Wtl+iKgiA9IOWJjemdouaJgOacieWtl+iKguS5i+WSjCBtb2QgMjU2CiAgICAgICAgc3VtX29rID0gVHJ1ZQogICAgICAgIGZvciBmIGluIGdycDoKICAgICAgICAgICAgZGF0YSA9IGZbImRhdGEiXQogICAgICAgICAgICBpZiBsZW4oZGF0YSkgPCA0OgogICAgICAgICAgICAgICAgY29udGludWUKICAgICAgICAgICAgZXhwZWN0ID0gZGF0YVstMV0KICAgICAgICAgICAgYWN0dWFsID0gc3VtKGRhdGFbOi0xXSkgJiAweEZGCiAgICAgICAgICAgIGlmIGFjdHVhbCAhPSBleHBlY3Q6CiAgICAgICAgICAgICAgICBzdW1fb2sgPSBGYWxzZQogICAgICAgICAgICAgICAgYnJlYWsKICAgICAgICBpZiBzdW1fb2s6CiAgICAgICAgICAgIGNoZWNrX2NhbmRpZGF0ZXMuYXBwZW5kKAogICAgICAgICAgICAgICAgZiLmlrnlkJE9e2RpcmVjdGlvbn0g6ZW/5bqmPXtsZW5ndGh9OiDmnKvlrZfoioIgPSDliY3pnaLmiYDmnInlrZfoioLkuYvlkowgbW9kIDI1NiIpCgogICAgIyDot6jlhajpg6jluKfmo4DpqozvvIjlkIzkuIDljY/orq7pgJrluLjlr7nmiYDmnInplb/luqbkuIDoh7TvvIkKICAgIGlmIG1heF9sZW4gPj0gNToKICAgICAgICBhbGxfeG9yID0gVHJ1ZQogICAgICAgIGZvciBmIGluIGZyYW1lczoKICAgICAgICAgICAgZGF0YSA9IGZbImRhdGEiXQogICAgICAgICAgICBpZiBsZW4oZGF0YSkgPCA1OgogICAgICAgICAgICAgICAgY29udGludWUKICAgICAgICAgICAgYWN0dWFsID0gMAogICAgICAgICAgICBmb3IgYiBpbiBkYXRhWzotMV06CiAgICAgICAgICAgICAgICBhY3R1YWwgXj0gYgogICAgICAgICAgICBpZiBhY3R1YWwgIT0gZGF0YVstMV06CiAgICAgICAgICAgICAgICBhbGxfeG9yID0gRmFsc2UKICAgICAgICAgICAgICAgIGJyZWFrCiAgICAgICAgaWYgYWxsX3hvcjoKICAgICAgICAgICAgY2hlY2tfY2FuZGlkYXRlcy5hcHBlbmQoIuKYhSDlhajpg6jluKfkuIDoh7Q6IOacq+Wtl+iKgiA9IOWJjemdouaJgOacieWtl+iKguW8guaIliIpCgogICAgaWYgY2hlY2tfY2FuZGlkYXRlczoKICAgICAgICBmb3IgYyBpbiBjaGVja19jYW5kaWRhdGVzOgogICAgICAgICAgICBwcmludChmIiAg4pyTIHtjfSIpCiAgICBlbHNlOgogICAgICAgIHByaW50KCIgIOacquWPkeeOsOeugOWNleagoemqjOWSjOinhOWIme+8iOWPr+iDveaYryBDUkMxNu+8jOaIlui9veiNt+acrOi6q+aYr+WKoOWvhuWvhuaWh++8iSIpCiAgICAgICAgcHJpbnQoIiAg5o+Q56S677ya6Iul5oyR5oiY56CB5bin5om+5LiN5Yiw5qCh6aqM5ZKM6KeE5YiZ77yM6K+05piO6K+l5a2X5q615Y+v6IO95piv562+5ZCNL+WvhuaWhyIpCgogICAgIyDliY3nvIDmkJzntKIKICAgIHByaW50KCJcblsyLjNdIOW4uOingeWNj+iuruWktOWJjee8gOajgOmqjCIpCiAgICBwcmVmaXhlcyA9IHsKICAgICAgICBiIlx4QUFceEFBIjogIueWkeS8vCBBQSBBQSDluKflpLQiLAogICAgICAgIGIiXHhBQVx4NTUiOiAi55aR5Ly8IEFBIDU1IOW4p+WktCIsCiAgICAgICAgYiJceDU1XHhBQSI6ICLnlpHkvLwgNTUgQUEg5bin5aS0IiwKICAgICAgICBiIlx4NUFceEE1IjogIueWkeS8vCA1QSBBNSDluKflpLQiLAogICAgICAgIGIiXHg3RSI6ICLnlpHkvLwgN0XvvIjluLjop4HkuLLlj6PljY/orq7vvIkiLAogICAgICAgIGIiXHhBNSI6ICLnlpHkvLwgQTUiLAogICAgfQogICAgZm91bmQgPSBDb3VudGVyKCkKICAgIGZvciBmIGluIGZyYW1lczoKICAgICAgICBmb3IgcHJlLCBkZXNjIGluIHByZWZpeGVzLml0ZW1zKCk6CiAgICAgICAgICAgIGlmIGZbImRhdGEiXS5zdGFydHN3aXRoKHByZSk6CiAgICAgICAgICAgICAgICBmb3VuZFtkZXNjXSArPSAxCiAgICBpZiBmb3VuZDoKICAgICAgICBmb3IgZGVzYywgbiBpbiBmb3VuZC5tb3N0X2NvbW1vbigpOgogICAgICAgICAgICBwcmludChmIiAge2Rlc2N9OiB7bn0g5bin5ZG95LitIikKICAgIGVsc2U6CiAgICAgICAgcHJpbnQoIiAg5pyq5Yy56YWN5bi46KeB5bin5aS0IikKCgojIC0tLS0tLS0tLS0gMy4g5oyH5Luk5bqU562U6YWN5a+5IC0tLS0tLS0tLS0KCmRlZiBwYWlyX2ZyYW1lcyhmcmFtZXMpOgogICAgcHJpbnQoIlxuIiArICI9IiAqIDcyKQogICAgcHJpbnQoIuaMh+S7pOW6lOetlOmFjeWvuSIpCiAgICBwcmludCgiPSIgKiA3MikKCiAgICAjIOavj+S4qiBUWCDlkI7ntKfot5/nmoQgUlgg6KeG5Li65LiA5qyh6K+35rGCLeWTjeW6lAogICAgcGVuZGluZyA9IE5vbmUKICAgIHBhaXJzID0gW10KCiAgICBmb3IgZiBpbiBmcmFtZXM6CiAgICAgICAgaWYgZlsiZGlyIl0gPT0gIlRYIjoKICAgICAgICAgICAgcGVuZGluZyA9IGYKICAgICAgICBlbGlmIGZbImRpciJdID09ICJSWCIgYW5kIHBlbmRpbmcgaXMgbm90IE5vbmU6CiAgICAgICAgICAgIHBhaXJzLmFwcGVuZCgocGVuZGluZywgZikpCiAgICAgICAgICAgIHBlbmRpbmcgPSBOb25lCgogICAgcHJpbnQoZiLlhbHphY3lr7kge2xlbihwYWlycyl9IOe7hCDor7fmsYIt5bqU562UIikKICAgIGZvciBpLCAocmVxLCByZXNwKSBpbiBlbnVtZXJhdGUocGFpcnNbOjIwXSwgMSk6CiAgICAgICAgcHJpbnQoZiJcbiAgW3tpfV0gdD17cmVxWydyZWwnXTouM2Z9cyIpCiAgICAgICAgcHJpbnQoZiIgICAgICBUWCB7bGVuKHJlcVsnZGF0YSddKTozZH1COiB7cmVxWydkYXRhJ10uaGV4KCcgJykudXBwZXIoKX0iKQogICAgICAgIHByaW50KGYiICAgICAgICAg5Y+v6K+7OiB7cmVxWydhc2NpaSddfSIpCiAgICAgICAgcHJpbnQoZiIgICAgICBSWCB7bGVuKHJlc3BbJ2RhdGEnXSk6M2R9Qjoge3Jlc3BbJ2RhdGEnXS5oZXgoJyAnKS51cHBlcigpfSIpCiAgICAgICAgcHJpbnQoZiIgICAgICAgICDlj6/or7s6IHtyZXNwWydhc2NpaSddfSIpCiAgICAgICAgcHJpbnQoZiIgICAgICDlu7bov586IHsocmVzcFsncmVsJ10gLSByZXFbJ3JlbCddKSAqIDEwMDA6LjBmfW1zIikKCgojIC0tLS0tLS0tLS0gNC4g5LiO6L2m56uv6YWN572u5q+U5a+5IC0tLS0tLS0tLS0KCmRlZiBjb21wYXJlX3dpdGhfY29uZmlnKGZyYW1lcywgY2FyX2NvbmZpZ19wYXRoPU5vbmUpOgogICAgcHJpbnQoIlxuIiArICI9IiAqIDcyKQogICAgcHJpbnQoIuS4jui9puerr+mFjee9ruavlOWvuSIpCiAgICBwcmludCgiPSIgKiA3MikKCiAgICBpZiBub3QgY2FyX2NvbmZpZ19wYXRoIG9yIG5vdCBvcy5wYXRoLmV4aXN0cyhjYXJfY29uZmlnX3BhdGgpOgogICAgICAgIHByaW50KCIgIOacquaPkOS+myBjYXJfY29uZmlnLmpzb27vvIzot7Pov4ciKQogICAgICAgIHJldHVybgoKICAgIHdpdGggb3BlbihjYXJfY29uZmlnX3BhdGgsICJyIiwgZW5jb2Rpbmc9InV0Zi04IikgYXMgZjoKICAgICAgICBjZmcgPSBqc29uLmxvYWQoZikKCiAgICBjbWRzID0gY2ZnLmdldCgiY29tbWFuZExpc3QiLCBbXSkKICAgIGhleF90b19jbWQgPSB7fQogICAgZm9yIGMgaW4gY21kczoKICAgICAgICB2YWwgPSBjLmdldCgidmFsdWUiKQogICAgICAgIGlmIHZhbDoKICAgICAgICAgICAgaGV4X3RvX2NtZFt2YWwudXBwZXIoKV0gPSAoYy5nZXQoImRlc2NyaXB0aW9uIiwgIiIpLCBjLmdldCgiYW5kcm9pZCIsICIiKSwgYy5nZXQoImNvbW1hbmRBbmRyb2lkIikpCgogICAgcHJpbnQoZiIgIOi9puerr+mFjee9ruWFsSB7bGVuKGNtZHMpfSDmnaHmjIfku6QiKQoKICAgICMg5Zyo5bin5Lit5p+l5om+5Lul5oyH5Luk57yW56CB5byA5aS055qECiAgICBtYXRjaGVkID0gW10KICAgIGZvciBmIGluIGZyYW1lczoKICAgICAgICBkYXRhX2hleCA9IGZbImRhdGEiXS5oZXgoKS51cHBlcigpCiAgICAgICAgZm9yIHZhbCwgaW5mbyBpbiBoZXhfdG9fY21kLml0ZW1zKCk6CiAgICAgICAgICAgIGlmIHZhbCBpbiBkYXRhX2hleDoKICAgICAgICAgICAgICAgIG1hdGNoZWQuYXBwZW5kKChmLCB2YWwsIGluZm8pKQoKICAgIGlmIG1hdGNoZWQ6CiAgICAgICAgcHJpbnQoZiJcbiAg5ZG95LitIHtsZW4obWF0Y2hlZCl9IOWkhOaMh+S7pOe8luegge+8miIpCiAgICAgICAgc2VlbiA9IHNldCgpCiAgICAgICAgZm9yIGYsIHZhbCwgKGRlc2MsIG5hbWUsIGlkeCkgaW4gbWF0Y2hlZDoKICAgICAgICAgICAga2V5ID0gKHZhbCwgZlsiZGlyIl0pCiAgICAgICAgICAgIGlmIGtleSBpbiBzZWVuOgogICAgICAgICAgICAgICAgY29udGludWUKICAgICAgICAgICAgc2Vlbi5hZGQoa2V5KQogICAgICAgICAgICBwcmludChmIiAgICBbe2ZbJ2RpciddfV0ge3ZhbH0g4oaSICN7aWR4fSB7ZGVzY30gKHtuYW1lfSkiKQogICAgZWxzZToKICAgICAgICBwcmludCgiICDmnKrlnKjluKfkuK3mib7liLDlt7Lnn6XmjIfku6TnvJbnoIEiKQogICAgICAgIHByaW50KCIgIOivtOaYju+8muaMh+S7pOWPr+iDveaYr+S6jOi/m+WItue8lueggeiAjOmdniBBU0NJSe+8jOaIlueUqOS6huS4jeWQjOeahOe8lueggeaWueahiCIpCgoKIyAtLS0tLS0tLS0tIDUuIOS4u+WFpeWPoyAtLS0tLS0tLS0tCgpkZWYgbWFpbigpOgogICAgaWYgbGVuKHN5cy5hcmd2KSA8IDI6CiAgICAgICAgcHJpbnQoX19kb2NfXykKICAgICAgICBwcmludCgiXG7nlKjms5U6IHB5dGhvbiBhbmFseXplX3Rib2UucHkgPGNhcHR1cmUuanNvbj4gW2Nhcl9jb25maWcuanNvbl0iKQogICAgICAgIHN5cy5leGl0KDEpCgogICAgY2FwdHVyZSA9IHN5cy5hcmd2WzFdCiAgICBjYXJfY29uZmlnID0gc3lzLmFyZ3ZbMl0gaWYgbGVuKHN5cy5hcmd2KSA+IDIgZWxzZSBOb25lCgogICAgbG9nID0gbG9hZChjYXB0dXJlKQogICAgZnJhbWVzID0gcGFyc2VfZnJhbWVzKGxvZykKCiAgICBpZiBub3QgZnJhbWVzOgogICAgICAgIHByaW50KCLmipPljIXmlofku7bkuLrnqbrmiJbml6DmnInmlYjluKciKQogICAgICAgIHN5cy5leGl0KDEpCgogICAgcHJpbnQoZiJcbuiuvuWkhzoge2xvZy5nZXQoJ2RldmljZScpfSBpT1Mge2xvZy5nZXQoJ3N5c3RlbVZlcnNpb24nKX0iKQogICAgcHJpbnQoZiLlr7nnq686IHtsb2cuZ2V0KCdwZWVyJyl9ICh7bG9nLmdldCgncGVlcklkZW50aWZpZXInKX0pIikKICAgIHByaW50KGYi5a+85Ye65pe26Ze0OiB7bG9nLmdldCgnZXhwb3J0ZWRBdCcpfSIpCiAgICBwcmludCgpCgogICAgb3ZlcnZpZXcoZnJhbWVzKQogICAgaW5mZXJfc3RydWN0dXJlKGZyYW1lcykKICAgIHBhaXJfZnJhbWVzKGZyYW1lcykKICAgIGNvbXBhcmVfd2l0aF9jb25maWcoZnJhbWVzLCBjYXJfY29uZmlnKQoKICAgIHByaW50KCJcbiIgKyAiPSIgKiA3MikKICAgIHByaW50KCLkuIvkuIDmraUiKQogICAgcHJpbnQoIj0iICogNzIpCiAgICBwcmludCgiIiIKICAxLiDoi6Xmib7liLDlm7rlrprlrZfoioLkvY3nva4g4oaSIOmCo+aYr+mtlOaVsC/niYjmnKwv57G75Z6L77yM5YaZ6L+bIFRib2VUcmFuc3BvcnQuc3dpZnQKICAyLiDoi6Xlj5HnjrDmoKHpqozlkozop4TliJkg4oaSIOWKoOWFpeW4p+e8luino+eggQogIDMuIOeUqOaMh+S7pOinguWvn+azleWumuS9jeWtl+aute+8mgogICAgIC0g5byA5ZCO5aSH566xIHZzIOWFs+WQjuWkh+euse+8jOS4pOW4p+W8guaIliDihpIg5beu5byC5L2N5Y2z5Yqo5L2c56CBCiAgICAgLSDlkIzkuIDmjIfku6Tov57nu63kuKTmrKEg4oaSIOW3ruW8guS9jeWPr+iDveaYr+W6j+WPt+aIluaXtumXtOaIswogIDQuIOaMkeaImOegge+8mui/nuaOpeWQjui9puerr+mmluW4p+eahCBSWO+8jOagh+azqOaEj+ingeWFtuWPr+ivu+WGheWuuQogIDUuIOihpeWujOWNj+iuruinhOagvC5tZCDph4znmoQgW+acquefpV0g6aG5CiIiIikKCgppZiBfX25hbWVfXyA9PSAiX19tYWluX18iOgogICAgbWFpbigp
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+BLE 抓包分析脚本（配套 BleFrameRecorder.swift）
+
+用途：从录制的 TBOE 帧中逆向出协议结构 —— 这是移植路上最后一块拼图。
+
+用法：
+    python analyze_tboe.py capture.json
+
+产出：
+    1. 帧序列概览（时间轴 + 方向）
+    2. 字段结构推断（尝试定位魔数/长度/序号/校验）
+    3. 指令帧与应答帧配对
+    4. 与车端配置（car_config.json）的编码比对
+"""
+
+import json
+import sys
+import os
+from collections import Counter, defaultdict
+
+# 车端特征 UUID
+UUID_PRIMARY = "0000fff1-0000-1000-8000-00805f9b34fb"
+UUID_SECONDARY = "0000fff2-0000-1000-8000-00805f9b34fb"
+
+
+def load(path):
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def parse_frames(log):
+    """把 JSON 帧转成便于分析的字典列表。"""
+    out = []
+    for f in log.get("frames", []):
+        hex_str = f.get("hex", "").replace(" ", "")
+        try:
+            data = bytes.fromhex(hex_str) if hex_str else b""
+        except ValueError:
+            data = b""
+        out.append({
+            "index": f.get("index", 0),
+            "rel": f.get("relativeTime", 0.0),
+            "dir": f.get("direction", "?"),
+            "uuid": f.get("characteristic", ""),
+            "data": data,
+            "ascii": f.get("ascii", ""),
+        })
+    return out
+
+
+# ---------- 1. 序列概览 ----------
+
+def overview(frames):
+    print("=" * 72)
+    print("帧序列概览")
+    print("=" * 72)
+
+    total = len(frames)
+    tx = sum(1 for f in frames if f["dir"] == "TX")
+    rx = sum(1 for f in frames if f["dir"] == "RX")
+    print(f"总帧数 {total}   TX {tx}   RX {rx}")
+
+    by_uuid = Counter(f["uuid"] for f in frames)
+    print("\n按特征分布:")
+    for uuid, n in by_uuid.most_common():
+        short = "fff1(主)" if UUID_PRIMARY in uuid else \
+                "fff2(次)" if UUID_SECONDARY in uuid else uuid[:18]
+        print(f"  {short:>12}  {n:4d} 帧")
+
+    lens = [len(f["data"]) for f in frames]
+    if lens:
+        print(f"\n帧长分布: min={min(lens)} max={max(lens)} avg={sum(lens)/len(lens):.1f}")
+        print(f"长度直方图: {dict(sorted(Counter(lens).items())[:20])}")
+
+    # 时间间隔
+    rels = [f["rel"] for f in frames]
+    if len(rels) > 1:
+        gaps = [rels[i+1] - rels[i] for i in range(len(rels)-1)]
+        print(f"\n帧间隔: min={min(gaps):.3f}s max={max(gaps):.3f}s")
+        print(f"录制总时长: {rels[-1] - rels[0]:.2f}s")
+
+
+# ---------- 2. 字段结构推断 ----------
+
+def infer_structure(frames):
+    print("\n" + "=" * 72)
+    print("字段结构推断")
+    print("=" * 72)
+
+    # 按方向+长度分组，看哪些字节位置稳定（可能是魔数/版本）
+    print("\n[2.1] 各字节位置的取值分布（寻找固定字段）")
+
+    max_len = max((len(f["data"]) for f in frames), default=0)
+    if max_len == 0:
+        print("  无有效帧数据")
+        return
+
+    # 跨全部帧按偏移统计（长度不同也能发现共有的固定头）
+    print("\n  --- 跨全部帧的偏移统计 ---")
+    for pos in range(max_len):
+        values = [f["data"][pos] for f in frames if len(f["data"]) > pos]
+        if len(values) < len(frames):
+            continue  # 跳过部分帧没有的偏移
+        uniq = Counter(values)
+        if len(uniq) == 1:
+            print(f"    字节[{pos:2d}] 全部帧恒定 = 0x{values[0]:02X}   ← 强候选：魔数/版本/类型")
+        elif len(uniq) <= 3 and len(frames) > 3:
+            top = ", ".join(f"0x{v:02X}({c})" for v, c in uniq.most_common())
+            print(f"    字节[{pos:2d}] 取值少: {top}")
+
+    # 同长度分组内的逐帧变化
+    groups = defaultdict(list)
+    for f in frames:
+        groups[(f["dir"], len(f["data"]))].append(f)
+
+    for key in sorted(groups.keys(), key=lambda k: -len(groups[k]))[:5]:
+        grp = groups[key]
+        if len(grp) < 2:
+            continue
+        direction, length = key
+        print(f"\n  --- 方向={direction} 长度={length} 共{len(grp)}帧 ---")
+
+        for pos in range(length):
+            values = [f["data"][pos] for f in grp if pos < len(f["data"])]
+            uniq = Counter(values)
+            if len(uniq) == 1:
+                print(f"    字节[{pos:2d}] 恒定 = 0x{values[0]:02X}")
+            elif len(grp) <= 4 and len(uniq) <= len(grp):
+                vals = ", ".join(f"0x{v:02X}" for v in values)
+                print(f"    字节[{pos:2d}] 逐帧变化: {vals}   ← 可能是计数器/时间戳")
+
+    # 查找可能的校验和
+    print("\n[2.2] 校验和假设检验")
+    check_candidates = []
+
+    for key, grp in groups.items():
+        if len(grp) < 2 or key[1] < 4:
+            continue
+
+        direction, length = key
+
+        # 假设末字节 = 前面所有字节异或（含帧头）
+        xor_ok = True
+        for f in grp:
+            data = f["data"]
+            if len(data) < 4:
+                continue
+            expect = data[-1]
+            actual = 0
+            for b in data[:-1]:
+                actual ^= b
+            if actual != expect:
+                xor_ok = False
+                break
+        if xor_ok:
+            check_candidates.append(
+                f"方向={direction} 长度={length}: 末字节 = 前面所有字节异或")
+
+        # 假设末字节 = 去掉帧头后剩余部分异或
+        xor2_ok = True
+        for f in grp:
+            data = f["data"]
+            if len(data) < 4:
+                continue
+            expect = data[-1]
+            actual = 0
+            for b in data[2:-1]:
+                actual ^= b
+            if actual != expect:
+                xor2_ok = False
+                break
+        if xor2_ok and not xor_ok:
+            check_candidates.append(
+                f"方向={direction} 长度={length}: 末字节 = 去掉帧头后异或")
+
+        # 假设末字节 = 前面所有字节之和 mod 256
+        sum_ok = True
+        for f in grp:
+            data = f["data"]
+            if len(data) < 4:
+                continue
+            expect = data[-1]
+            actual = sum(data[:-1]) & 0xFF
+            if actual != expect:
+                sum_ok = False
+                break
+        if sum_ok:
+            check_candidates.append(
+                f"方向={direction} 长度={length}: 末字节 = 前面所有字节之和 mod 256")
+
+    # 跨全部帧检验（同一协议通常对所有长度一致）
+    if max_len >= 5:
+        all_xor = True
+        for f in frames:
+            data = f["data"]
+            if len(data) < 5:
+                continue
+            actual = 0
+            for b in data[:-1]:
+                actual ^= b
+            if actual != data[-1]:
+                all_xor = False
+                break
+        if all_xor:
+            check_candidates.append("★ 全部帧一致: 末字节 = 前面所有字节异或")
+
+    if check_candidates:
+        for c in check_candidates:
+            print(f"  ✓ {c}")
+    else:
+        print("  未发现简单校验和规则（可能是 CRC16，或载荷本身是加密密文）")
+        print("  提示：若挑战码帧找不到校验和规则，说明该字段可能是签名/密文")
+
+    # 前缀搜索
+    print("\n[2.3] 常见协议头前缀检验")
+    prefixes = {
+        b"\xAA\xAA": "疑似 AA AA 帧头",
+        b"\xAA\x55": "疑似 AA 55 帧头",
+        b"\x55\xAA": "疑似 55 AA 帧头",
+        b"\x5A\xA5": "疑似 5A A5 帧头",
+        b"\x7E": "疑似 7E（常见串口协议）",
+        b"\xA5": "疑似 A5",
+    }
+    found = Counter()
+    for f in frames:
+        for pre, desc in prefixes.items():
+            if f["data"].startswith(pre):
+                found[desc] += 1
+    if found:
+        for desc, n in found.most_common():
+            print(f"  {desc}: {n} 帧命中")
+    else:
+        print("  未匹配常见帧头")
+
+
+# ---------- 3. 指令应答配对 ----------
+
+def pair_frames(frames):
+    print("\n" + "=" * 72)
+    print("指令应答配对")
+    print("=" * 72)
+
+    # 每个 TX 后紧跟的 RX 视为一次请求-响应
+    pending = None
+    pairs = []
+
+    for f in frames:
+        if f["dir"] == "TX":
+            pending = f
+        elif f["dir"] == "RX" and pending is not None:
+            pairs.append((pending, f))
+            pending = None
+
+    print(f"共配对 {len(pairs)} 组 请求-应答")
+    for i, (req, resp) in enumerate(pairs[:20], 1):
+        print(f"\n  [{i}] t={req['rel']:.3f}s")
+        print(f"      TX {len(req['data']):3d}B: {req['data'].hex(' ').upper()}")
+        print(f"         可读: {req['ascii']}")
+        print(f"      RX {len(resp['data']):3d}B: {resp['data'].hex(' ').upper()}")
+        print(f"         可读: {resp['ascii']}")
+        print(f"      延迟: {(resp['rel'] - req['rel']) * 1000:.0f}ms")
+
+
+# ---------- 4. 与车端配置比对 ----------
+
+def compare_with_config(frames, car_config_path=None):
+    print("\n" + "=" * 72)
+    print("与车端配置比对")
+    print("=" * 72)
+
+    if not car_config_path or not os.path.exists(car_config_path):
+        print("  未提供 car_config.json，跳过")
+        return
+
+    with open(car_config_path, "r", encoding="utf-8") as f:
+        cfg = json.load(f)
+
+    cmds = cfg.get("commandList", [])
+    hex_to_cmd = {}
+    for c in cmds:
+        val = c.get("value")
+        if val:
+            hex_to_cmd[val.upper()] = (c.get("description", ""), c.get("android", ""), c.get("commandAndroid"))
+
+    print(f"  车端配置共 {len(cmds)} 条指令")
+
+    # 在帧中查找以指令编码开头的
+    matched = []
+    for f in frames:
+        data_hex = f["data"].hex().upper()
+        for val, info in hex_to_cmd.items():
+            if val in data_hex:
+                matched.append((f, val, info))
+
+    if matched:
+        print(f"\n  命中 {len(matched)} 处指令编码：")
+        seen = set()
+        for f, val, (desc, name, idx) in matched:
+            key = (val, f["dir"])
+            if key in seen:
+                continue
+            seen.add(key)
+            print(f"    [{f['dir']}] {val} → #{idx} {desc} ({name})")
+    else:
+        print("  未在帧中找到已知指令编码")
+        print("  说明：指令可能是二进制编码而非 ASCII，或用了不同的编码方案")
+
+
+# ---------- 5. 主入口 ----------
+
+def main():
+    if len(sys.argv) < 2:
+        print(__doc__)
+        print("\n用法: python analyze_tboe.py <capture.json> [car_config.json]")
+        sys.exit(1)
+
+    capture = sys.argv[1]
+    car_config = sys.argv[2] if len(sys.argv) > 2 else None
+
+    log = load(capture)
+    frames = parse_frames(log)
+
+    if not frames:
+        print("抓包文件为空或无有效帧")
+        sys.exit(1)
+
+    print(f"\n设备: {log.get('device')} iOS {log.get('systemVersion')}")
+    print(f"对端: {log.get('peer')} ({log.get('peerIdentifier')})")
+    print(f"导出时间: {log.get('exportedAt')}")
+    print()
+
+    overview(frames)
+    infer_structure(frames)
+    pair_frames(frames)
+    compare_with_config(frames, car_config)
+
+    print("\n" + "=" * 72)
+    print("下一步")
+    print("=" * 72)
+    print("""
+  1. 若找到固定字节位置 → 那是魔数/版本/类型，写进 TboeTransport.swift
+  2. 若发现校验和规则 → 加入帧编解码
+  3. 用指令观察法定位字段：
+     - 开后备箱 vs 关后备箱，两帧异或 → 差异位即动作码
+     - 同一指令连续两次 → 差异位可能是序号或时间戳
+  4. 挑战码：连接后车端首帧的 RX，标注意见其可读内容
+  5. 补完协议规格.md 里的 [未知] 项
+""")
+
+
+if __name__ == "__main__":
+    main()
