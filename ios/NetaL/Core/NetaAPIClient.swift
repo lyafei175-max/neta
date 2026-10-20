@@ -101,10 +101,27 @@ struct NetaAPIClient {
     func sendCommand(_ command: VehicleCommand) async throws -> NetaResponse {
         try requireLogin()
 
-        return try await post(
+        var p = command.cloudPayload
+        for (k,v) in vehicleParams([:]) { p[k] = v }
+        let response = try await post(
             path: Endpoint.rvcSend,
-            parameters: command.cloudPayload
+            parameters: p
         )
+        guard response.isSuccess else {
+            throw APIError.serverDetail("车控下发失败 code=\(response.code ?? -1) desc=\(response.description ?? "-") body=\(response.rawPreview)")
+        }
+        return response
+    }
+
+    /// 把本地已存的 VIN 塞进业务请求（参数名试常见三种，服务端自取）。
+    private func vehicleParams(_ base: [String:String]) -> [String:String] {
+        var p = base
+        if let vin = CredentialStore.shared.defaultVin, !vin.isEmpty {
+            p["vin"] = vin
+            p["vinNo"] = vin
+            p["vehicleVin"] = vin
+        }
+        return p
     }
 
     /// 查询车况。
@@ -113,10 +130,12 @@ struct NetaAPIClient {
 
         let response = try await post(
             path: Endpoint.vehicleStatus,
-            parameters: [:]
+            parameters: vehicleParams([:])
         )
 
-        guard let data = response.data else { throw APIError.missingPayload }
+        guard let data = response.data else {
+            throw APIError.serverDetail("车况无数据 code=\(response.code ?? -1) desc=\(response.description ?? "-") vin=\(CredentialStore.shared.defaultVin ?? "nil") body=\(response.rawPreview)")
+        }
 
         // data 可能是嵌套的 data 字符串，也可能直接是对象
         let cloud: CloudVehicleData
@@ -295,6 +314,7 @@ enum APIError: Error, LocalizedError {
     case missingPayload
     case notLoggedIn
     case tokenRefreshFailed
+    case serverDetail(String)
 
     var errorDescription: String? {
         switch self {
@@ -304,6 +324,7 @@ enum APIError: Error, LocalizedError {
         case .missingPayload:    return "响应缺少数据"
         case .notLoggedIn:       return "登录后才能下发车控指令"
         case .tokenRefreshFailed: return "登录已过期，需要重新登录"
+        case .serverDetail(let s): return s
         }
     }
 }
