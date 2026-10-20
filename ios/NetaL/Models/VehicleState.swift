@@ -475,11 +475,12 @@ struct CloudVehicleData: Codable {
             s.availableMileage = e.fuelMileageRemaining.map { $0 / 10.0 }
         }
         if let l = lockStatus {
-            // 0=已锁 1=未开（推断，待校准）
-            let anyUnlocked = [l.driverSizeDoorLockStatus, l.coDriverSizeDoorLockStatus,
-                               l.leftAfterDoorLockStatus, l.rightAfterDoorLockStatus]
-                .contains(where: { $0 == 1 || $0 == 2 })
-            s.doorsLock = anyUnlocked ? .unlocked : .locked
+            // 0=已锁，非0视为未锁（推断，待校准）
+            let unlocked = (l.driverSizeDoorLockStatus ?? 0) != 0
+                        || (l.coDriverSizeDoorLockStatus ?? 0) != 0
+                        || (l.leftAfterDoorLockStatus ?? 0) != 0
+                        || (l.rightAfterDoorLockStatus ?? 0) != 0
+            s.doorsLock = unlocked ? .unlocked : .locked
         }
         if let d = doorCoverStatus {
             s.driverDoor = d.driverSizeDoorStatus == 1 ? .open : .closed
