@@ -2,8 +2,13 @@ import Foundation
 
 /// 云端车控客户端。
 ///
-/// 原 APK 使用原生 `HttpURLConnection`（无 OkHttp/Retrofit），
-/// POST 表单，响应包装为 `NetaResponse(status=...)`。
+/// 请求规范来自 APK `Ly1/m;->a`（通用请求构造器），已确认：
+/// - POST
+/// - 公共字段放 **header**：appId / appKey / appVersion / login_channel /
+///   channel / nonce / timestamp / sign / Accept / Authorization(空)
+/// - body 二选一：`application/x-www-form-urlencoded` 表单（验证码）或
+///   `application/json` JSON（登录）
+/// - 响应包装：`{ "code": Int, "message": String, "description": String?, "data": ... }`
 struct NetaAPIClient {
 
     let config: NetaAPIConfig
@@ -22,54 +27,57 @@ struct NetaAPIClient {
 
     // MARK: - 底层请求
 
-    /// 发送带签名的表单请求。
+    /// 发送带签名的表单请求（原 `sendCodeAndSignCheck` 走此通道）。
     func post(path: String, parameters: [String: String]) async throws -> NetaResponse {
-        let response = try await performPost(path: path, parameters: parameters)
+        let response = try await performPost(path: path, formParams: parameters.sorted { $0.key < $1.key })
 
         // 业务层未授权 → 刷新 token 后自动重试一次
         if response.requiresRelogin, injectAuth {
             _ = try await AuthService.shared.refresh()
-            return try await performPost(path: path, parameters: parameters)
+            return try await performPost(path: path, formParams: parameters.sorted { $0.key < $1.key })
         }
 
         return response
     }
 
+    /// 发送带签名的 JSON 请求（原 `registerOrLoginUncheck` 走此通道）。
+    func postJSON(path: String, jsonBody: [String: Any]) async throws -> NetaResponse {
+        let data = try JSONSerialization.data(withJSONObject: jsonBody)
+        let bodyString = String(data: data, encoding: .utf8) ?? "{}"
+        return try await performPost(path: path, jsonBody: bodyString)
+    }
+
     /// 单次请求，不含重试。
-    private func performPost(path: String, parameters: [String: String]) async throws -> NetaResponse {
-        let nonce = RequestSigner.generateNonce()
-        let signature = RequestSigner.sign(
-            appId: config.appId,
-            appKey: config.appKey,
-            appSecret: config.appSecret,
-            nonce: nonce
-        )
-
-        var allParams = RequestSigner.commonFields(
-            config: config, nonce: nonce, signature: signature
-        )
-        allParams.append(contentsOf: parameters.map(URLQueryItem.init))
-
-        // 已登录接口需带 token
-        if injectAuth, let token = CredentialStore.shared.accessToken {
-            allParams.append(URLQueryItem(name: "access_token", value: token))
-        }
-
+    private func performPost(path: String,
+                             formParams: [(String, String)] = [],
+                             jsonBody: String? = nil) async throws -> NetaResponse {
         guard let url = URL(string: config.baseURL + path) else {
             throw APIError.invalidURL
         }
 
+        let isJSON = jsonBody != nil
+        var headers = RequestSigner.commonHeaders(
+            config: config, path: path,
+            formParams: formParams, jsonBody: jsonBody
+        )
+        headers["Content-Type"] = isJSON
+            ? "application/json"
+            : "application/x-www-form-urlencoded;charset=utf-8"
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue(
-            "application/x-www-form-urlencoded;charset=utf-8",
-            forHTTPHeaderField: "Content-Type"
-        )
+        for (k, v) in headers {
+            request.setValue(v, forHTTPHeaderField: k)
+        }
 
-        // body 与 query 同时携带，覆盖两种可能的服务端读取方式
-        var components = URLComponents()
-        components.queryItems = allParams
-        request.httpBody = components.percentEncodedQuery?.data(using: .utf8)
+        if isJSON {
+            request.httpBody = jsonBody?.data(using: .utf8)
+        } else {
+            // 表单体：k=v&k2=v2（v 需 URL 编码）
+            var comps = URLComponents()
+            comps.queryItems = formParams.map { URLQueryItem(name: $0.0, value: $0.1) }
+            request.httpBody = comps.percentEncodedQuery?.data(using: .utf8)
+        }
 
         let (data, response) = try await session.data(for: request)
 
@@ -86,9 +94,6 @@ struct NetaAPIClient {
     // MARK: - 业务方法
 
     /// 下发车控指令（网络通道）。
-    ///
-    /// ⚠️ 指令下发端点在静态分析中未提取到，此处按常见命名占位，
-    /// 需抓包后替换为真实路径。
     func sendCommand(_ command: VehicleCommand) async throws -> NetaResponse {
         try requireLogin()
 
@@ -123,26 +128,37 @@ struct NetaAPIClient {
         return cloud.toVehicleState()
     }
 
-    /// 刷新 token。
+    /// 刷新 token（端点 `/customer/account/info/refreshApiToken`，已确认）。
     ///
-    /// 端点 `refreshApiToken` 已确认（APK 内明文）。
+    /// ⚠️ 请求参数名未从 APK 提取到（刷新逻辑在 SDK 内部），
+    /// 先按 `refresh_token` 表单字段发送，失败时降级为 JSON。
     func refreshAccessToken() async throws -> String {
         guard let refreshToken = CredentialStore.shared.refreshToken else {
             throw APIError.notLoggedIn
         }
 
-        let response = try await post(
+        var response = try await post(
             path: Endpoint.refreshToken,
             parameters: ["refresh_token": refreshToken]
         )
 
-        guard let token = response.data?["access_token"] as? String else {
+        if response.data == nil {
+            response = try await postJSON(
+                path: Endpoint.refreshToken,
+                jsonBody: ["refreshToken": refreshToken]
+            )
+        }
+
+        guard let token = response.data?["access_token"] as? String
+                ?? response.data?["accessToken"] as? String else {
             throw APIError.tokenRefreshFailed
         }
 
         try CredentialStore.shared.saveSession(
             accessToken: token,
-            refreshToken: response.data?["refresh_token"] as? String ?? refreshToken
+            refreshToken: response.data?["refresh_token"] as? String
+                ?? response.data?["refreshToken"] as? String
+                ?? refreshToken
         )
         return token
     }
@@ -158,15 +174,18 @@ struct NetaAPIClient {
 
 // MARK: - 响应模型
 
-/// 统一响应包装，对应 APK 内 `NetaResponse(status=...)`。
+/// 统一响应包装，对应 APK `Ly1/m;->a` 的解析逻辑：
+/// `code`（Int）、`message`、`description`、`data`（对象或数组）。
 struct NetaResponse: Codable {
-    var status: Int?
+    var code: Int?
     var message: String?
+    var description: String?
     var data: JSONValue?
 
     enum CodingKeys: String, CodingKey {
-        case status
-        case message = "msg"
+        case code
+        case message
+        case description
         case data
     }
 }
