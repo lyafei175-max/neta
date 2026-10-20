@@ -87,35 +87,34 @@ final class CredentialStore {
     /// 申请设备证书。
     ///
     /// 上传公钥后调用 `applyCert`，服务端返回 PEM。
+    ///
+    /// ⚠️ 该端点的请求字段未从 APK 提取到，按常见命名占位，需抓包校准。
     func applyDeviceCertificate(publicKeyPem: String) async throws -> String {
-        let nonce = RequestSigner.generateNonce()
-        let signature = RequestSigner.sign(
-            appId: config.appId,
-            appKey: config.appKey,
-            appSecret: config.appSecret,
-            nonce: nonce
-        )
+        let path = Endpoint.applyCert
+        let headers = RequestSigner.commonHeaders(config: config, path: path)
 
-        var components = URLComponents(
-            url: URL(string: config.baseURL + Endpoint.applyCert)!,
-            resolvingAgainstBaseURL: false
-        )!
-
-        var items = RequestSigner.commonFields(config: config, nonce: nonce, signature: signature)
-        items.append(URLQueryItem(name: "pubkey", value: publicKeyPem))
-        items.append(URLQueryItem(name: "device_id", value: DeviceInfo.current.deviceID))
-        items.append(URLQueryItem(name: "device_model", value: DeviceInfo.current.deviceModel))
-        items.append(URLQueryItem(name: "device_sys_version", value: DeviceInfo.current.systemVersion))
-        components.queryItems = items
-
-        guard let url = components.url else { throw CredentialError.invalidURL }
+        guard let url = URL(string: config.baseURL + path) else {
+            throw CredentialError.invalidURL
+        }
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        for (k, v) in headers {
+            request.setValue(v, forHTTPHeaderField: k)
+        }
         request.setValue(
             "application/x-www-form-urlencoded;charset=utf-8",
             forHTTPHeaderField: "Content-Type"
         )
+
+        var comps = URLComponents()
+        comps.queryItems = [
+            URLQueryItem(name: "pubkey", value: publicKeyPem),
+            URLQueryItem(name: "device_id", value: DeviceInfo.current.deviceID),
+            URLQueryItem(name: "device_model", value: DeviceInfo.current.deviceModel),
+            URLQueryItem(name: "device_sys_version", value: DeviceInfo.current.systemVersion)
+        ]
+        request.httpBody = comps.percentEncodedQuery?.data(using: .utf8)
 
         let (data, response) = try await session.data(for: request)
         guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
@@ -124,7 +123,8 @@ final class CredentialStore {
 
         // 响应结构需抓包确认，此处按最可能的证书字段解析
         let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-        guard let cert = json?["certificate"] as? String ?? json?["certificatePem"] as? String else {
+        let payload = json?["data"] as? [String: Any] ?? json ?? [:]
+        guard let cert = payload["certificate"] as? String ?? payload["certificatePem"] as? String else {
             throw CredentialError.certificateMissing
         }
         return cert
@@ -178,6 +178,19 @@ final class CredentialStore {
     func clearSession() {
         KeychainHelper.delete(account: "accessToken")
         KeychainHelper.delete(account: "refreshToken")
+    }
+
+    /// 设备序列号（登录请求体 `seriesNo` 字段）。
+    ///
+    /// 原 APK 由 `Ls1/a;->a()` 生成设备串。iOS 端首次生成随机 UUID
+    /// 后持久化到 Keychain，保证同一设备稳定。
+    func deviceSeriesNo() throws -> String {
+        if let existing = try KeychainHelper.get(account: "seriesNo") {
+            return existing
+        }
+        let series = UUID().uuidString.replacingOccurrences(of: "-", with: "").lowercased()
+        try KeychainHelper.set(series, account: "seriesNo")
+        return series
     }
 
     // MARK: - PEM 工具
