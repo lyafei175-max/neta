@@ -142,15 +142,19 @@ struct NetaAPIClient {
             throw APIError.serverDetail("车况无数据 code=\(response.code ?? -1) desc=\(response.description ?? "-") vin=\(CredentialStore.shared.defaultVin ?? "nil") body=\(response.rawPreview)")
         }
 
-        // data 可能是嵌套的 data 字符串，也可能直接是对象
+        // data 是 JSONValue enum，不能直接喂给 JSONSerialization.data(withJSONObject:)
+        // （那会因 NSInvalidArgumentException 直接 crash）。正确做法：用 JSONEncoder
+        // 把 JSONValue 编成 Data，再解成 CloudVehicleData。
         let cloud: CloudVehicleData
-        if let nestedString = data as? String,
+        if let nestedString = data.stringValue,
            let decoded = try? JSONDecoder().decode(CloudVehicleData.self,
                                                     from: Data(nestedString.utf8)) {
             cloud = decoded
+        } else if let encoded = try? JSONEncoder().encode(data),
+                  let decoded = try? JSONDecoder().decode(CloudVehicleData.self, from: encoded) {
+            cloud = decoded
         } else {
-            cloud = try JSONDecoder().decode(CloudVehicleData.self,
-                                             from: JSONSerialization.data(withJSONObject: data))
+            throw APIError.serverDetail("车况解析失败: " + response.rawPreview)
         }
 
         return cloud.toVehicleState()
