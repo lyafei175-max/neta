@@ -108,10 +108,22 @@ struct NetaAPIClient {
     func sendCommand(_ command: VehicleCommand) async throws -> NetaResponse {
         try requireLogin()
 
-        // DEX 字符串池确认：rvcCombined 请求体只有 vin + command 两个字段，JSON 格式。
-        var body: [String: String] = ["command": command.value]
+        // DEX 反编译 LC1/T;->f 确认 rvcCombined 请求体结构：
+        // {
+        //   "vin": "...",
+        //   "accessToken": "...",
+        //   "combinedCmd": [{"opr": <编号1-46>, "params": "<六位hex>"}]
+        // }
+        var body: [String: Any] = [
+            "combinedCmd": [
+                ["opr": Int(command.rawValue), "params": command.value]
+            ]
+        ]
         if let vin = CredentialStore.shared.defaultVin, !vin.isEmpty {
             body["vin"] = vin
+        }
+        if let token = CredentialStore.shared.accessToken, !token.isEmpty {
+            body["accessToken"] = token
         }
         let response = try await postJSON(path: Endpoint.rvcSend, jsonBody: body)
         guard response.isSuccess else {
