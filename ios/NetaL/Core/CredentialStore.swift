@@ -1,1 +1,282 @@
-aW1wb3J0IEZvdW5kYXRpb24KaW1wb3J0IFNlY3VyaXR5CmltcG9ydCBVSUtpdAoKLy8vIOiuvuWkh+ivgeS5puS4juWvhumSpeadkOaWmeeuoeeQhuOAggovLy8KLy8vIOWOnyBBUEsg5rWB56iL77yI5Lit5paH5paH5qGI5bey56Gu6K6k77yJ77yaCi8vLyBgYGAKLy8vIDEuIOacrOWcsOeUn+aIkOiuvuWkhyBFQ0Mg5a+G6ZKl5a+5Ci8vLyAyLiDkuIrkvKDlhazpkqUgbW9iaWxlUHVia2V5IOKGkiDkupHnq68KLy8vIDMuIFBPU1QgL3Bpdm90L3NlY3VyaXR5LWFwaS9wa2kvY2VydC8xLjAvYXBwbHlDZXJ0IOeUs+ivt+iuvuWkh+ivgeS5pgovLy8gNC4g5LqR56uv5LiL5Y+R6K+B5LmmIOKGkiDnu4Too4UgWC41MDkg6ZO+77yI55SoIGhvem9uLWNhLnBlbSDpqoznrb7vvIkKLy8vIDUuIOeUs+ivt+i9puS4u+mSpeWMmSDihpIg6L2m56uv5LiL6L296ZKl5YyZ5Y6f5paHCi8vLyA2LiDovabnq6/ov5Tlm54gdmVoaWNsZVB1YmtleSDihpIg5LiO5pys5Zyw5a+G6ZKl5p2Q5paZ5q+U5a+5Ci8vLyA3LiDmv4DmtLvpkqXljJkKLy8vIGBgYAovLy8KLy8vIOWOn+WunueOsOeUqCBHb29nbGUgVGluayArIGFuZHJvaWR4LnNlY3VyaXR5LWNyeXB0b++8jGlPUyDnq6/nlKgKLy8vIENyeXB0b0tpdCArIFNlY3VyaXR5LmZyYW1ld29yayDmm7/ku6PvvIzml6DpnIDnrKzkuInmlrnlr4bnoIHlupPjgIIKZmluYWwgY2xhc3MgQ3JlZGVudGlhbFN0b3JlIHsKCiAgICBzdGF0aWMgbGV0IHNoYXJlZCA9IENyZWRlbnRpYWxTdG9yZSgpCgogICAgcHJpdmF0ZSBsZXQgc2Vzc2lvbiA9IFVSTFNlc3Npb24oY29uZmlndXJhdGlvbjogLmRlZmF1bHQpCiAgICBwcml2YXRlIGxldCBjb25maWcgPSBOZXRhQVBJQ29uZmlnLmRlZmF1bHQKCiAgICBwcml2YXRlIGluaXQoKSB7fQoKICAgIC8vIE1BUks6IC0g5a+G6ZKl5p2Q5paZCgogICAgLy8vIOeUn+aIkOiuvuWkhyBFQ0Mg5a+G6ZKl5a+577yIUC0yNTbvvIzlr7nlupQgU0hBMjU2d2l0aEVDRFNB77yJ44CCCiAgICBmdW5jIGdlbmVyYXRlRGV2aWNlS2V5UGFpcigpIHRocm93cyAtPiBTZWNLZXkgewogICAgICAgIGxldCBhdHRyaWJ1dGVzOiBbU3RyaW5nOiBBbnldID0gWwogICAgICAgICAgICBrU2VjQXR0cktleVR5cGUgYXMgU3RyaW5nOiBrU2VjQXR0cktleVR5cGVFQ1NFQ1ByaW1lUmFuZG9tLAogICAgICAgICAgICBrU2VjQXR0cktleVNpemVJbkJpdHMgYXMgU3RyaW5nOiAyNTYsCiAgICAgICAgICAgIGtTZWNBdHRyVG9rZW5JRCBhcyBTdHJpbmc6IGtTZWNBdHRyVG9rZW5JRFNlY3VyZUVuY2xhdmUsCiAgICAgICAgICAgIGtTZWNQcml2YXRlS2V5QXR0cnMgYXMgU3RyaW5nOiBbCiAgICAgICAgICAgICAgICBrU2VjQXR0cklzUGVybWFuZW50IGFzIFN0cmluZzogdHJ1ZSwKICAgICAgICAgICAgICAgIGtTZWNBdHRyQXBwbGljYXRpb25UYWcgYXMgU3RyaW5nOiBkZXZpY2VUYWcKICAgICAgICAgICAgXQogICAgICAgIF0KCiAgICAgICAgdmFyIGVycm9yOiBVbm1hbmFnZWQ8Q0ZFcnJvcj4/CiAgICAgICAgZ3VhcmQgbGV0IGtleSA9IFNlY0tleUNyZWF0ZVJhbmRvbUtleShhdHRyaWJ1dGVzIGFzIENGRGljdGlvbmFyeSwgJmVycm9yKSBlbHNlIHsKICAgICAgICAgICAgdGhyb3cgZXJyb3I/LnRha2VSZXRhaW5lZFZhbHVlKCkgYXMgRXJyb3I/CiAgICAgICAgICAgICAgICA/PyBDcmVkZW50aWFsRXJyb3Iua2V5R2VuZXJhdGlvbkZhaWxlZAogICAgICAgIH0KICAgICAgICByZXR1cm4ga2V5CiAgICB9CgogICAgZnVuYyBwdWJsaWNLZXlCYXNlNjQoXyBwcml2YXRlS2V5OiBTZWNLZXkpIC0+IFN0cmluZz8gewogICAgICAgIGd1YXJkIGxldCBwdWJsaWNLZXkgPSBTZWNLZXlDb3B5UHVibGljS2V5KHByaXZhdGVLZXkpLAogICAgICAgICAgbGV0IGRhdGEgPSBTZWNLZXlDb3B5RXh0ZXJuYWxSZXByZXNlbnRhdGlvbihwdWJsaWNLZXksIG5pbCkgYXMgRGF0YT8gZWxzZSB7CiAgICAgICAgcmV0dXJuIG5pbAogICAgICAgIH0KICAgICAgICByZXR1cm4gZGF0YS5iYXNlNjRFbmNvZGVkU3RyaW5nKCkKICAgIH0KCiAgICAvLy8g5Yqg6L296K6+5aSH56eB6ZKl44CCCiAgICBmdW5jIGxvYWREZXZpY2VQcml2YXRlS2V5KCkgdGhyb3dzIC0+IFNlY0tleSB7CiAgICAgICAgbGV0IHF1ZXJ5OiBbU3RyaW5nOiBBbnldID0gWwogICAgICAgICAgICBrU2VjQ2xhc3MgYXMgU3RyaW5nOiBrU2VjQ2xhc3NLZXksCiAgICAgICAgICAgIGtTZWNBdHRyQXBwbGljYXRpb25UYWcgYXMgU3RyaW5nOiBkZXZpY2VUYWcsCiAgICAgICAgICAgIGtTZWNBdHRyS2V5VHlwZSBhcyBTdHJpbmc6IGtTZWNBdHRyS2V5VHlwZUVDU0VDUHJpbWVSYW5kb20sCiAgICAgICAgICAgIGtTZWNSZXR1cm5SZWYgYXMgU3RyaW5nOiB0cnVlCiAgICAgICAgXQoKICAgICAgICB2YXIgaXRlbTogQ0ZUeXBlUmVmPwogICAgICAgIGxldCBzdGF0dXMgPSBTZWNJdGVtQ29weU1hdGNoaW5nKHF1ZXJ5IGFzIENGRGljdGlvbmFyeSwgJml0ZW0pCiAgICAgICAgZ3VhcmQgc3RhdHVzID09IGVyclNlY1N1Y2Nlc3MsIGxldCBrZXkgPSBpdGVtIGFzISBTZWNLZXk/IGVsc2UgewogICAgICAgICAgICB0aHJvdyBDcmVkZW50aWFsRXJyb3IucHJpdmF0ZUtleVVuYXZhaWxhYmxlCiAgICAgICAgfQogICAgICAgIHJldHVybiBrZXkKICAgIH0KCiAgICBwcml2YXRlIHZhciBkZXZpY2VUYWc6IERhdGEgewogICAgICAgIERhdGEoImNvbS5uZXRhLmwuZGV2aWNla2V5Ii51dGY4KQogICAgfQoKICAgIC8vIE1BUks6IC0g6K6+5aSH6K+B5LmmCgogICAgc3RydWN0IERldmljZUNyZWRlbnRpYWxzIHsKICAgICAgICB2YXIgY2VydGlmaWNhdGVQZW06IFN0cmluZwogICAgICAgIHZhciBwcml2YXRlS2V5UGVtOiBTdHJpbmcKICAgIH0KCiAgICAvLy8g55Sz6K+36K6+5aSH6K+B5Lmm44CCCiAgICAvLy8KICAgIC8vLyDkuIrkvKDlhazpkqXlkI7osIPnlKggYGFwcGx5Q2VydGDvvIzmnI3liqHnq6/ov5Tlm54gUEVN44CCCiAgICBmdW5jIGFwcGx5RGV2aWNlQ2VydGlmaWNhdGUocHVibGljS2V5UGVtOiBTdHJpbmcpIGFzeW5jIHRocm93cyAtPiBTdHJpbmcgewogICAgICAgIGxldCBub25jZSA9IFJlcXVlc3RTaWduZXIuZ2VuZXJhdGVOb25jZSgpCiAgICAgICAgbGV0IHNpZ25hdHVyZSA9IFJlcXVlc3RTaWduZXIuc2lnbigKICAgICAgICAgICAgYXBwSWQ6IGNvbmZpZy5hcHBJZCwKICAgICAgICAgICAgYXBwS2V5OiBjb25maWcuYXBwS2V5LAogICAgICAgICAgICBhcHBTZWNyZXQ6IGNvbmZpZy5hcHBTZWNyZXQsCiAgICAgICAgICAgIG5vbmNlOiBub25jZQogICAgICAgICkKCiAgICAgICAgdmFyIGNvbXBvbmVudHMgPSBVUkxDb21wb25lbnRzKAogICAgICAgICAgICB1cmw6IFVSTChzdHJpbmc6IGNvbmZpZy5iYXNlVVJMICsgRW5kcG9pbnQuYXBwbHlDZXJ0KSEsCiAgICAgICAgICAgIHJlc29sdmluZ0FnYWluc3RCYXNlVVJMOiBmYWxzZQogICAgICAgICkhCgogICAgICAgIHZhciBpdGVtcyA9IFJlcXVlc3RTaWduZXIuY29tbW9uRmllbGRzKGNvbmZpZzogY29uZmlnLCBub25jZTogbm9uY2UsIHNpZ25hdHVyZTogc2lnbmF0dXJlKQogICAgICAgIGl0ZW1zLmFwcGVuZChVUkxRdWVyeUl0ZW0obmFtZTogInB1YmtleSIsIHZhbHVlOiBwdWJsaWNLZXlQZW0pKQogICAgICAgIGl0ZW1zLmFwcGVuZChVUkxRdWVyeUl0ZW0obmFtZTogImRldmljZV9pZCIsIHZhbHVlOiBEZXZpY2VJbmZvLmN1cnJlbnQuZGV2aWNlSUQpKQogICAgICAgIGl0ZW1zLmFwcGVuZChVUkxRdWVyeUl0ZW0obmFtZTogImRldmljZV9tb2RlbCIsIHZhbHVlOiBEZXZpY2VJbmZvLmN1cnJlbnQuZGV2aWNlTW9kZWwpKQogICAgICAgIGl0ZW1zLmFwcGVuZChVUkxRdWVyeUl0ZW0obmFtZTogImRldmljZV9zeXNfdmVyc2lvbiIsIHZhbHVlOiBEZXZpY2VJbmZvLmN1cnJlbnQuc3lzdGVtVmVyc2lvbikpCiAgICAgICAgY29tcG9uZW50cy5xdWVyeUl0ZW1zID0gaXRlbXMKCiAgICAgICAgZ3VhcmQgbGV0IHVybCA9IGNvbXBvbmVudHMudXJsIGVsc2UgeyB0aHJvdyBDcmVkZW50aWFsRXJyb3IuaW52YWxpZFVSTCB9CgogICAgICAgIHZhciByZXF1ZXN0ID0gVVJMUmVxdWVzdCh1cmw6IHVybCkKICAgICAgICByZXF1ZXN0Lmh0dHBNZXRob2QgPSAiUE9TVCIKICAgICAgICByZXF1ZXN0LnNldFZhbHVlKAogICAgICAgICAgICAiYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkO2NoYXJzZXQ9dXRmLTgiLAogICAgICAgICAgICBmb3JIVFRQSGVhZGVyRmllbGQ6ICJDb250ZW50LVR5cGUiCiAgICAgICAgKQoKICAgICAgICBsZXQgKGRhdGEsIHJlc3BvbnNlKSA9IHRyeSBhd2FpdCBzZXNzaW9uLmRhdGEoZm9yOiByZXF1ZXN0KQogICAgICAgIGd1YXJkIGxldCBodHRwID0gcmVzcG9uc2UgYXM/IEhUVFBVUkxSZXNwb25zZSwgKDIwMC4uPDMwMCkuY29udGFpbnMoaHR0cC5zdGF0dXNDb2RlKSBlbHNlIHsKICAgICAgICAgICAgdGhyb3cgQ3JlZGVudGlhbEVycm9yLnJlcXVlc3RGYWlsZWQKICAgICAgICB9CgogICAgICAgIC8vIOWTjeW6lOe7k+aehOmcgOaKk+WMheehruiupO+8jOatpOWkhOaMieacgOWPr+iDveeahOivgeS5puWtl+auteino+aekAogICAgICAgIGxldCBqc29uID0gdHJ5IEpTT05TZXJpYWxpemF0aW9uLmpzb25PYmplY3Qod2l0aDogZGF0YSkgYXM/IFtTdHJpbmc6IEFueV0KICAgICAgICBndWFyZCBsZXQgY2VydCA9IGpzb24/WyJjZXJ0aWZpY2F0ZSJdIGFzPyBTdHJpbmcgPz8ganNvbj9bImNlcnRpZmljYXRlUGVtIl0gYXM/IFN0cmluZyBlbHNlIHsKICAgICAgICAgICAgdGhyb3cgQ3JlZGVudGlhbEVycm9yLmNlcnRpZmljYXRlTWlzc2luZwogICAgICAgIH0KICAgICAgICByZXR1cm4gY2VydAogICAgfQoKICAgIC8vLyDmoKHpqozor4Hkuabpk77mmK/lkKbnlLHlk6rlkJLmoLkgQ0Eg562+5Y+R44CCCiAgICAvLy8KICAgIC8vLyDmoLnor4HkuaYgYGhvem9uLWNhLnBlbWDvvJpgQ049SE9aT04gUm9vdCBDQWDvvIxFQ0RTQSBQLTI1Nu+8jFNIQS0zODTjgIIKICAgIGZ1bmMgdmVyaWZ5Q2VydGlmaWNhdGVDaGFpbihsZWFmUGVtOiBTdHJpbmcsIHJvb3RQZW06IFN0cmluZykgLT4gQm9vbCB7CiAgICAgICAgZ3VhcmQgbGV0IHJvb3REYXRhID0gU2VsZi5wZW1Ub0RhdGEocm9vdFBlbSksCiAgICAgICAgICAgICAgbGV0IHJvb3RDZXJ0ID0gU2VjQ2VydGlmaWNhdGVDcmVhdGVXaXRoRGF0YShuaWwsIHJvb3REYXRhIGFzIENGRGF0YSksCiAgICAgICAgICAgICAgbGV0IGxlYWZEYXRhID0gU2VsZi5wZW1Ub0RhdGEobGVhZlBlbSksCiAgICAgICAgICAgICAgbGV0IGxlYWZDZXJ0ID0gU2VjQ2VydGlmaWNhdGVDcmVhdGVXaXRoRGF0YShuaWwsIGxlYWZEYXRhIGFzIENGRGF0YSkKICAgICAgICBlbHNlIHsgcmV0dXJuIGZhbHNlIH0KCiAgICAgICAgdmFyIHRydXN0OiBTZWNUcnVzdD8KICAgICAgICBsZXQgc3RhdHVzID0gU2VjVHJ1c3RDcmVhdGVXaXRoQ2VydGlmaWNhdGVzKAogICAgICAgICAgICBsZWFmQ2VydCwKICAgICAgICAgICAgU2VjUG9saWN5Q3JlYXRlQmFzaWNYNTA5KCksCiAgICAgICAgICAgICZ0cnVzdAogICAgICAgICkKICAgICAgICBndWFyZCBzdGF0dXMgPT0gZXJyU2VjU3VjY2VzcywgbGV0IHRydXN0IGVsc2UgeyByZXR1cm4gZmFsc2UgfQoKICAgICAgICAvLyDlj6rkv6Hku7vlk6rlkJLmoLkgQ0HvvIzlv73nlaXns7vnu5/kuI7nlKjmiLfmoLnor4HkuaYKICAgICAgICBTZWNUcnVzdFNldEFuY2hvckNlcnRpZmljYXRlcyh0cnVzdCwgW3Jvb3RDZXJ0XSBhcyBDRkFycmF5KQogICAgICAgIFNlY1RydXN0U2V0QW5jaG9yQ2VydGlmaWNhdGVzT25seSh0cnVzdCwgdHJ1ZSkKCiAgICAgICAgdmFyIGNmRXJyb3I6IENGRXJyb3I/CiAgICAgICAgcmV0dXJuIFNlY1RydXN0RXZhbHVhdGVXaXRoRXJyb3IodHJ1c3QsICZjZkVycm9yKQogICAgfQoKICAgIC8vIE1BUks6IC0g5Lya6K+d5Yet5o2uCgogICAgLy8vIOS/neWtmOS8muivnSB0b2tlbuOAggogICAgLy8vCiAgICAvLy8g4pqg77iPIHRva2VuIOS4juengemSpeW/hemhu+WtmCBLZXljaGFpbu+8jOS4jeiDveaUviBVc2VyRGVmYXVsdHPjgIIKICAgIC8vLyDljp8gQVBLIOWtmOWCqOmUru+8mm5ldGFfc2Vzc2lvbiAvIG5ldGFfZGV2aWNlIC8gbmV0YV9kZXZpY2VfY2VydCAvIG5ldGFfdGJvZV9rZXkKICAgIGZ1bmMgc2F2ZVNlc3Npb24oYWNjZXNzVG9rZW46IFN0cmluZywgcmVmcmVzaFRva2VuOiBTdHJpbmcpIHRocm93cyB7CiAgICAgICAgdHJ5IEtleWNoYWluSGVscGVyLnNldChhY2Nlc3NUb2tlbiwgYWNjb3VudDogImFjY2Vzc1Rva2VuIikKICAgICAgICB0cnkgS2V5Y2hhaW5IZWxwZXIuc2V0KHJlZnJlc2hUb2tlbiwgYWNjb3VudDogInJlZnJlc2hUb2tlbiIpCiAgICB9CgogICAgdmFyIGFjY2Vzc1Rva2VuOiBTdHJpbmc/IHsKICAgICAgICB0cnk/IEtleWNoYWluSGVscGVyLmdldChhY2NvdW50OiAiYWNjZXNzVG9rZW4iKQogICAgfQoKICAgIHZhciByZWZyZXNoVG9rZW46IFN0cmluZz8gewogICAgICAgIHRyeT8gS2V5Y2hhaW5IZWxwZXIuZ2V0KGFjY291bnQ6ICJyZWZyZXNoVG9rZW4iKQogICAgfQoKICAgIGZ1bmMgY2xlYXJTZXNzaW9uKCkgewogICAgICAgIEtleWNoYWluSGVscGVyLmRlbGV0ZShhY2NvdW50OiAiYWNjZXNzVG9rZW4iKQogICAgICAgIEtleWNoYWluSGVscGVyLmRlbGV0ZShhY2NvdW50OiAicmVmcmVzaFRva2VuIikKICAgIH0KCiAgICAvLyBNQVJLOiAtIFBFTSDlt6XlhbcKCiAgICBzdGF0aWMgZnVuYyBwZW1Ub0RhdGEoXyBwZW06IFN0cmluZykgLT4gRGF0YT8gewogICAgICAgIGxldCBzdHJpcHBlZCA9IHBlbQogICAgICAgICAgICAucmVwbGFjaW5nT2NjdXJyZW5jZXMob2Y6ICItLS0tLUJFR0lOIENFUlRJRklDQVRFLS0tLS0iLCB3aXRoOiAiIikKICAgICAgICAgICAgLnJlcGxhY2luZ09jY3VycmVuY2VzKG9mOiAiLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLSIsIHdpdGg6ICIiKQogICAgICAgICAgICAucmVwbGFjaW5nT2NjdXJyZW5jZXMob2Y6ICJcbiIsIHdpdGg6ICIiKQogICAgICAgICAgICAucmVwbGFjaW5nT2NjdXJyZW5jZXMob2Y6ICJcciIsIHdpdGg6ICIiKQogICAgICAgICAgICAucmVwbGFjaW5nT2NjdXJyZW5jZXMob2Y6ICIgIiwgd2l0aDogIiIpCiAgICAgICAgICAgIC50cmltbWluZ0NoYXJhY3RlcnMoaW46IC53aGl0ZXNwYWNlc0FuZE5ld2xpbmVzKQogICAgICAgIHJldHVybiBEYXRhKGJhc2U2NEVuY29kZWQ6IHN0cmlwcGVkKQogICAgfQoKICAgIGVudW0gQ3JlZGVudGlhbEVycm9yOiBFcnJvciB7CiAgICAgICAgY2FzZSBrZXlHZW5lcmF0aW9uRmFpbGVkCiAgICAgICAgY2FzZSBwcml2YXRlS2V5VW5hdmFpbGFibGUKICAgICAgICBjYXNlIGludmFsaWRVUkwKICAgICAgICBjYXNlIHJlcXVlc3RGYWlsZWQKICAgICAgICBjYXNlIGNlcnRpZmljYXRlTWlzc2luZwogICAgfQp9CgovLyBNQVJLOiAtIEtleWNoYWluCgplbnVtIEtleWNoYWluSGVscGVyIHsKCiAgICBwcml2YXRlIHN0YXRpYyBsZXQgc2VydmljZSA9ICJjb20ubmV0YS5sLmNyZWRlbnRpYWxzIgoKICAgIHN0YXRpYyBmdW5jIHNldChfIHZhbHVlOiBTdHJpbmcsIGFjY291bnQ6IFN0cmluZykgdGhyb3dzIHsKICAgICAgICBsZXQgZGF0YSA9IERhdGEodmFsdWUudXRmOCkKICAgICAgICBsZXQgcXVlcnk6IFtTdHJpbmc6IEFueV0gPSBbCiAgICAgICAgICAgIGtTZWNDbGFzcyBhcyBTdHJpbmc6IGtTZWNDbGFzc0dlbmVyaWNQYXNzd29yZCwKICAgICAgICAgICAga1NlY0F0dHJTZXJ2aWNlIGFzIFN0cmluZzogc2VydmljZSwKICAgICAgICAgICAga1NlY0F0dHJBY2NvdW50IGFzIFN0cmluZzogYWNjb3VudAogICAgICAgIF0KCiAgICAgICAgU2VjSXRlbURlbGV0ZShxdWVyeSBhcyBDRkRpY3Rpb25hcnkpCgogICAgICAgIHZhciBhdHRyaWJ1dGVzID0gcXVlcnkKICAgICAgICBhdHRyaWJ1dGVzW2tTZWNWYWx1ZURhdGEgYXMgU3RyaW5nXSA9IGRhdGEKICAgICAgICAvLyDku6TniYzlnKjorr7lpIfop6PplIHlkI7ljbPlj6/nlKjvvIzml6DpnIDmr4/mrKHpqozor4HnlKjmiLcKICAgICAgICBhdHRyaWJ1dGVzW2tTZWNBdHRyQWNjZXNzaWJsZSBhcyBTdHJpbmddID0ga1NlY0F0dHJBY2Nlc3NpYmxlQWZ0ZXJGaXJzdFVubG9jawoKICAgICAgICBsZXQgc3RhdHVzID0gU2VjSXRlbUFkZChhdHRyaWJ1dGVzIGFzIENGRGljdGlvbmFyeSwgbmlsKQogICAgICAgIGd1YXJkIHN0YXR1cyA9PSBlcnJTZWNTdWNjZXNzIGVsc2UgeyB0aHJvdyBLZXljaGFpbkVycm9yLndyaXRlRmFpbGVkKHN0YXR1cykgfQogICAgfQoKICAgIHN0YXRpYyBmdW5jIGdldChhY2NvdW50OiBTdHJpbmcpIHRocm93cyAtPiBTdHJpbmc/IHsKICAgICAgICBsZXQgcXVlcnk6IFtTdHJpbmc6IEFueV0gPSBbCiAgICAgICAgICAgIGtTZWNDbGFzcyBhcyBTdHJpbmc6IGtTZWNDbGFzc0dlbmVyaWNQYXNzd29yZCwKICAgICAgICAgICAga1NlY0F0dHJTZXJ2aWNlIGFzIFN0cmluZzogc2VydmljZSwKICAgICAgICAgICAga1NlY0F0dHJBY2NvdW50IGFzIFN0cmluZzogYWNjb3VudCwKICAgICAgICAgICAga1NlY1JldHVybkRhdGEgYXMgU3RyaW5nOiB0cnVlLAogICAgICAgICAgICBrU2VjTWF0Y2hMaW1pdCBhcyBTdHJpbmc6IGtTZWNNYXRjaExpbWl0T25lCiAgICAgICAgXQoKICAgICAgICB2YXIgaXRlbTogQ0ZUeXBlUmVmPwogICAgICAgIGxldCBzdGF0dXMgPSBTZWNJdGVtQ29weU1hdGNoaW5nKHF1ZXJ5IGFzIENGRGljdGlvbmFyeSwgJml0ZW0pCiAgICAgICAgZ3VhcmQgc3RhdHVzID09IGVyclNlY1N1Y2Nlc3MsCiAgICAgICAgICAgICAgbGV0IGRhdGEgPSBpdGVtIGFzPyBEYXRhIGVsc2UgeyByZXR1cm4gbmlsIH0KICAgICAgICByZXR1cm4gU3RyaW5nKGRhdGE6IGRhdGEsIGVuY29kaW5nOiAudXRmOCkKICAgIH0KCiAgICBzdGF0aWMgZnVuYyBkZWxldGUoYWNjb3VudDogU3RyaW5nKSB7CiAgICAgICAgbGV0IHF1ZXJ5OiBbU3RyaW5nOiBBbnldID0gWwogICAgICAgICAgICBrU2VjQ2xhc3MgYXMgU3RyaW5nOiBrU2VjQ2xhc3NHZW5lcmljUGFzc3dvcmQsCiAgICAgICAgICAgIGtTZWNBdHRyU2VydmljZSBhcyBTdHJpbmc6IHNlcnZpY2UsCiAgICAgICAgICAgIGtTZWNBdHRyQWNjb3VudCBhcyBTdHJpbmc6IGFjY291bnQKICAgICAgICBdCiAgICAgICAgU2VjSXRlbURlbGV0ZShxdWVyeSBhcyBDRkRpY3Rpb25hcnkpCiAgICB9CgogICAgZW51bSBLZXljaGFpbkVycm9yOiBFcnJvciB7CiAgICAgICAgY2FzZSB3cml0ZUZhaWxlZChPU1N0YXR1cykKICAgIH0KfQoKLy8gTUFSSzogLSDorr7lpIfkv6Hmga8KCnN0cnVjdCBEZXZpY2VJbmZvIHsKICAgIHZhciBkZXZpY2VJRDogU3RyaW5nCiAgICB2YXIgZGV2aWNlTW9kZWw6IFN0cmluZwogICAgdmFyIHN5c3RlbVZlcnNpb246IFN0cmluZwogICAgdmFyIGRldmljZVR5cGU6IFN0cmluZwoKICAgIHN0YXRpYyB2YXIgY3VycmVudDogRGV2aWNlSW5mbyB7CiAgICAgICAgI2lmIHRhcmdldEVudmlyb25tZW50KHNpbXVsYXRvcikKICAgICAgICBsZXQgbW9kZWwgPSAiaVBob25lIFNpbXVsYXRvciIKICAgICAgICAjZWxzZQogICAgICAgIGxldCBtb2RlbCA9IFVJRGV2aWNlLmN1cnJlbnQubW9kZWwKICAgICAgICAjZW5kaWYKCiAgICAgICAgcmV0dXJuIERldmljZUluZm8oCiAgICAgICAgICAgIGRldmljZUlEOiBVSURldmljZS5jdXJyZW50LmlkZW50aWZpZXJGb3JWZW5kb3I/LnV1aWRTdHJpbmcgPz8gIiIsCiAgICAgICAgICAgIGRldmljZU1vZGVsOiBtb2RlbCwKICAgICAgICAgICAgc3lzdGVtVmVyc2lvbjogVUlEZXZpY2UuY3VycmVudC5zeXN0ZW1WZXJzaW9uLAogICAgICAgICAgICBkZXZpY2VUeXBlOiAiaW9zIgogICAgICAgICkKICAgIH0KfQ==
+import Foundation
+import Security
+import UIKit
+
+/// 设备证书与密钥材料管理。
+///
+/// 原 APK 流程（中文文案已确认）：
+/// ```
+/// 1. 本地生成设备 ECC 密钥对
+/// 2. 上传公钥 mobilePubkey → 云端
+/// 3. POST /pivot/security-api/pki/cert/1.0/applyCert 申请设备证书
+/// 4. 云端下发证书 → 组装 X.509 链（用 hozon-ca.pem 验签）
+/// 5. 申请车主钥匙 → 车端下载钥匙原文
+/// 6. 车端返回 vehiclePubkey → 与本地密钥材料比对
+/// 7. 激活钥匙
+/// ```
+///
+/// 原实现用 Google Tink + androidx.security-crypto，iOS 端用
+/// CryptoKit + Security.framework 替代，无需第三方密码库。
+final class CredentialStore {
+
+    static let shared = CredentialStore()
+
+    private let session = URLSession(configuration: .default)
+    private let config = NetaAPIConfig.default
+
+    private init() {}
+
+    // MARK: - 密钥材料
+
+    /// 生成设备 ECC 密钥对（P-256，对应 SHA256withECDSA）。
+    func generateDeviceKeyPair() throws -> SecKey {
+        let attributes: [String: Any] = [
+            kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
+            kSecAttrKeySizeInBits as String: 256,
+            kSecAttrTokenID as String: kSecAttrTokenIDSecureEnclave,
+            kSecPrivateKeyAttrs as String: [
+                kSecAttrIsPermanent as String: true,
+                kSecAttrApplicationTag as String: deviceTag
+            ]
+        ]
+
+        var error: Unmanaged<CFError>?
+        guard let key = SecKeyCreateRandomKey(attributes as CFDictionary, &error) else {
+            throw error?.takeRetainedValue() as Error?
+                ?? CredentialError.keyGenerationFailed
+        }
+        return key
+    }
+
+    func publicKeyBase64(_ privateKey: SecKey) -> String? {
+        guard let publicKey = SecKeyCopyPublicKey(privateKey),
+          let data = SecKeyCopyExternalRepresentation(publicKey, nil) as Data? else {
+        return nil
+        }
+        return data.base64EncodedString()
+    }
+
+    /// 加载设备私钥。
+    func loadDevicePrivateKey() throws -> SecKey {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassKey,
+            kSecAttrApplicationTag as String: deviceTag,
+            kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
+            kSecReturnRef as String: true
+        ]
+
+        var item: CFTypeRef?
+        let status = SecItemCopyMatching(query as CFDictionary, &item)
+        guard status == errSecSuccess, let key = item as! SecKey? else {
+            throw CredentialError.privateKeyUnavailable
+        }
+        return key
+    }
+
+    private var deviceTag: Data {
+        Data("com.neta.l.devicekey".utf8)
+    }
+
+    // MARK: - 设备证书
+
+    struct DeviceCredentials {
+        var certificatePem: String
+        var privateKeyPem: String
+    }
+
+    /// 申请设备证书。
+    ///
+    /// 上传公钥后调用 `applyCert`，服务端返回 PEM。
+    func applyDeviceCertificate(publicKeyPem: String) async throws -> String {
+        let nonce = RequestSigner.generateNonce()
+        let signature = RequestSigner.sign(
+            appId: config.appId,
+            appKey: config.appKey,
+            appSecret: config.appSecret,
+            nonce: nonce
+        )
+
+        var components = URLComponents(
+            url: URL(string: config.baseURL + Endpoint.applyCert)!,
+            resolvingAgainstBaseURL: false
+        )!
+
+        var items = RequestSigner.commonFields(config: config, nonce: nonce, signature: signature)
+        items.append(URLQueryItem(name: "pubkey", value: publicKeyPem))
+        items.append(URLQueryItem(name: "device_id", value: DeviceInfo.current.deviceID))
+        items.append(URLQueryItem(name: "device_model", value: DeviceInfo.current.deviceModel))
+        items.append(URLQueryItem(name: "device_sys_version", value: DeviceInfo.current.systemVersion))
+        components.queryItems = items
+
+        guard let url = components.url else { throw CredentialError.invalidURL }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue(
+            "application/x-www-form-urlencoded;charset=utf-8",
+            forHTTPHeaderField: "Content-Type"
+        )
+
+        let (data, response) = try await session.data(for: request)
+        guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
+            throw CredentialError.requestFailed
+        }
+
+        // 响应结构需抓包确认，此处按最可能的证书字段解析
+        let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+        guard let cert = json?["certificate"] as? String ?? json?["certificatePem"] as? String else {
+            throw CredentialError.certificateMissing
+        }
+        return cert
+    }
+
+    /// 校验证书链是否由哪吒根 CA 签发。
+    ///
+    /// 根证书 `hozon-ca.pem`：`CN=HOZON Root CA`，ECDSA P-256，SHA-384。
+    func verifyCertificateChain(leafPem: String, rootPem: String) -> Bool {
+        guard let rootData = Self.pemToData(rootPem),
+              let rootCert = SecCertificateCreateWithData(nil, rootData as CFData),
+              let leafData = Self.pemToData(leafPem),
+              let leafCert = SecCertificateCreateWithData(nil, leafData as CFData)
+        else { return false }
+
+        var trust: SecTrust?
+        let status = SecTrustCreateWithCertificates(
+            leafCert,
+            SecPolicyCreateBasicX509(),
+            &trust
+        )
+        guard status == errSecSuccess, let trust else { return false }
+
+        // 只信任哪吒根 CA，忽略系统与用户根证书
+        SecTrustSetAnchorCertificates(trust, [rootCert] as CFArray)
+        SecTrustSetAnchorCertificatesOnly(trust, true)
+
+        var cfError: CFError?
+        return SecTrustEvaluateWithError(trust, &cfError)
+    }
+
+    // MARK: - 会话凭据
+
+    /// 保存会话 token。
+    ///
+    /// ⚠️ token 与私钥必须存 Keychain，不能放 UserDefaults。
+    /// 原 APK 存储键：neta_session / neta_device / neta_device_cert / neta_tboe_key
+    func saveSession(accessToken: String, refreshToken: String) throws {
+        try KeychainHelper.set(accessToken, account: "accessToken")
+        try KeychainHelper.set(refreshToken, account: "refreshToken")
+    }
+
+    var accessToken: String? {
+        try? KeychainHelper.get(account: "accessToken")
+    }
+
+    var refreshToken: String? {
+        try? KeychainHelper.get(account: "refreshToken")
+    }
+
+    func clearSession() {
+        KeychainHelper.delete(account: "accessToken")
+        KeychainHelper.delete(account: "refreshToken")
+    }
+
+    // MARK: - PEM 工具
+
+    static func pemToData(_ pem: String) -> Data? {
+        let stripped = pem
+            .replacingOccurrences(of: "-----BEGIN CERTIFICATE-----", with: "")
+            .replacingOccurrences(of: "-----END CERTIFICATE-----", with: "")
+            .replacingOccurrences(of: "\n", with: "")
+            .replacingOccurrences(of: "\r", with: "")
+            .replacingOccurrences(of: " ", with: "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return Data(base64Encoded: stripped)
+    }
+
+    enum CredentialError: Error {
+        case keyGenerationFailed
+        case privateKeyUnavailable
+        case invalidURL
+        case requestFailed
+        case certificateMissing
+    }
+}
+
+// MARK: - Keychain
+
+enum KeychainHelper {
+
+    private static let service = "com.neta.l.credentials"
+
+    static func set(_ value: String, account: String) throws {
+        let data = Data(value.utf8)
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: account
+        ]
+
+        SecItemDelete(query as CFDictionary)
+
+        var attributes = query
+        attributes[kSecValueData as String] = data
+        // 令牌在设备解锁后即可用，无需每次验证用户
+        attributes[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlock
+
+        let status = SecItemAdd(attributes as CFDictionary, nil)
+        guard status == errSecSuccess else { throw KeychainError.writeFailed(status) }
+    }
+
+    static func get(account: String) throws -> String? {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: account,
+            kSecReturnData as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne
+        ]
+
+        var item: CFTypeRef?
+        let status = SecItemCopyMatching(query as CFDictionary, &item)
+        guard status == errSecSuccess,
+              let data = item as? Data else { return nil }
+        return String(data: data, encoding: .utf8)
+    }
+
+    static func delete(account: String) {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: account
+        ]
+        SecItemDelete(query as CFDictionary)
+    }
+
+    enum KeychainError: Error {
+        case writeFailed(OSStatus)
+    }
+}
+
+// MARK: - 设备信息
+
+struct DeviceInfo {
+    var deviceID: String
+    var deviceModel: String
+    var systemVersion: String
+    var deviceType: String
+
+    static var current: DeviceInfo {
+        #if targetEnvironment(simulator)
+        let model = "iPhone Simulator"
+        #else
+        let model = UIDevice.current.model
+        #endif
+
+        return DeviceInfo(
+            deviceID: UIDevice.current.identifierForVendor?.uuidString ?? "",
+            deviceModel: model,
+            systemVersion: UIDevice.current.systemVersion,
+            deviceType: "ios"
+        )
+    }
+}
