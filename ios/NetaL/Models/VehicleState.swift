@@ -415,7 +415,7 @@ struct VehicleStatusParser {
 /// ⚠️ 字段的 JSON 类型与嵌套关系需抓包验证，此处按最可能的形式定义。
 struct CloudVehicleData: Codable {
     var vehicleBasic: Basic?
-    var vehicleExtend: Extend?
+    var airconditionStatus: Aircondition?
     var vehicleConnection: Connection?
 
     struct Basic: Codable {
@@ -442,27 +442,21 @@ struct CloudVehicleData: Codable {
         var coDriverSizeWinStatus: String?
     }
 
-    struct Extend: Codable {
-        var airStatus: String?               // airStatus
-        var airconditionStatus: String?
-        var airInTemp: Double?               // 车内温度
-        var airOutTemp: Double?              // 车外温度
-        var airWindLevel: Int?               // airWindLevel
-        var defrostStatus: String?
-        var seatStatus: String?
-        var seatHeating: String?
-        var seatHeatingLevel: Int?
-        var seatVentilation: String?
-        var seatVentilationLevel: Int?
-        var driverSeatHeatingStatus: String?
-        var coDriverSeatHeatingStatus: String?
-        var driverSeatVentilationStatus: String?
-        var coDriverSeatVentilationStatus: String?
-        var chargeStatus: String?
-        var chargingStatus: String?
-        var enduranceStatus: String?
-        var fuelMileageRemaining: Double?
-        var tyreStatus: String?
+    struct Aircondition: Codable {
+        var airWindLevel: Int?
+        var thermalContainerStatus: Int?
+        var lockCarKeypStatus: Int?
+        var clmVentSts: Int?
+        var airFilterElement: Int?
+        var airOutTemp: Double?       // ×10，需除10
+        var airMode: Int?
+        var airTemp: Double?          // 设定温度
+        var airInTemp: Double?        // ×10
+        var airStatus: Int?
+        var thermalContainerTemp: Int?
+        var clmFootSts: Int?
+        var clmAcSts: Int?
+        var defrostStatus: Int?
     }
 
     struct Connection: Codable {
@@ -487,11 +481,10 @@ struct CloudVehicleData: Codable {
             state.rearRightWindow = mapWindow(b.rightAfterWinLockStatus)
         }
 
-        if let e = vehicleExtend {
-            state.indoorTemperature = e.airInTemp
-            state.outdoorTemperature = e.airOutTemp
+        if let e = airconditionStatus {
+            state.indoorTemperature = e.airInTemp.map { $0 / 10.0 }
+            state.outdoorTemperature = e.airOutTemp.map { $0 / 10.0 }
             state.airWindLevel = e.airWindLevel
-            state.availableMileage = e.fuelMileageRemaining
         }
 
         if let c = vehicleConnection {
