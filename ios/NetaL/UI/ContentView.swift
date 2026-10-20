@@ -187,22 +187,10 @@ struct RootView: View {
 
     private func checkSession() async {
         let auth = AuthService.shared
-
-        // AuthService 是 actor，属性访问需 await
-        guard await auth.isAuthenticated else {
-            isAuthenticated = false
-            isChecking = false
-            return
-        }
-
-        // 有本地会话，向服务端校验
-        if await auth.verifySession() {
-            isAuthenticated = true
-        } else {
-            // 会话失效，对应文案「登录已过期」
-            await auth.logout()
-            isAuthenticated = false
-        }
+        // 只要 Keychain 里有 accessToken + refreshToken 就直接进主界面，
+        // 不启动时强制刷新（refresh 接口参数名未校准，强制校验会误登出）。
+        // 真正请求 401 时由 NetaAPIClient 自动刷新重试。
+        isAuthenticated = await auth.isAuthenticated
         isChecking = false
     }
 }
