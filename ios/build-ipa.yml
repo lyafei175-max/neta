@@ -1,0 +1,158 @@
+name: Build IPA
+
+# ============================================================
+#  编译检查 + 打包无签名 IPA
+#
+#  不需要任何证书或 Secret。
+#  公开仓库：macOS runner 免费不限量
+#
+#  用法：Actions → Build IPA → Run workflow
+# ============================================================
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: '构建模式'
+        required: true
+        default: 'ipa'
+        type: choice
+        options:
+          - compile-only
+          - ipa
+      xcode:
+        description: 'Xcode 版本'
+        required: false
+        default: '15.4'
+        type: choice
+        options:
+          - '15.4'
+          - '16.2'
+          - 'latest'
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 40
+    env:
+      PROJECT_DIR: ios
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          REQUESTED="${{ github.event.inputs.xcode }}"
+          if [ "$REQUESTED" = "latest" ]; then
+            sudo xcode-select -s "$(ls -d /Applications/Xcode_*.app | tail -1)"
+          else
+            sudo xcode-select -s /Applications/Xcode_${REQUESTED}.app 2>/dev/null || \
+            sudo xcode-select -s "$(ls -d /Applications/Xcode_*.app | tail -1)"
+          fi
+          xcodebuild -version
+
+      - name: Install XcodeGen
+        run: |
+          brew install xcodegen
+          xcodegen --version
+
+      - name: Generate project
+        run: |
+          cd $PROJECT_DIR
+          xcodegen generate
+
+      - name: Compile
+        run: |
+          cd $PROJECT_DIR
+          set +e
+          xcodebuild \
+            -project NetaL.xcodeproj \
+            -scheme NetaL \
+            -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            build > compile-log.txt 2>&1
+          set -e
+          if grep -qE "error:" compile-log.txt; then
+            echo "=== 编译错误 ==="
+            grep -oE "error: .*" compile-log.txt | sort -u | head -40
+            exit 1
+          fi
+          echo "编译通过"
+
+      - name: Archive and package IPA
+        if: github.event.inputs.mode == 'ipa'
+        run: |
+          cd $PROJECT_DIR
+          set +e
+
+          xcodebuild \
+            -project NetaL.xcodeproj \
+            -scheme NetaL \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath build/NetaL.xcarchive \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            archive > archive-log.txt 2>&1
+
+          if grep -qE "error:" archive-log.txt; then
+            echo "Archive 失败:"
+            grep -E "error:" archive-log.txt | head -30
+            exit 1
+          fi
+          echo "Archive 完成"
+
+          APP_PATH=$(find build/NetaL.xcarchive/Products/Applications -maxdepth 1 -name "*.app" | head -1)
+          echo "APP: $APP_PATH"
+          if [ -z "$APP_PATH" ]; then
+            echo "未找到 .app"
+            find build/NetaL.xcarchive/Products -maxdepth 3 | head -20
+            exit 1
+          fi
+
+          rm -rf unsigned-ipa
+          mkdir -p unsigned-ipa/Payload
+          cp -R "$APP_PATH" unsigned-ipa/Payload/
+          cd unsigned-ipa
+          zip -qry ../NetaL-unsigned.ipa Payload
+          cd ..
+          rm -rf unsigned-ipa
+
+          echo "=== 产物 ==="
+          ls -lh NetaL-unsigned.ipa
+          unzip -l NetaL-unsigned.ipa | head -15
+          set -e
+
+      - name: Upload IPA
+        if: always() && github.event.inputs.mode == 'ipa'
+        uses: actions/upload-artifact@v4
+        with:
+          name: NetaL-ipa
+          path: |
+            ios/NetaL-unsigned.ipa
+            ios/compile-log.txt
+            ios/archive-log.txt
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Summary
+        if: always()
+        run: |
+          cd $PROJECT_DIR
+          {
+            echo "## 结果"
+            if [ "${{ github.event.inputs.mode }}" = "ipa" ]; then
+              if ls NetaL-unsigned.ipa >/dev/null 2>&1; then
+                echo "IPA 导出成功"
+                echo '```'
+                ls -lh NetaL-unsigned.ipa
+                echo '```'
+                echo "在 Artifacts 下载 NetaL-ipa"
+              else
+                echo "IPA 导出失败"
+              fi
+            fi
+          } >> $GITHUB_STEP_SUMMARY
