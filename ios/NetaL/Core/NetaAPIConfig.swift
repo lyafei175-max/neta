@@ -93,13 +93,6 @@ enum RequestSigner {
 }
 
 // MARK: - 已知端点
-
-enum Endpoint {
-    /// 申请设备证书
-    static let applyCert = "/pivot/security-api/pki/cert/1.0/applyCert"
-    /// 刷新 API token
-    static let refreshToken = "/customer/account/info/refreshApiToken"
-
-    // 以下端点静态分析未提取到，需抓包补全：
-    //   登录（手机号+验证码）、车辆列表、绑定车辆、车况查询、指令下发
-}
+//
+// 全部端点已从 APK 字符串池提取完毕，见 `Endpoint.swift`。
+// 路径规则：`/pivot/<域>/<版本>/<方法>`，共 14 个。
