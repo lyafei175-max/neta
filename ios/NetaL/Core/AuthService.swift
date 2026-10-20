@@ -78,6 +78,16 @@ actor AuthService {
     ///
     /// 请求体已确认（`LA1/e0;->a`，JSON）：
     /// `{ phone, code, appVersion, seriesNo, deviceType, pushToken }`
+    ///
+    /// 响应结构已确认（`Ly1/j;->h` 解析）：
+    /// ```
+    /// { "code": 0, "data": {
+    ///     "token":    { "access_token", "refresh_token", "expires_in" },
+    ///     "customer": { "id", "phone", "nickName", "name", "profilePhoto" },
+    ///     "vin": "..."
+    /// } }
+    /// ```
+    /// 注意 token 在 `data.token` 下，不是 `data` 根层（安卓用 `getString`，缺字段即抛异常）。
     func login(phone: String, code: String) async throws {
         guard Self.isValidPhone(phone) else { throw AuthError.invalidPhone }
         guard !code.isEmpty else { throw AuthError.codeNotRequested }
@@ -96,17 +106,29 @@ actor AuthService {
             ]
         )
 
-        guard response.isSuccess, let payload = response.data?.asDictionary else {
-            throw AuthError.serverRejected(response.message ?? "")
+        guard response.isSuccess else {
+            throw AuthError.serverRejected(response.failureText)
         }
 
-        guard let accessToken = payload["access_token"]?.asString ?? payload["accessToken"]?.asString,
-              let refreshToken = payload["refresh_token"]?.asString ?? payload["refreshToken"]?.asString
+        // data.token.{access_token, refresh_token}
+        let token = response.data?["token"]
+        guard let accessToken = token?["access_token"]?.asString ?? response.data?["access_token"]?.asString,
+              let refreshToken = token?["refresh_token"]?.asString ?? response.data?["refresh_token"]?.asString
         else {
-            throw AuthError.credentialMissing
+            throw AuthError.serverRejected("登录响应缺少 token 字段：\(response.rawPreview)")
         }
 
         try store.saveSession(accessToken: accessToken, refreshToken: refreshToken)
+
+        // 顺手记下默认车辆 VIN 与账号信息，供车控/账户页使用
+        if let vin = response.data?["vin"]?.asString, !vin.isEmpty {
+            try? store.saveVin(vin)
+        }
+        if let customer = response.data?["customer"],
+           let nick = customer["nickName"]?.asString {
+            UserDefaults.standard.set(nick, forKey: "neta.nickName")
+        }
+
         loggedIn = true
         isLoggedIn = true
     }
@@ -182,20 +204,27 @@ actor AuthService {
             parameters: ["refresh_token": refreshToken]
         )
 
-        guard response.isSuccess, let payload = response.data?.asDictionary else {
+        guard response.isSuccess else {
             throw AuthError.sessionExpired
         }
 
-        guard let token = payload["access_token"]?.asString ?? payload["accessToken"]?.asString else {
-            throw AuthError.credentialMissing
+        // 与登录同构：data.token.access_token，兼容扁平结构
+        let token = response.data?["token"]
+        guard let accessToken = token?["access_token"]?.asString
+                ?? response.data?["access_token"]?.asString
+                ?? response.data?["accessToken"]?.asString
+        else {
+            throw AuthError.serverRejected("刷新响应缺少 token：\(response.rawPreview)")
         }
 
         try store.saveSession(
-            accessToken: token,
-            refreshToken: payload["refresh_token"]?.asString ?? refreshToken
+            accessToken: accessToken,
+            refreshToken: token?["refresh_token"]?.asString
+                ?? response.data?["refresh_token"]?.asString
+                ?? refreshToken
         )
         lastRefreshAt = Date()
-        return token
+        return accessToken
     }
 
     /// 服务端返回未授权时调用，刷新后重试一次。
@@ -217,21 +246,43 @@ actor AuthService {
 // MARK: - 响应辅助
 
 extension NetaResponse {
-    /// 业务状态判断。
-    ///
-    /// 响应结构来自 APK `Ly1/m;->a` 的解析：`code`(Int) / `message` / `data`。
-    /// 成功码集合 `Ly1/m;->h` 无法静态还原，按惯例放宽为 0 / 200。
+    /// 业务成功码集合，来自 `Ly1/m;-><clinit>`：`{200, 20000, 0, 1001, 42528}`。
+    /// 已确认（静态 Set 常量）。
+    static let successCodes: Set<Int> = [0, 200, 1001, 20000, 42528]
+
     var isSuccess: Bool {
         guard let code else {
             // 无 code 字段时按 HTTP 层已通过、body 有 data 视为成功
             return data != nil
         }
-        return code == 0 || code == 200
+        return Self.successCodes.contains(code)
     }
 
-    /// 提取需要重新登录的错误。
+    /// 需要重新登录的业务码。
     var requiresRelogin: Bool {
         guard let code else { return false }
         return [401, 40101, 403].contains(code)
+    }
+
+    /// 面向用户的失败描述：错误码 + 服务端文案。
+    var failureText: String {
+        var parts: [String] = []
+        if let code { parts.append("错误码 \(code)") }
+        let text = [message, description]
+            .compactMap { $0 }
+            .filter { !$0.isEmpty }
+            .joined(separator: " / ")
+        parts.append(text.isEmpty ? "服务未返回原因" : text)
+        return parts.joined(separator: "：")
+    }
+
+    /// 原始 JSON 预览（诊断用，截断到 300 字符）。
+    var rawPreview: String {
+        guard let data else { return "(空)" }
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.withoutEscapingSlashes]
+        guard let encoded = try? encoder.encode(data),
+              let s = String(data: encoded, encoding: .utf8) else { return "(无法序列化)" }
+        return s.count > 300 ? String(s.prefix(300)) + "…" : s
     }
 }
