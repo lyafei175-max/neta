@@ -19,6 +19,7 @@ final class CarController: ObservableObject {
     @Published private(set) var isBusy = false
     @Published private(set) var lastError: String?
     @Published private(set) var lastResult: String?
+    @Published var lastRawVehicleData: String?
 
     // MARK: 依赖
 
@@ -131,6 +132,7 @@ final class CarController: ObservableObject {
     func refreshState() async {
         do {
             state = try await api.fetchVehicleState()
+            lastRawVehicleData = api.lastRawVehicleSnapshot
             lastError = nil
         } catch {
             lastError = error.localizedDescription
@@ -327,6 +329,14 @@ struct ContentView: View {
                 Text("当前数据源没有可显示的其余车辆状态")
                     .font(.caption)
                     .foregroundStyle(.secondary)
+            }
+
+            if let raw = controller.lastRawVehicleData, !raw.isEmpty {
+                Divider()
+                Text("原始返回: " + raw)
+                    .font(.system(size: 9, design: .monospaced))
+                    .foregroundStyle(.secondary)
+                    .textSelection(.enabled)
             }
 
             if let result = controller.lastResult {
