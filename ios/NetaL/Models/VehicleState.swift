@@ -417,81 +417,81 @@ struct CloudVehicleData: Codable {
     var vehicleBasic: Basic?
     var airconditionStatus: Aircondition?
     var vehicleConnection: Connection?
+    var lockStatus: Lock?
+    var doorCoverStatus: DoorCover?
+    var windowStatus: Win?
+    var enduranceStatus: Endurance?
 
     struct Basic: Codable {
-        var lockStatus: String?          // lockStatus
-        var locked: String?
-        var trunkStatus: String?
-        var hoodStatus: String?
-        var doorCoverStatus: String?     // doorCoverStatus
-        var coverFrontStatus: String?    // coverFrontStatus
-        var fuelTankCoverLockStatus: String?
-        var windowStatus: String?        // windowStatus
-        var skyWindowStatus: String?     // skyWindowStatus
-        var driverSizeDoorStatus: String?
-        var coDriverSizeDoorStatus: String?
-        var leftAfterDoorStatus: String?
-        var rightAfterDoorStatus: String?
-        var driverSizeDoorLockStatus: String?
-        var coDriverSizeDoorLockStatus: String?
-        var leftAfterDoorLockStatus: String?
-        var rightAfterDoorLockStatus: String?
-        var leftAfterWinStatus: String?
-        var rightAfterWinLockStatus: String?
-        var driverSizeWinStatus: String?
-        var coDriverSizeWinStatus: String?
+        var soc: Double?               // 电量百分比
+        var mileage: Double?           // 总里程 ×10
+        var speed: Double?
+        var totalVoltage: Double?
     }
-
     struct Aircondition: Codable {
         var airWindLevel: Int?
-        var thermalContainerStatus: Int?
-        var lockCarKeypStatus: Int?
-        var clmVentSts: Int?
-        var airFilterElement: Int?
-        var airOutTemp: Double?       // ×10，需除10
-        var airMode: Int?
-        var airTemp: Double?          // 设定温度
-        var airInTemp: Double?        // ×10
-        var airStatus: Int?
-        var thermalContainerTemp: Int?
-        var clmFootSts: Int?
-        var clmAcSts: Int?
-        var defrostStatus: Int?
+        var airOutTemp: Double?        // ×10
+        var airInTemp: Double?         // ×10
+        var airTemp: Double?
     }
-
     struct Connection: Codable {
-        var bleStatus: String?               // bleStatus
-        var bleConnectionState: String?
-        var carBoarStatus: String?           // carBoarStatus
+        var online: Bool?
+        var onlineStatus: Int?
+    }
+    struct Lock: Codable {
+        var driverSizeDoorLockStatus: Int?
+        var coDriverSizeDoorLockStatus: Int?
+        var leftAfterDoorLockStatus: Int?
+        var rightAfterDoorLockStatus: Int?
+    }
+    struct DoorCover: Codable {
+        var driverSizeDoorStatus: Int?
+        var coDriverSizeDoorStatus: Int?
+        var leftAfterDoorStatus: Int?
+        var rightAfterDoorStatus: Int?
+    }
+    struct Win: Codable {
+        var driverSizeWinStatus: Int?
+        var coDriverSizeWinStatus: Int?
+    }
+    struct Endurance: Codable {
+        var fuelMileageRemaining: Double?  // ×10 km
+        var estimateFuelPercent: Double?
+        var powerPercentage: Double?
     }
 
-    /// 归一到统一模型。对应原 APK 的 `toVehicleState()`。
-    ///
-    /// ⚠️ 云端字段到 BLE 信号的枚举映射需对照实际返回值确定。
     func toVehicleState() -> VehicleState {
-        var state = VehicleState()
-
+        var s = VehicleState()
         if let b = vehicleBasic {
-            state.doorsLock = mapLock(b.lockStatus ?? b.locked)
-            state.trunk = mapDoor(b.trunkStatus)
-            state.hood = mapDoor(b.hoodStatus)
-            state.frontLeftWindow = mapWindow(b.driverSizeWinStatus)
-            state.frontRightWindow = mapWindow(b.coDriverSizeWinStatus)
-            state.rearLeftWindow = mapWindow(b.leftAfterWinStatus)
-            state.rearRightWindow = mapWindow(b.rightAfterWinLockStatus)
+            s.batterySOC = b.soc
+            s.totalMileage = b.mileage.map { $0 / 10.0 }
         }
-
-        if let e = airconditionStatus {
-            state.indoorTemperature = e.airInTemp.map { $0 / 10.0 }
-            state.outdoorTemperature = e.airOutTemp.map { $0 / 10.0 }
-            state.airWindLevel = e.airWindLevel
+        if let a = airconditionStatus {
+            s.outdoorTemperature = a.airOutTemp.map { $0 / 10.0 }
+            s.indoorTemperature = a.airInTemp.map { $0 / 10.0 }
+            s.airWindLevel = a.airWindLevel
         }
-
-        if let c = vehicleConnection {
-            state.bluetoothConnected = mapBool(c.bleStatus ?? c.bleConnectionState)
+        if let e = enduranceStatus {
+            s.availableMileage = e.fuelMileageRemaining.map { $0 / 10.0 }
         }
-
-        return state
+        if let l = lockStatus {
+            // 0=已锁 1=未开（推断，待校准）
+            let anyUnlocked = [l.driverSizeDoorLockStatus, l.coDriverSizeDoorLockStatus,
+                               l.leftAfterDoorLockStatus, l.rightAfterDoorLockStatus]
+                .contains(where: { $0 == 1 || $0 == 2 })
+            s.doorsLock = anyUnlocked ? .unlocked : .locked
+        }
+        if let d = doorCoverStatus {
+            s.driverDoor = d.driverSizeDoorStatus == 1 ? .open : .closed
+            s.passengerDoor = d.coDriverSizeDoorStatus == 1 ? .open : .closed
+            s.leftRearDoor = d.leftAfterDoorStatus == 1 ? .open : .closed
+            s.rightRearDoor = d.rightAfterDoorStatus == 1 ? .open : .closed
+        }
+        if let w = windowStatus {
+            s.frontLeftWindow = w.driverSizeWinStatus == 0 ? .closed : .open
+            s.frontRightWindow = w.coDriverSizeWinStatus == 0 ? .closed : .open
+        }
+        return s
     }
 
     // MARK: 枚举映射（需抓包校准）
