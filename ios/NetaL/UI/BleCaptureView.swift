@@ -81,11 +81,18 @@ struct BleCaptureView: View {
     private var deviceList: some View {
         VStack(spacing: 0) {
             if model.devices.isEmpty {
-                ContentUnavailableView(
-                    "未发现设备",
-                    systemImage: "antenna.radiowaves.left.and.right.slash",
-                    description: Text(model.statusText)
-                )
+                VStack(spacing: 10) {
+                    Image(systemName: "antenna.radiowaves.left.and.right.slash")
+                        .font(.largeTitle)
+                        .foregroundStyle(.secondary)
+                    Text("未发现设备")
+                        .font(.headline)
+                    Text(model.statusText)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 List(model.devices, id: \.id) { device in
                     Button {
@@ -112,9 +119,12 @@ struct BleCaptureView: View {
 
     private func rssiColor(_ rssi: Int) -> Color {
         switch rssi {
-        case -50...: .green
-        case -70 ... -51: .orange
-        default: .red
+        case (-50)...:
+            return .green
+        case (-70)...(-51):
+            return .orange
+        default:
+            return .red
         }
     }
 
@@ -191,7 +201,7 @@ struct BleCaptureView: View {
                 .id(frame.id)
             }
             .listStyle(.plain)
-            .onChange(of: model.frames.count) { _, _ in
+            .onChange(of: model.frames.count) { _ in
                 if let last = model.frames.last {
                     withAnimation { proxy.scrollTo(last.id, anchor: .bottom) }
                 }
@@ -228,17 +238,18 @@ final class CaptureModel: ObservableObject {
     init() {
         recorder.onPeripheralDiscovered = { [weak self] in
             guard let self else { return }
-            self.devices = recorder.discoveredPeripherals.map {
+            self.devices = self.recorder.discoveredPeripherals.map {
                 DiscoveredDevice(id: $0.id, name: $0.name, rssi: $0.rssi)
             }
         }
         recorder.onStateChange = { [weak self] text in
-            self?.statusText = text
+            guard let self else { return }
+            self.statusText = text
             if text.hasPrefix("已连接") {
-                self?.isConnected = true
-                self?.peerName = recorder.discoveredPeripherals.first?.name
+                self.isConnected = true
+                self.peerName = self.recorder.discoveredPeripherals.first?.name
             } else if text.contains("断开") || text.contains("失败") {
-                self?.isConnected = false
+                self.isConnected = false
             }
         }
         recorder.onFrame = { [weak self] frame in
@@ -247,7 +258,7 @@ final class CaptureModel: ObservableObject {
             if self.frames.count > 2000 {
                 self.frames.removeFirst(self.frames.count - 2000)
             }
-            self.mtu = recorder.currentMTU()
+            self.mtu = self.recorder.currentMTU()
         }
     }
 
@@ -303,11 +314,12 @@ final class CaptureModel: ObservableObject {
 private let UUID_PRIMARY_PREFIX = "0000FFF1"
 private let UUID_SECONDARY_PREFIX = "0000FFF2"
 
-// MARK: - 在设置页入口
-
-extension ContentView {
-    /// 设置页加入抓包入口。
-    static func captureEntry() -> some View {
+/// 设置页里的抓包入口。
+///
+/// 单独抽出来是因为 `BleCaptureView` 的私有扩展跨文件不可见，
+/// 用独立 View 让 ContentView 能直接引用。
+struct BleCaptureEntry: View {
+    var body: some View {
         NavigationLink {
             BleCaptureView()
         } label: {
