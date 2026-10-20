@@ -1,1 +1,272 @@
-aW1wb3J0IEZvdW5kYXRpb24KCi8vLyDkupHnq6/ovabmjqflrqLmiLfnq6/jgIIKLy8vCi8vLyDljp8gQVBLIOS9v+eUqOWOn+eUnyBgSHR0cFVSTENvbm5lY3Rpb25g77yI5pegIE9rSHR0cC9SZXRyb2ZpdO+8ie+8jAovLy8gUE9TVCDooajljZXvvIzlk43lupTljIXoo4XkuLogYE5ldGFSZXNwb25zZShzdGF0dXM9Li4uKWDjgIIKc3RydWN0IE5ldGFBUElDbGllbnQgewoKICAgIGxldCBjb25maWc6IE5ldGFBUElDb25maWcKICAgIGxldCBzZXNzaW9uOiBVUkxTZXNzaW9uCgogICAgLy8vIOaYr+WQpuiHquWKqOazqOWFpSBhY2Nlc3NUb2tlbuOAgueZu+W9lS/ms6jlhowv5Yi35paw5o6l5Y+j5bqU6K6+5Li6IGZhbHNl44CCCiAgICB2YXIgaW5qZWN0QXV0aDogQm9vbCA9IHRydWUKCiAgICBpbml0KGNvbmZpZzogTmV0YUFQSUNvbmZpZyA9IC5kZWZhdWx0LAogICAgICAgICBzZXNzaW9uOiBVUkxTZXNzaW9uID0gLnNoYXJlZCwKICAgICAgICAgaW5qZWN0QXV0aDogQm9vbCA9IHRydWUpIHsKICAgICAgICBzZWxmLmNvbmZpZyA9IGNvbmZpZwogICAgICAgIHNlbGYuc2Vzc2lvbiA9IHNlc3Npb24KICAgICAgICBzZWxmLmluamVjdEF1dGggPSBpbmplY3RBdXRoCiAgICB9CgogICAgLy8gTUFSSzogLSDlupXlsYLor7fmsYIKCiAgICAvLy8g5Y+R6YCB5bim562+5ZCN55qE6KGo5Y2V6K+35rGC44CCCiAgICBmdW5jIHBvc3QocGF0aDogU3RyaW5nLCBwYXJhbWV0ZXJzOiBbU3RyaW5nOiBTdHJpbmddKSBhc3luYyB0aHJvd3MgLT4gTmV0YVJlc3BvbnNlIHsKICAgICAgICBsZXQgcmVzcG9uc2UgPSB0cnkgYXdhaXQgcGVyZm9ybVBvc3QocGF0aDogcGF0aCwgcGFyYW1ldGVyczogcGFyYW1ldGVycykKCiAgICAgICAgLy8g5Lia5Yqh5bGC5pyq5o6I5p2DIOKGkiDliLfmlrAgdG9rZW4g5ZCO6Ieq5Yqo6YeN6K+V5LiA5qyhCiAgICAgICAgaWYgcmVzcG9uc2UucmVxdWlyZXNSZWxvZ2luLCBpbmplY3RBdXRoIHsKICAgICAgICAgICAgXyA9IHRyeSBhd2FpdCBBdXRoU2VydmljZS5zaGFyZWQucmVmcmVzaCgpCiAgICAgICAgICAgIHJldHVybiB0cnkgYXdhaXQgcGVyZm9ybVBvc3QocGF0aDogcGF0aCwgcGFyYW1ldGVyczogcGFyYW1ldGVycykKICAgICAgICB9CgogICAgICAgIHJldHVybiByZXNwb25zZQogICAgfQoKICAgIC8vLyDljZXmrKHor7fmsYLvvIzkuI3lkKvph43or5XjgIIKICAgIHByaXZhdGUgZnVuYyBwZXJmb3JtUG9zdChwYXRoOiBTdHJpbmcsIHBhcmFtZXRlcnM6IFtTdHJpbmc6IFN0cmluZ10pIGFzeW5jIHRocm93cyAtPiBOZXRhUmVzcG9uc2UgewogICAgICAgIGxldCBub25jZSA9IFJlcXVlc3RTaWduZXIuZ2VuZXJhdGVOb25jZSgpCiAgICAgICAgbGV0IHNpZ25hdHVyZSA9IFJlcXVlc3RTaWduZXIuc2lnbigKICAgICAgICAgICAgYXBwSWQ6IGNvbmZpZy5hcHBJZCwKICAgICAgICAgICAgYXBwS2V5OiBjb25maWcuYXBwS2V5LAogICAgICAgICAgICBhcHBTZWNyZXQ6IGNvbmZpZy5hcHBTZWNyZXQsCiAgICAgICAgICAgIG5vbmNlOiBub25jZQogICAgICAgICkKCiAgICAgICAgdmFyIGFsbFBhcmFtcyA9IFJlcXVlc3RTaWduZXIuY29tbW9uRmllbGRzKAogICAgICAgICAgICBjb25maWc6IGNvbmZpZywgbm9uY2U6IG5vbmNlLCBzaWduYXR1cmU6IHNpZ25hdHVyZQogICAgICAgICkKICAgICAgICBhbGxQYXJhbXMuYXBwZW5kKGNvbnRlbnRzT2Y6IHBhcmFtZXRlcnMubWFwKFVSTFF1ZXJ5SXRlbS5pbml0KSkKCiAgICAgICAgLy8g5bey55m75b2V5o6l5Y+j6ZyA5bimIHRva2VuCiAgICAgICAgaWYgaW5qZWN0QXV0aCwgbGV0IHRva2VuID0gQ3JlZGVudGlhbFN0b3JlLnNoYXJlZC5hY2Nlc3NUb2tlbiB7CiAgICAgICAgICAgIGFsbFBhcmFtcy5hcHBlbmQoVVJMUXVlcnlJdGVtKG5hbWU6ICJhY2Nlc3NfdG9rZW4iLCB2YWx1ZTogdG9rZW4pKQogICAgICAgIH0KCiAgICAgICAgZ3VhcmQgbGV0IHVybCA9IFVSTChzdHJpbmc6IGNvbmZpZy5iYXNlVVJMICsgcGF0aCkgZWxzZSB7CiAgICAgICAgICAgIHRocm93IEFQSUVycm9yLmludmFsaWRVUkwKICAgICAgICB9CgogICAgICAgIHZhciByZXF1ZXN0ID0gVVJMUmVxdWVzdCh1cmw6IHVybCkKICAgICAgICByZXF1ZXN0Lmh0dHBNZXRob2QgPSAiUE9TVCIKICAgICAgICByZXF1ZXN0LnNldFZhbHVlKAogICAgICAgICAgICAiYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkO2NoYXJzZXQ9dXRmLTgiLAogICAgICAgICAgICBmb3JIVFRQSGVhZGVyRmllbGQ6ICJDb250ZW50LVR5cGUiCiAgICAgICAgKQoKICAgICAgICAvLyBib2R5IOS4jiBxdWVyeSDlkIzml7bmkLrluKbvvIzopobnm5bkuKTnp43lj6/og73nmoTmnI3liqHnq6/or7vlj5bmlrnlvI8KICAgICAgICB2YXIgY29tcG9uZW50cyA9IFVSTENvbXBvbmVudHMoKQogICAgICAgIGNvbXBvbmVudHMucXVlcnlJdGVtcyA9IGFsbFBhcmFtcwogICAgICAgIHJlcXVlc3QuaHR0cEJvZHkgPSBjb21wb25lbnRzLnBlcmNlbnRFbmNvZGVkUXVlcnk/LmRhdGEodXNpbmc6IC51dGY4KQoKICAgICAgICBsZXQgKGRhdGEsIHJlc3BvbnNlKSA9IHRyeSBhd2FpdCBzZXNzaW9uLmRhdGEoZm9yOiByZXF1ZXN0KQoKICAgICAgICBndWFyZCBsZXQgaHR0cCA9IHJlc3BvbnNlIGFzPyBIVFRQVVJMUmVzcG9uc2UgZWxzZSB7CiAgICAgICAgICAgIHRocm93IEFQSUVycm9yLmludmFsaWRSZXNwb25zZQogICAgICAgIH0KICAgICAgICBndWFyZCAoMjAwLi48MzAwKS5jb250YWlucyhodHRwLnN0YXR1c0NvZGUpIGVsc2UgewogICAgICAgICAgICB0aHJvdyBBUElFcnJvci5odHRwU3RhdHVzKGh0dHAuc3RhdHVzQ29kZSkKICAgICAgICB9CgogICAgICAgIHJldHVybiB0cnkgSlNPTkRlY29kZXIoKS5kZWNvZGUoTmV0YVJlc3BvbnNlLnNlbGYsIGZyb206IGRhdGEpCiAgICB9CgogICAgLy8gTUFSSzogLSDkuJrliqHmlrnms5UKCiAgICAvLy8g5LiL5Y+R6L2m5o6n5oyH5Luk77yI572R57uc6YCa6YGT77yJ44CCCiAgICAvLy8KICAgIC8vLyDimqDvuI8g5oyH5Luk5LiL5Y+R56uv54K55Zyo6Z2Z5oCB5YiG5p6Q5Lit5pyq5o+Q5Y+W5Yiw77yM5q2k5aSE5oyJ5bi46KeB5ZG95ZCN5Y2g5L2N77yMCiAgICAvLy8g6ZyA5oqT5YyF5ZCO5pu/5o2i5Li655yf5a6e6Lev5b6E44CCCiAgICBmdW5jIHNlbmRDb21tYW5kKF8gY29tbWFuZDogVmVoaWNsZUNvbW1hbmQpIGFzeW5jIHRocm93cyAtPiBOZXRhUmVzcG9uc2UgewogICAgICAgIHRyeSByZXF1aXJlTG9naW4oKQoKICAgICAgICByZXR1cm4gdHJ5IGF3YWl0IHBvc3QoCiAgICAgICAgICAgIHBhdGg6IEVuZHBvaW50LnNlbmRDb21tYW5kLCAgIC8vIFRPRE86IOaKk+WMheehruiupAogICAgICAgICAgICBwYXJhbWV0ZXJzOiBjb21tYW5kLmNsb3VkUGF5bG9hZAogICAgICAgICkKICAgIH0KCiAgICAvLy8g5p+l6K+i6L2m5Ya144CCCiAgICBmdW5jIGZldGNoVmVoaWNsZVN0YXRlKCkgYXN5bmMgdGhyb3dzIC0+IFZlaGljbGVTdGF0ZSB7CiAgICAgICAgdHJ5IHJlcXVpcmVMb2dpbigpCgogICAgICAgIGxldCByZXNwb25zZSA9IHRyeSBhd2FpdCBwb3N0KAogICAgICAgICAgICBwYXRoOiBFbmRwb2ludC5mZXRjaFN0YXR1cywgICAgLy8gVE9ETzog5oqT5YyF56Gu6K6kCiAgICAgICAgICAgIHBhcmFtZXRlcnM6IFs6XQogICAgICAgICkKCiAgICAgICAgZ3VhcmQgbGV0IGRhdGEgPSByZXNwb25zZS5kYXRhIGVsc2UgeyB0aHJvdyBBUElFcnJvci5taXNzaW5nUGF5bG9hZCB9CgogICAgICAgIC8vIGRhdGEg5Y+v6IO95piv5bWM5aWX55qEIGRhdGEg5a2X56ym5Liy77yM5Lmf5Y+v6IO955u05o6l5piv5a+56LGhCiAgICAgICAgbGV0IGNsb3VkOiBDbG91ZFZlaGljbGVEYXRhCiAgICAgICAgaWYgbGV0IG5lc3RlZFN0cmluZyA9IGRhdGEgYXM/IFN0cmluZywKICAgICAgICAgICBsZXQgZGVjb2RlZCA9IHRyeT8gSlNPTkRlY29kZXIoKS5kZWNvZGUoQ2xvdWRWZWhpY2xlRGF0YS5zZWxmLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZnJvbTogRGF0YShuZXN0ZWRTdHJpbmcudXRmOCkpIHsKICAgICAgICAgICAgY2xvdWQgPSBkZWNvZGVkCiAgICAgICAgfSBlbHNlIHsKICAgICAgICAgICAgY2xvdWQgPSB0cnkgSlNPTkRlY29kZXIoKS5kZWNvZGUoQ2xvdWRWZWhpY2xlRGF0YS5zZWxmLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmcm9tOiBKU09OU2VyaWFsaXphdGlvbi5kYXRhKHdpdGhKU09OT2JqZWN0OiBkYXRhKSkKICAgICAgICB9CgogICAgICAgIHJldHVybiBjbG91ZC50b1ZlaGljbGVTdGF0ZSgpCiAgICB9CgogICAgLy8vIOWIt+aWsCB0b2tlbuOAggogICAgLy8vCiAgICAvLy8g56uv54K5IGByZWZyZXNoQXBpVG9rZW5gIOW3suehruiupO+8iEFQSyDlhoXmmI7mlofvvInjgIIKICAgIGZ1bmMgcmVmcmVzaEFjY2Vzc1Rva2VuKCkgYXN5bmMgdGhyb3dzIC0+IFN0cmluZyB7CiAgICAgICAgZ3VhcmQgbGV0IHJlZnJlc2hUb2tlbiA9IENyZWRlbnRpYWxTdG9yZS5zaGFyZWQucmVmcmVzaFRva2VuIGVsc2UgewogICAgICAgICAgICB0aHJvdyBBUElFcnJvci5ub3RMb2dnZWRJbgogICAgICAgIH0KCiAgICAgICAgbGV0IHJlc3BvbnNlID0gdHJ5IGF3YWl0IHBvc3QoCiAgICAgICAgICAgIHBhdGg6IEVuZHBvaW50LnJlZnJlc2hUb2tlbiwKICAgICAgICAgICAgcGFyYW1ldGVyczogWyJyZWZyZXNoX3Rva2VuIjogcmVmcmVzaFRva2VuXQogICAgICAgICkKCiAgICAgICAgZ3VhcmQgbGV0IHRva2VuID0gcmVzcG9uc2UuZGF0YT9bImFjY2Vzc190b2tlbiJdIGFzPyBTdHJpbmcgZWxzZSB7CiAgICAgICAgICAgIHRocm93IEFQSUVycm9yLnRva2VuUmVmcmVzaEZhaWxlZAogICAgICAgIH0KCiAgICAgICAgdHJ5IENyZWRlbnRpYWxTdG9yZS5zaGFyZWQuc2F2ZVNlc3Npb24oCiAgICAgICAgICAgIGFjY2Vzc1Rva2VuOiB0b2tlbiwKICAgICAgICAgICAgcmVmcmVzaFRva2VuOiByZXNwb25zZS5kYXRhP1sicmVmcmVzaF90b2tlbiJdIGFzPyBTdHJpbmcgPz8gcmVmcmVzaFRva2VuCiAgICAgICAgKQogICAgICAgIHJldHVybiB0b2tlbgogICAgfQoKICAgIC8vIE1BUks6IC0g5YaF6YOoCgogICAgcHJpdmF0ZSBmdW5jIHJlcXVpcmVMb2dpbigpIHRocm93cyB7CiAgICAgICAgZ3VhcmQgQ3JlZGVudGlhbFN0b3JlLnNoYXJlZC5hY2Nlc3NUb2tlbiAhPSBuaWwgZWxzZSB7CiAgICAgICAgICAgIHRocm93IEFQSUVycm9yLm5vdExvZ2dlZEluCiAgICAgICAgfQogICAgfQp9CgovLyBNQVJLOiAtIOWTjeW6lOaooeWeiwoKLy8vIOe7n+S4gOWTjeW6lOWMheijhe+8jOWvueW6lCBBUEsg5YaFIGBOZXRhUmVzcG9uc2Uoc3RhdHVzPS4uLilg44CCCnN0cnVjdCBOZXRhUmVzcG9uc2U6IENvZGFibGUgewogICAgdmFyIHN0YXR1czogSW50PwogICAgdmFyIG1lc3NhZ2U6IFN0cmluZz8KICAgIHZhciBkYXRhOiBKU09OVmFsdWU/CgogICAgZW51bSBDb2RpbmdLZXlzOiBTdHJpbmcsIENvZGluZ0tleSB7CiAgICAgICAgY2FzZSBzdGF0dXMKICAgICAgICBjYXNlIG1lc3NhZ2UgPSAibXNnIgogICAgICAgIGNhc2UgZGF0YQogICAgfQp9CgovLy8g54G15rS7IEpTT04g5YC877yM5aSE55CGIGRhdGEg5a2X5q615Y+v6IO95piv5a+56LGhL+Wtl+espuS4si/mlbDnu4TnmoTlpJrnp43mg4XlhrXjgIIKZW51bSBKU09OVmFsdWU6IENvZGFibGUgewogICAgY2FzZSBzdHJpbmcoU3RyaW5nKQogICAgY2FzZSBudW1iZXIoRG91YmxlKQogICAgY2FzZSBib29sKEJvb2wpCiAgICBjYXNlIG9iamVjdChbU3RyaW5nOiBKU09OVmFsdWVdKQogICAgY2FzZSBhcnJheShbSlNPTlZhbHVlXSkKICAgIGNhc2UgbnVsbAoKICAgIGluaXQoZnJvbSBkZWNvZGVyOiBEZWNvZGVyKSB0aHJvd3MgewogICAgICAgIGxldCBjb250YWluZXIgPSB0cnkgZGVjb2Rlci5zaW5nbGVWYWx1ZUNvbnRhaW5lcigpCiAgICAgICAgaWYgY29udGFpbmVyLmRlY29kZU5pbCgpIHsKICAgICAgICAgICAgc2VsZiA9IC5udWxsCiAgICAgICAgfSBlbHNlIGlmIGxldCB2ID0gdHJ5PyBjb250YWluZXIuZGVjb2RlKEJvb2wuc2VsZikgewogICAgICAgICAgICBzZWxmID0gLmJvb2wodikKICAgICAgICB9IGVsc2UgaWYgbGV0IHYgPSB0cnk/IGNvbnRhaW5lci5kZWNvZGUoRG91YmxlLnNlbGYpIHsKICAgICAgICAgICAgc2VsZiA9IC5udW1iZXIodikKICAgICAgICB9IGVsc2UgaWYgbGV0IHYgPSB0cnk/IGNvbnRhaW5lci5kZWNvZGUoU3RyaW5nLnNlbGYpIHsKICAgICAgICAgICAgc2VsZiA9IC5zdHJpbmcodikKICAgICAgICB9IGVsc2UgaWYgbGV0IHYgPSB0cnk/IGNvbnRhaW5lci5kZWNvZGUoW1N0cmluZzogSlNPTlZhbHVlXS5zZWxmKSB7CiAgICAgICAgICAgIHNlbGYgPSAub2JqZWN0KHYpCiAgICAgICAgfSBlbHNlIGlmIGxldCB2ID0gdHJ5PyBjb250YWluZXIuZGVjb2RlKFtKU09OVmFsdWVdLnNlbGYpIHsKICAgICAgICAgICAgc2VsZiA9IC5hcnJheSh2KQogICAgICAgIH0gZWxzZSB7CiAgICAgICAgICAgIHRocm93IERlY29kaW5nRXJyb3IuZGF0YUNvcnJ1cHRlZEVycm9yKGluOiBjb250YWluZXIsIGRlYnVnRGVzY3JpcHRpb246ICLml6Dms5Xop6PmnpAgSlNPTiDlgLwiKQogICAgICAgIH0KICAgIH0KCiAgICBmdW5jIGVuY29kZSh0byBlbmNvZGVyOiBFbmNvZGVyKSB0aHJvd3MgewogICAgICAgIHZhciBjb250YWluZXIgPSBlbmNvZGVyLnNpbmdsZVZhbHVlQ29udGFpbmVyKCkKICAgICAgICBzd2l0Y2ggc2VsZiB7CiAgICAgICAgY2FzZSAuc3RyaW5nKGxldCB2KTogdHJ5IGNvbnRhaW5lci5lbmNvZGUodikKICAgICAgICBjYXNlIC5udW1iZXIobGV0IHYpOiB0cnkgY29udGFpbmVyLmVuY29kZSh2KQogICAgICAgIGNhc2UgLmJvb2wobGV0IHYpOiAgIHRyeSBjb250YWluZXIuZW5jb2RlKHYpCiAgICAgICAgY2FzZSAub2JqZWN0KGxldCB2KTogdHJ5IGNvbnRhaW5lci5lbmNvZGUodikKICAgICAgICBjYXNlIC5hcnJheShsZXQgdik6ICB0cnkgY29udGFpbmVyLmVuY29kZSh2KQogICAgICAgIGNhc2UgLm51bGw6ICAgICAgICAgIHRyeSBjb250YWluZXIuZW5jb2RlTmlsKCkKICAgICAgICB9CiAgICB9CgogICAgdmFyIHN0cmluZ1ZhbHVlOiBTdHJpbmc/IHsKICAgICAgICBpZiBjYXNlIC5zdHJpbmcobGV0IHMpID0gc2VsZiB7IHJldHVybiBzIH0KICAgICAgICByZXR1cm4gbmlsCiAgICB9CgogICAgdmFyIGludFZhbHVlOiBJbnQ/IHsKICAgICAgICBpZiBjYXNlIC5udW1iZXIobGV0IG4pID0gc2VsZiB7IHJldHVybiBJbnQobikgfQogICAgICAgIHJldHVybiBuaWwKICAgIH0KCiAgICBzdWJzY3JpcHQoa2V5OiBTdHJpbmcpIC0+IEpTT05WYWx1ZT8gewogICAgICAgIGlmIGNhc2UgLm9iamVjdChsZXQgZGljdCkgPSBzZWxmIHsgcmV0dXJuIGRpY3Rba2V5XSB9CiAgICAgICAgcmV0dXJuIG5pbAogICAgfQp9CgpleHRlbnNpb24gSlNPTlZhbHVlIHsKICAgIHZhciBhc0RpY3Rpb25hcnk6IFtTdHJpbmc6IEpTT05WYWx1ZV0/IHsKICAgICAgICBpZiBjYXNlIC5vYmplY3QobGV0IGRpY3QpID0gc2VsZiB7IHJldHVybiBkaWN0IH0KICAgICAgICByZXR1cm4gbmlsCiAgICB9CgogICAgdmFyIGFzU3RyaW5nOiBTdHJpbmc/IHsKICAgICAgICBpZiBjYXNlIC5zdHJpbmcobGV0IHMpID0gc2VsZiB7IHJldHVybiBzIH0KICAgICAgICByZXR1cm4gbmlsCiAgICB9Cn0KCmV4dGVuc2lvbiBPcHRpb25hbCB3aGVyZSBXcmFwcGVkID09IEpTT05WYWx1ZSB7CiAgICB2YXIgc3RyaW5nVmFsdWU6IFN0cmluZz8geyBzZWxmPy5zdHJpbmdWYWx1ZSB9CiAgICB2YXIgYXNEaWN0aW9uYXJ5OiBbU3RyaW5nOiBKU09OVmFsdWVdPyB7IHNlbGY/LmFzRGljdGlvbmFyeSB9Cn0KCi8vIE1BUks6IC0g6ZSZ6K+vCgplbnVtIEFQSUVycm9yOiBFcnJvciwgTG9jYWxpemVkRXJyb3IgewogICAgY2FzZSBpbnZhbGlkVVJMCiAgICBjYXNlIGludmFsaWRSZXNwb25zZQogICAgY2FzZSBodHRwU3RhdHVzKEludCkKICAgIGNhc2UgbWlzc2luZ1BheWxvYWQKICAgIGNhc2Ugbm90TG9nZ2VkSW4KICAgIGNhc2UgdG9rZW5SZWZyZXNoRmFpbGVkCgogICAgdmFyIGVycm9yRGVzY3JpcHRpb246IFN0cmluZz8gewogICAgICAgIHN3aXRjaCBzZWxmIHsKICAgICAgICBjYXNlIC5pbnZhbGlkVVJMOiAgICAgICAgcmV0dXJuICLlnLDlnYDml6DmlYgiCiAgICAgICAgY2FzZSAuaW52YWxpZFJlc3BvbnNlOiAgIHJldHVybiAi5ZON5bqU5peg5rOV6Kej5p6QIgogICAgICAgIGNhc2UgLmh0dHBTdGF0dXMobGV0IHMpOiByZXR1cm4gIuacjeWKoei/lOWbniBcKHMpIgogICAgICAgIGNhc2UgLm1pc3NpbmdQYXlsb2FkOiAgICByZXR1cm4gIuWTjeW6lOe8uuWwkeaVsOaNriIKICAgICAgICBjYXNlIC5ub3RMb2dnZWRJbjogICAgICAgcmV0dXJuICLnmbvlvZXlkI7miY3og73kuIvlj5HovabmjqfmjIfku6QiCiAgICAgICAgY2FzZSAudG9rZW5SZWZyZXNoRmFpbGVkOiByZXR1cm4gIueZu+W9leW3sui/h+acn++8jOmcgOimgemHjeaWsOeZu+W9lSIKICAgICAgICB9CiAgICB9Cn0KCmV4dGVuc2lvbiBFbmRwb2ludCB7CiAgICBzdGF0aWMgbGV0IHNlbmRDb21tYW5kID0gIi9hcGkvdmVoaWNsZS9jb21tYW5kIgogICAgc3RhdGljIGxldCBmZXRjaFN0YXR1cyA9ICIvYXBpL3ZlaGljbGUvc3RhdHVzIgp9
+import Foundation
+
+/// 云端车控客户端。
+///
+/// 原 APK 使用原生 `HttpURLConnection`（无 OkHttp/Retrofit），
+/// POST 表单，响应包装为 `NetaResponse(status=...)`。
+struct NetaAPIClient {
+
+    let config: NetaAPIConfig
+    let session: URLSession
+
+    /// 是否自动注入 accessToken。登录/注册/刷新接口应设为 false。
+    var injectAuth: Bool = true
+
+    init(config: NetaAPIConfig = .default,
+         session: URLSession = .shared,
+         injectAuth: Bool = true) {
+        self.config = config
+        self.session = session
+        self.injectAuth = injectAuth
+    }
+
+    // MARK: - 底层请求
+
+    /// 发送带签名的表单请求。
+    func post(path: String, parameters: [String: String]) async throws -> NetaResponse {
+        let response = try await performPost(path: path, parameters: parameters)
+
+        // 业务层未授权 → 刷新 token 后自动重试一次
+        if response.requiresRelogin, injectAuth {
+            _ = try await AuthService.shared.refresh()
+            return try await performPost(path: path, parameters: parameters)
+        }
+
+        return response
+    }
+
+    /// 单次请求，不含重试。
+    private func performPost(path: String, parameters: [String: String]) async throws -> NetaResponse {
+        let nonce = RequestSigner.generateNonce()
+        let signature = RequestSigner.sign(
+            appId: config.appId,
+            appKey: config.appKey,
+            appSecret: config.appSecret,
+            nonce: nonce
+        )
+
+        var allParams = RequestSigner.commonFields(
+            config: config, nonce: nonce, signature: signature
+        )
+        allParams.append(contentsOf: parameters.map(URLQueryItem.init))
+
+        // 已登录接口需带 token
+        if injectAuth, let token = CredentialStore.shared.accessToken {
+            allParams.append(URLQueryItem(name: "access_token", value: token))
+        }
+
+        guard let url = URL(string: config.baseURL + path) else {
+            throw APIError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue(
+            "application/x-www-form-urlencoded;charset=utf-8",
+            forHTTPHeaderField: "Content-Type"
+        )
+
+        // body 与 query 同时携带，覆盖两种可能的服务端读取方式
+        var components = URLComponents()
+        components.queryItems = allParams
+        request.httpBody = components.percentEncodedQuery?.data(using: .utf8)
+
+        let (data, response) = try await session.data(for: request)
+
+        guard let http = response as? HTTPURLResponse else {
+            throw APIError.invalidResponse
+        }
+        guard (200..<300).contains(http.statusCode) else {
+            throw APIError.httpStatus(http.statusCode)
+        }
+
+        return try JSONDecoder().decode(NetaResponse.self, from: data)
+    }
+
+    // MARK: - 业务方法
+
+    /// 下发车控指令（网络通道）。
+    ///
+    /// ⚠️ 指令下发端点在静态分析中未提取到，此处按常见命名占位，
+    /// 需抓包后替换为真实路径。
+    func sendCommand(_ command: VehicleCommand) async throws -> NetaResponse {
+        try requireLogin()
+
+        return try await post(
+            path: Endpoint.sendCommand,   // TODO: 抓包确认
+            parameters: command.cloudPayload
+        )
+    }
+
+    /// 查询车况。
+    func fetchVehicleState() async throws -> VehicleState {
+        try requireLogin()
+
+        let response = try await post(
+            path: Endpoint.fetchStatus,    // TODO: 抓包确认
+            parameters: [:]
+        )
+
+        guard let data = response.data else { throw APIError.missingPayload }
+
+        // data 可能是嵌套的 data 字符串，也可能直接是对象
+        let cloud: CloudVehicleData
+        if let nestedString = data as? String,
+           let decoded = try? JSONDecoder().decode(CloudVehicleData.self,
+                                                    from: Data(nestedString.utf8)) {
+            cloud = decoded
+        } else {
+            cloud = try JSONDecoder().decode(CloudVehicleData.self,
+                                             from: JSONSerialization.data(withJSONObject: data))
+        }
+
+        return cloud.toVehicleState()
+    }
+
+    /// 刷新 token。
+    ///
+    /// 端点 `refreshApiToken` 已确认（APK 内明文）。
+    func refreshAccessToken() async throws -> String {
+        guard let refreshToken = CredentialStore.shared.refreshToken else {
+            throw APIError.notLoggedIn
+        }
+
+        let response = try await post(
+            path: Endpoint.refreshToken,
+            parameters: ["refresh_token": refreshToken]
+        )
+
+        guard let token = response.data?["access_token"] as? String else {
+            throw APIError.tokenRefreshFailed
+        }
+
+        try CredentialStore.shared.saveSession(
+            accessToken: token,
+            refreshToken: response.data?["refresh_token"] as? String ?? refreshToken
+        )
+        return token
+    }
+
+    // MARK: - 内部
+
+    private func requireLogin() throws {
+        guard CredentialStore.shared.accessToken != nil else {
+            throw APIError.notLoggedIn
+        }
+    }
+}
+
+// MARK: - 响应模型
+
+/// 统一响应包装，对应 APK 内 `NetaResponse(status=...)`。
+struct NetaResponse: Codable {
+    var status: Int?
+    var message: String?
+    var data: JSONValue?
+
+    enum CodingKeys: String, CodingKey {
+        case status
+        case message = "msg"
+        case data
+    }
+}
+
+/// 灵活 JSON 值，处理 data 字段可能是对象/字符串/数组的多种情况。
+enum JSONValue: Codable {
+    case string(String)
+    case number(Double)
+    case bool(Bool)
+    case object([String: JSONValue])
+    case array([JSONValue])
+    case null
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if container.decodeNil() {
+            self = .null
+        } else if let v = try? container.decode(Bool.self) {
+            self = .bool(v)
+        } else if let v = try? container.decode(Double.self) {
+            self = .number(v)
+        } else if let v = try? container.decode(String.self) {
+            self = .string(v)
+        } else if let v = try? container.decode([String: JSONValue].self) {
+            self = .object(v)
+        } else if let v = try? container.decode([JSONValue].self) {
+            self = .array(v)
+        } else {
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "无法解析 JSON 值")
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .string(let v): try container.encode(v)
+        case .number(let v): try container.encode(v)
+        case .bool(let v):   try container.encode(v)
+        case .object(let v): try container.encode(v)
+        case .array(let v):  try container.encode(v)
+        case .null:          try container.encodeNil()
+        }
+    }
+
+    var stringValue: String? {
+        if case .string(let s) = self { return s }
+        return nil
+    }
+
+    var intValue: Int? {
+        if case .number(let n) = self { return Int(n) }
+        return nil
+    }
+
+    subscript(key: String) -> JSONValue? {
+        if case .object(let dict) = self { return dict[key] }
+        return nil
+    }
+}
+
+extension JSONValue {
+    var asDictionary: [String: JSONValue]? {
+        if case .object(let dict) = self { return dict }
+        return nil
+    }
+
+    var asString: String? {
+        if case .string(let s) = self { return s }
+        return nil
+    }
+}
+
+extension Optional where Wrapped == JSONValue {
+    var stringValue: String? { self?.stringValue }
+    var asDictionary: [String: JSONValue]? { self?.asDictionary }
+}
+
+// MARK: - 错误
+
+enum APIError: Error, LocalizedError {
+    case invalidURL
+    case invalidResponse
+    case httpStatus(Int)
+    case missingPayload
+    case notLoggedIn
+    case tokenRefreshFailed
+
+    var errorDescription: String? {
+        switch self {
+        case .invalidURL:        return "地址无效"
+        case .invalidResponse:   return "响应无法解析"
+        case .httpStatus(let s): return "服务返回 \(s)"
+        case .missingPayload:    return "响应缺少数据"
+        case .notLoggedIn:       return "登录后才能下发车控指令"
+        case .tokenRefreshFailed: return "登录已过期，需要重新登录"
+        }
+    }
+}
+
+extension Endpoint {
+    static let sendCommand = "/api/vehicle/command"
+    static let fetchStatus = "/api/vehicle/status"
+}
