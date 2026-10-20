@@ -94,6 +94,22 @@ final class BleFrameRecorder: NSObject {
         stopScan()
         guard let startTime else { return nil }
 
+        var records: [FrameRecord] = []
+        records.reserveCapacity(frames.count)
+        for (i, f) in frames.enumerated() {
+            records.append(
+                FrameRecord(
+                    index: i,
+                    timestamp: f.timestamp,
+                    relativeTime: f.relativeTime,
+                    direction: f.direction.rawValue,
+                    characteristic: f.characteristic,
+                    hex: f.payload.map { String(format: "%02X", $0) }.joined(),
+                    ascii: f.asciiPreview
+                )
+            )
+        }
+
         let export = FrameLog(
             exportedAt: Date(),
             device: DeviceInfo.current.deviceModel,
@@ -101,17 +117,7 @@ final class BleFrameRecorder: NSObject {
             peer: connectedPeripheral?.name ?? "unknown",
             peerIdentifier: connectedPeripheral?.identifier.uuidString ?? "unknown",
             totalFrames: frames.count,
-            frames: frames.map {
-                FrameRecord(
-                    index: frames.firstIndex(of: $0) ?? 0,
-                    timestamp: $0.timestamp,
-                    relativeTime: $0.relativeTime,
-                    direction: $0.direction.rawValue,
-                    characteristic: $0.characteristic,
-                    hex: $0.payload.map { String(format: "%02X", $0) }.joined(),
-                    ascii: $0.asciiPreview
-                )
-            }
+            frames: records
         )
 
         return FrameLogWriter.write(export)
@@ -146,8 +152,7 @@ final class BleFrameRecorder: NSObject {
         centralManager.scanForPeripherals(
             withServices: nil,
             options: [
-                CBCentralManagerScanOptionAllowDuplicatesKey: true,
-                CBCentralManagerScanOptionShowPowerLevelKey: true
+                CBCentralManagerScanOptionAllowDuplicatesKey: true
             ]
         )
         onStateChange?("扫描中")
@@ -168,9 +173,10 @@ final class BleFrameRecorder: NSObject {
 
         connectedPeripheral = peripheral
         peripheral.delegate = self
+
+        // EnableAutoReconnect 需要 iOS 17+，这里不依赖它
         centralManager.connect(peripheral, options: [
-            CBConnectPeripheralOptionNotifyOnDisconnectionKey: true,
-            CBConnectPeripheralOptionEnableAutoReconnect: false
+            CBConnectPeripheralOptionNotifyOnDisconnectionKey: true
         ])
         onStateChange?("连接中 → \(peripheral.name ?? id.uuidString)")
     }
@@ -422,6 +428,12 @@ struct FrameLog: Codable {
 
 enum FrameLogWriter {
 
+    /// Documents 目录（iOS/macOS 通用）
+    static var documentsDirectory: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+            ?? URL(fileURLWithPath: NSTemporaryDirectory())
+    }
+
     /// 导出到 Documents 目录，返回文件 URL。
     static func write(_ log: FrameLog) -> URL? {
         let encoder = JSONEncoder()
@@ -431,9 +443,7 @@ enum FrameLogWriter {
         guard let data = try? encoder.encode(log) else { return nil }
 
         let filename = "tboe-capture-\(Int(Date().timeIntervalSince1970)).json"
-        let url = FileManager.default
-            .documentsDirectory
-            .appendingPathComponent(filename)
+        let url = documentsDirectory.appendingPathComponent(filename)
 
         do {
             try data.write(to: url)
@@ -445,6 +455,6 @@ enum FrameLogWriter {
 
     /// 便捷读取（供 Analysis 脚本生成器使用）。
     static func captureDirectory() -> URL {
-        FileManager.default.documentsDirectory
+        documentsDirectory
     }
 }
