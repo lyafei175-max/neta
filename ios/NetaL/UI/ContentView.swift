@@ -132,7 +132,7 @@ final class CarController: ObservableObject {
     func refreshState() async {
         do {
             state = try await api.fetchVehicleState()
-            lastRawVehicleData = api.lastRawVehicleSnapshot
+            lastRawVehicleData = NetaAPIClient.lastRawVehicleSnapshot
             lastError = nil
         } catch {
             lastError = error.localizedDescription
