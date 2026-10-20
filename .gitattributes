@@ -1,1 +1,28 @@
-IyDlvLrliLbmlofmnKzmlofku7bnlKggTEYg5o2i6KGMCiMgV2luZG93cyDpu5jorqQgQ1JMRiDkvJrlr7zoh7QgWUFNTC9wbGlzdCDlnKggbWFjT1MgcnVubmVyIOS4iuino+aekOW8guW4uAoKKiB0ZXh0PWF1dG8gZW9sPWxmCgoqLnN3aWZ0ICAgICAgdGV4dCBlb2w9bGYKKi55bWwgICAgICAgIHRleHQgZW9sPWxmCioueWFtbCAgICAgICB0ZXh0IGVvbD1sZgoqLnBsaXN0ICAgICAgdGV4dCBlb2w9bGYKKi5weSAgICAgICAgIHRleHQgZW9sPWxmCiouc2ggICAgICAgICB0ZXh0IGVvbD1sZgoqLmpzb24gICAgICAgdGV4dCBlb2w9bGYKKi5tZCAgICAgICAgIHRleHQgZW9sPWxmCioucGVtICAgICAgICB0ZXh0IGVvbD1sZgoqLnR4dCAgICAgICAgdGV4dCBlb2w9bGYKKi5lbnRpdGxlbWVudHMgdGV4dCBlb2w9bGYKCiMg5LqM6L+b5Yi25paH5Lu25LiN6L2s5o2iCioucG5nICAgICAgICBiaW5hcnkKKi5qcGcgICAgICAgIGJpbmFyeQoqLmljbyAgICAgICAgYmluYXJ5CioueGNhcmNoaXZlICBiaW5hcnkKKi5pcGEgICAgICAgIGJpbmFyeQoqLnAxMiAgICAgICAgYmluYXJ5CiouZFNZTS8gICAgICBiaW5hcnkKCiMgUmVzb3VyY2VzIOmHjOi/meS6m+aYr+aVsOaNruaWh+S7tu+8jOS/neaMgeWOn+agtwppb3MvTmV0YUwvUmVzb3VyY2VzL0Fzc2V0cy54Y2Fzc2V0cy8qKiBiaW5hcnk=
+# 强制文本文件用 LF 换行
+# Windows 默认 CRLF 会导致 YAML/plist 在 macOS runner 上解析异常
+
+* text=auto eol=lf
+
+*.swift      text eol=lf
+*.yml        text eol=lf
+*.yaml       text eol=lf
+*.plist      text eol=lf
+*.py         text eol=lf
+*.sh         text eol=lf
+*.json       text eol=lf
+*.md         text eol=lf
+*.pem        text eol=lf
+*.txt        text eol=lf
+*.entitlements text eol=lf
+
+# 二进制文件不转换
+*.png        binary
+*.jpg        binary
+*.ico        binary
+*.xcarchive  binary
+*.ipa        binary
+*.p12        binary
+*.dSYM/      binary
+
+# Resources 里这些是数据文件，保持原样
+ios/NetaL/Resources/Assets.xcassets/** binary
