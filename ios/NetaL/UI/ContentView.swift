@@ -150,9 +150,65 @@ final class CarController: ObservableObject {
 
 // MARK: - 界面
 
+/// 应用根视图。
+///
+/// 登录门禁：未登录时展示 `LoginView`，登录后才进入车控主界面。
+/// 对应原 APK 文案「登录后才能下发车控指令」「登录后管理车辆与车控」。
+struct RootView: View {
+
+    @State private var isAuthenticated: Bool?
+    @State private var isChecking = true
+
+    var body: some View {
+        Group {
+            if isChecking {
+                // 检查本地会话中
+                VStack(spacing: 12) {
+                    ProgressView()
+                    Text("正在检查登录状态")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            } else if isAuthenticated == true {
+                ContentView()
+            } else {
+                LoginView {
+                    // 登录成功回调
+                    isAuthenticated = true
+                }
+            }
+        }
+        .task {
+            await checkSession()
+        }
+    }
+
+    private func checkSession() async {
+        let auth = AuthService.shared
+
+        // AuthService 是 actor，属性访问需 await
+        guard await auth.isAuthenticated else {
+            isAuthenticated = false
+            isChecking = false
+            return
+        }
+
+        // 有本地会话，向服务端校验
+        if await auth.verifySession() {
+            isAuthenticated = true
+        } else {
+            // 会话失效，对应文案「登录已过期」
+            await auth.logout()
+            isAuthenticated = false
+        }
+        isChecking = false
+    }
+}
+
 struct ContentView: View {
     @StateObject private var controller = CarController()
     @State private var showSettings = false
+    @State private var showLogin = false
 
     var body: some View {
         NavigationStack {
@@ -201,6 +257,13 @@ struct ContentView: View {
             .background(Color(.systemGroupedBackground))
             .navigationTitle("哪吒L")
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        showLogin = true
+                    } label: {
+                        Label("账户", systemImage: "person.crop.circle")
+                    }
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         showSettings = true
@@ -212,6 +275,9 @@ struct ContentView: View {
             .refreshable { await controller.refreshState() }
             .sheet(isPresented: $showSettings) {
                 SettingsView(controller: controller)
+            }
+            .sheet(isPresented: $showLogin) {
+                AccountView()
             }
         }
     }
@@ -321,6 +387,55 @@ struct ContentView: View {
         }
         .buttonStyle(.bordered)
         .disabled(controller.isBusy)
+    }
+}
+
+// MARK: - 账户页
+
+/// 工具栏左上角入口。查看登录状态、退出登录。
+struct AccountView: View {
+    @Environment(\.dismiss) private var dismiss
+    @State private var isLoggedIn = false
+    @State private var status = ""
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("账户") {
+                    if isLoggedIn {
+                        LabeledContent("状态", value: "已登录")
+                        Button("退出登录", role: .destructive) {
+                            Task {
+                                await AuthService.shared.logout()
+                                isLoggedIn = false
+                                status = "已退出登录"
+                            }
+                        }
+                    } else {
+                        LabeledContent("状态", value: "未登录")
+                        Text("登录后才能下发车控指令")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+
+                if !status.isEmpty {
+                    Section {
+                        Text(status).font(.caption)
+                    }
+                }
+            }
+            .navigationTitle("账户")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("完成") { dismiss() }
+                }
+            }
+            .task {
+                isLoggedIn = await AuthService.shared.isAuthenticated
+            }
+        }
     }
 }
 
