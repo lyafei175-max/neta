@@ -66,7 +66,10 @@ actor AuthService {
         )
 
         guard response.isSuccess else {
-            throw AuthError.serverRejected(response.message ?? "")
+            // 服务端把失败原因放在 description（如 40911「获取验证码过于频繁」、
+            // 40505「短信验证码发送错误」），message 常为 null，
+            // 必须用 failureText 才能把真实原因显示给用户
+            throw AuthError.serverRejected(response.failureText)
         }
 
         // 验证码已发送
