@@ -1,1 +1,31 @@
-Ly8gc3dpZnQtdG9vbHMtdmVyc2lvbjogNS45CmltcG9ydCBQYWNrYWdlRGVzY3JpcHRpb24KCi8vIOivtOaYju+8mui/meaYr+S4gOS4qiBTd2lmdCBQYWNrYWdlIOW9ouW8j+eahOa6kOeggeWMhe+8jOS+v+S6juWcqCBtYWNPUyDkuIrlv6vpgJ/nvJbor5Hpqozor4HmoLjlv4PpgLvovpHjgIIKLy8g6Iul6KaB5omT5YyF5oiQIElQQe+8jOivt+WcqCBYY29kZSDkuK3mlrDlu7ogaU9TIEFwcCDnm67moIflubbliqDlhaUgTmV0YUwvIOebruW9leS4i+eahOa6kOegge+8jAovLyDmiJbnm7TmjqXov5DooYwgYHhjb2RlYnVpbGRgIOeUqCBwcm9qZWN0LnltbCDnlJ/miJDlt6XnqIvvvIjop4EgUkVBRE1F77yJ44CCCgpsZXQgcGFja2FnZSA9IFBhY2thZ2UoCiAgICBuYW1lOiAiTmV0YUwiLAogICAgcGxhdGZvcm1zOiBbLmlPUygudjE2KSwgLm1hY09TKC52MTMpXSwKICAgIHByb2R1Y3RzOiBbCiAgICAgICAgLmxpYnJhcnkobmFtZTogIk5ldGFMIiwgdGFyZ2V0czogWyJOZXRhTCJdKQogICAgXSwKICAgIHRhcmdldHM6IFsKICAgICAgICAudGFyZ2V0KAogICAgICAgICAgICBuYW1lOiAiTmV0YUwiLAogICAgICAgICAgICBwYXRoOiAiTmV0YUwiLAogICAgICAgICAgICBleGNsdWRlOiBbCiAgICAgICAgICAgICAgICAiQXBwL05ldGFMQXBwLnN3aWZ0IiwgICAgICAvLyDku4XkvZwgaU9TIEFwcCDlhaXlj6PvvIzkuI3lj4LkuI7lupPnvJbor5EKICAgICAgICAgICAgICAgICJVSS9Db250ZW50Vmlldy5zd2lmdCIsICAgICAvLyBTd2lmdFVJIOinhuWbvu+8jOWQjOS4igogICAgICAgICAgICAgICAgIlVJL0JsZUNhcHR1cmVWaWV3LnN3aWZ0IiAgIC8vIOWQjOS4igogICAgICAgICAgICBdLAogICAgICAgICAgICByZXNvdXJjZXM6IFsKICAgICAgICAgICAgICAgIC5wcm9jZXNzKCJSZXNvdXJjZXMiKQogICAgICAgICAgICBdLAogICAgICAgICAgICBzd2lmdFNldHRpbmdzOiBbCiAgICAgICAgICAgICAgICAuZW5hYmxlVXBjb21pbmdGZWF0dXJlKCJFeGlzdGVudGlhbEFueSIpCiAgICAgICAgICAgIF0KICAgICAgICApCiAgICBdCik=
+// swift-tools-version: 5.9
+import PackageDescription
+
+// 说明：这是一个 Swift Package 形式的源码包，便于在 macOS 上快速编译验证核心逻辑。
+// 若要打包成 IPA，请在 Xcode 中新建 iOS App 目标并加入 NetaL/ 目录下的源码，
+// 或直接运行 `xcodebuild` 用 project.yml 生成工程（见 README）。
+
+let package = Package(
+    name: "NetaL",
+    platforms: [.iOS(.v16), .macOS(.v13)],
+    products: [
+        .library(name: "NetaL", targets: ["NetaL"])
+    ],
+    targets: [
+        .target(
+            name: "NetaL",
+            path: "NetaL",
+            exclude: [
+                "App/NetaLApp.swift",      // 仅作 iOS App 入口，不参与库编译
+                "UI/ContentView.swift",     // SwiftUI 视图，同上
+                "UI/BleCaptureView.swift"   // 同上
+            ],
+            resources: [
+                .process("Resources")
+            ],
+            swiftSettings: [
+                .enableUpcomingFeature("ExistentialAny")
+            ]
+        )
+    ]
+)
