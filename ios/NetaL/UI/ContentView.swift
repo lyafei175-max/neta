@@ -250,11 +250,11 @@ struct ContentView: View {
             if let mileage = controller.state.totalMileage {
                 statusRow("总行驶里程", "\(Int(mileage)) km")
             }
-            if let lock = controller.state.doorsLock, lock != .unknown {
-                statusRow("门锁", lock.rawValue)
+            if controller.state.doorsLock != .unknown {
+                statusRow("门锁", controller.state.doorsLock.rawValue)
             }
-            if let seat = controller.state.driverSeatHeating, seat != .unknown {
-                statusRow("主驾加热", seat.rawValue)
+            if controller.state.driverSeatHeating != .unknown {
+                statusRow("主驾加热", controller.state.driverSeatHeating.rawValue)
             }
 
             if controller.state.isEmpty {
@@ -354,7 +354,7 @@ struct SettingsView: View {
                 }
 
                 Section("工具") {
-                    BleCaptureView.captureEntry()
+                    BleCaptureEntry()
                 }
 
                 Section {
