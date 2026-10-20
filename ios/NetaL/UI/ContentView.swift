@@ -1,1 +1,385 @@
-aW1wb3J0IEZvdW5kYXRpb24KaW1wb3J0IFN3aWZ0VUkKaW1wb3J0IENvbWJpbmUKCi8vLyDovabmjqfljY/osIPlmajvvJrmjInpgJrpgZPnrZbnlaXlnKggQkxFIOS4jue9kee7nOS5i+mXtOi3r+eUseaMh+S7pOOAggovLy8KLy8vIOWvueW6lCBBUEsg5paH5qGI77yI5bey56Gu6K6k77yJ77yaCi8vLyAtIOOAjOiTneeJmeW3sui/nuaOpeaXtuS8mOWFiOS9v+eUqOOAjQovLy8gLSDjgIzmnKrov57mjqXmiJbkuIvlj5HlpLHotKXml7botbDnvZHnu5zjgI0KLy8vIC0g44CM5bey5oyJ6K6+572u5Y+q6LWw6JOd54mZ44CNCi8vLyAtIOOAjOivpeWKqOS9nOS7heaUr+aMgee9kee7nOmAmumBk+OAjQpATWFpbkFjdG9yCmZpbmFsIGNsYXNzIENhckNvbnRyb2xsZXI6IE9ic2VydmFibGVPYmplY3QgewoKICAgIC8vIE1BUks6IOWPkeW4g+eKtuaAgQoKICAgIEBQdWJsaXNoZWQgcHJpdmF0ZShzZXQpIHZhciBzdGF0ZSA9IFZlaGljbGVTdGF0ZSgpCiAgICBAUHVibGlzaGVkIHByaXZhdGUoc2V0KSB2YXIgY2hhbm5lbDogQ29udHJvbENoYW5uZWwgPSAuYXV0b21hdGljCiAgICBAUHVibGlzaGVkIHByaXZhdGUoc2V0KSB2YXIgaXNCdXN5ID0gZmFsc2UKICAgIEBQdWJsaXNoZWQgcHJpdmF0ZShzZXQpIHZhciBsYXN0RXJyb3I6IFN0cmluZz8KICAgIEBQdWJsaXNoZWQgcHJpdmF0ZShzZXQpIHZhciBsYXN0UmVzdWx0OiBTdHJpbmc/CgogICAgLy8gTUFSSzog5L6d6LWWCgogICAgcHJpdmF0ZSBsZXQgYXBpID0gTmV0YUFQSUNsaWVudCgpCiAgICBwcml2YXRlIGxldCB0Ym9lID0gVGJvZVRyYW5zcG9ydC5zaGFyZWQKICAgIHByaXZhdGUgbGV0IHByb3hpbWl0eSA9IFByb3hpbWl0eVVubG9ja1BvbGljeSgpCgogICAgLy8gTUFSSzog5Yid5aeL5YyWCgogICAgaW5pdCgpIHsKICAgICAgICBwcm94aW1pdHkuaXNCbHVldG9vdGhDb25uZWN0ZWQgPSBmYWxzZQoKICAgICAgICBwcm94aW1pdHkub25VbmxvY2sgPSB7IFt3ZWFrIHNlbGZdIGluCiAgICAgICAgICAgIFRhc2sgeyBhd2FpdCBzZWxmPy5wZXJmb3JtVW5sb2NrKCkgfQogICAgICAgIH0KCiAgICAgICAgdGJvZS5vblZlaGljbGVTdGF0ZSA9IHsgW3dlYWsgc2VsZl0gbmV3U3RhdGUgaW4KICAgICAgICAgICAgVGFzayB7IEBNYWluQWN0b3IgaW4gc2VsZj8uc3RhdGUgPSBuZXdTdGF0ZSB9CiAgICAgICAgfQoKICAgICAgICB0Ym9lLm9uQ29tbWFuZFJlc3VsdCA9IHsgW3dlYWsgc2VsZl0gY29tbWFuZCwgc3VjY2VzcyBpbgogICAgICAgICAgICBUYXNrIHsgQE1haW5BY3RvciBpbgogICAgICAgICAgICAgICAgc2VsZj8ubGFzdFJlc3VsdCA9IHN1Y2Nlc3MKICAgICAgICAgICAgICAgICAgICA/ICJcKGNvbW1hbmQuZGlzcGxheU5hbWUpIOaIkOWKnyIKICAgICAgICAgICAgICAgICAgICA6ICJcKGNvbW1hbmQuZGlzcGxheU5hbWUpIOi9puerr+acquWbnuaKpeaJp+ihjOe7k+aenCIKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KCiAgICAvLyBNQVJLOiDpgJrpgZMKCiAgICBmdW5jIHNldENoYW5uZWwoXyBuZXdDaGFubmVsOiBDb250cm9sQ2hhbm5lbCkgewogICAgICAgIGNoYW5uZWwgPSBuZXdDaGFubmVsCiAgICB9CgogICAgLy8vIOW9k+WJjeWPr+eUqOeahOi/keWcuumAmumBk++8iOWvueW6lCBgTm90aWZpY2F0aW9uU25hcHNob3QuaXNCbHVldG9vdGhDb25uZWN0ZWRg77yJCiAgICB2YXIgbmVhckZpZWxkQXZhaWxhYmxlOiBCb29sIHsKICAgICAgICBUYm9lVHJhbnNwb3J0LnNoYXJlZC5zdGF0ZS5pc1VzYWJsZQogICAgfQoKICAgIC8vIE1BUks6IOaMh+S7pOS4i+WPkQoKICAgIC8vLyDkuIvlj5HkuIDmnaHovabmjqfmjIfku6TjgIIKICAgIGZ1bmMgc2VuZChfIGNvbW1hbmQ6IFZlaGljbGVDb21tYW5kKSBhc3luYyB7CiAgICAgICAgZ3VhcmQgIWlzQnVzeSBlbHNlIHsgcmV0dXJuIH0KICAgICAgICBpc0J1c3kgPSB0cnVlCiAgICAgICAgbGFzdEVycm9yID0gbmlsCiAgICAgICAgZGVmZXIgeyBpc0J1c3kgPSBmYWxzZSB9CgogICAgICAgIC8vIOivpeWKqOS9nOayoeaciei/keWcuuWRveS7pCDihpIg5Y+q6IO96LWw572R57ucCiAgICAgICAgZ3VhcmQgY29tbWFuZC5zdXBwb3J0c05lYXJGaWVsZCB8fCBjaGFubmVsICE9IC5ibHVldG9vdGhPbmx5IGVsc2UgewogICAgICAgICAgICBhd2FpdCBzZW5kVmlhTmV0d29yayhjb21tYW5kKQogICAgICAgICAgICByZXR1cm4KICAgICAgICB9CgogICAgICAgIHN3aXRjaCBjaGFubmVsIHsKICAgICAgICBjYXNlIC5hdXRvbWF0aWM6CiAgICAgICAgICAgIGlmIG5lYXJGaWVsZEF2YWlsYWJsZSB7CiAgICAgICAgICAgICAgICBzZW5kVmlhQmx1ZXRvb3RoKGNvbW1hbmQpCiAgICAgICAgICAgICAgICAvLyDoi6Xov5HlnLrkuIvlj5HlpLHotKXvvIzlm57pgIDnvZHnu5wKICAgICAgICAgICAgICAgIGlmIGNoYW5uZWwgPT0gLmF1dG9tYXRpYyAmJiAhbGFzdFJlc3VsdElzU3VjY2VzcyB7CiAgICAgICAgICAgICAgICAgICAgYXdhaXQgc2VuZFZpYU5ldHdvcmsoY29tbWFuZCkKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfSBlbHNlIHsKICAgICAgICAgICAgICAgIGF3YWl0IHNlbmRWaWFOZXR3b3JrKGNvbW1hbmQpCiAgICAgICAgICAgIH0KCiAgICAgICAgY2FzZSAuYmx1ZXRvb3RoT25seToKICAgICAgICAgICAgZ3VhcmQgY29tbWFuZC5zdXBwb3J0c05lYXJGaWVsZCBlbHNlIHsKICAgICAgICAgICAgICAgIGxhc3RFcnJvciA9ICLor6XliqjkvZzku4XmlK/mjIHnvZHnu5zpgJrpgZMiCiAgICAgICAgICAgICAgICByZXR1cm4KICAgICAgICAgICAgfQogICAgICAgICAgICBzZW5kVmlhQmx1ZXRvb3RoKGNvbW1hbmQpCgogICAgICAgIGNhc2UgLm5ldHdvcmtPbmx5OgogICAgICAgICAgICBhd2FpdCBzZW5kVmlhTmV0d29yayhjb21tYW5kKQogICAgICAgIH0KICAgIH0KCiAgICBwcml2YXRlIHZhciBsYXN0UmVzdWx0SXNTdWNjZXNzOiBCb29sIHsKICAgICAgICBsYXN0UmVzdWx0Py5oYXNTdWZmaXgoIuaIkOWKnyIpID09IHRydWUKICAgIH0KCiAgICBwcml2YXRlIGZ1bmMgc2VuZFZpYUJsdWV0b290aChfIGNvbW1hbmQ6IFZlaGljbGVDb21tYW5kKSB7CiAgICAgICAgZ3VhcmQgVGJvZVRyYW5zcG9ydC5zaGFyZWQuc3RhdGUuaXNVc2FibGUgZWxzZSB7CiAgICAgICAgICAgIGxhc3RFcnJvciA9ICLlsJrmnKrov57mjqXliLDovabovobok53niZkiCiAgICAgICAgICAgIHJldHVybgogICAgICAgIH0KICAgICAgICBUYm9lVHJhbnNwb3J0LnNoYXJlZC5zZW5kKGNvbW1hbmQpCiAgICAgICAgbGFzdFJlc3VsdCA9ICLmraPlnKjkuIvlj5EgXChjb21tYW5kLmRpc3BsYXlOYW1lKSIKICAgIH0KCiAgICBwcml2YXRlIGZ1bmMgc2VuZFZpYU5ldHdvcmsoXyBjb21tYW5kOiBWZWhpY2xlQ29tbWFuZCkgYXN5bmMgewogICAgICAgIGRvIHsKICAgICAgICAgICAgXyA9IHRyeSBhd2FpdCBhcGkuc2VuZENvbW1hbmQoY29tbWFuZCkKICAgICAgICAgICAgbGFzdFJlc3VsdCA9ICJcKGNvbW1hbmQuZGlzcGxheU5hbWUpIOW3suaPkOS6pCIKICAgICAgICB9IGNhdGNoIHsKICAgICAgICAgICAgbGFzdEVycm9yID0gZXJyb3IubG9jYWxpemVkRGVzY3JpcHRpb24KICAgICAgICB9CiAgICB9CgogICAgLy8gTUFSSzog6Z2g6L+R6Kej6ZSBCgogICAgcHJpdmF0ZSBmdW5jIHBlcmZvcm1VbmxvY2soKSBhc3luYyB7CiAgICAgICAgYXdhaXQgc2VuZCguZG9vclVubG9jaykKICAgIH0KCiAgICAvLyBNQVJLOiDovablhrUKCiAgICBmdW5jIHJlZnJlc2hTdGF0ZSgpIGFzeW5jIHsKICAgICAgICBkbyB7CiAgICAgICAgICAgIHN0YXRlID0gdHJ5IGF3YWl0IGFwaS5mZXRjaFZlaGljbGVTdGF0ZSgpCiAgICAgICAgICAgIGxhc3RFcnJvciA9IG5pbAogICAgICAgIH0gY2F0Y2ggewogICAgICAgICAgICBsYXN0RXJyb3IgPSBlcnJvci5sb2NhbGl6ZWREZXNjcmlwdGlvbgogICAgICAgIH0KICAgIH0KCiAgICAvLy8g5aSE55CGIEJMRSDmjqjpgIHnmoQgNDA4IOWtl+iKgui9puWGteaKpeaWh+OAggogICAgZnVuYyBoYW5kbGVCbGVTdGF0dXMoXyBkYXRhOiBEYXRhKSB7CiAgICAgICAgZG8gewogICAgICAgICAgICBsZXQgcGFyc2VkID0gdHJ5IFZlaGljbGVTdGF0dXNQYXJzZXIoKS5wYXJzZShkYXRhKQogICAgICAgICAgICBUYXNrIHsgQE1haW5BY3RvciBpbiBzZWxmLnN0YXRlID0gcGFyc2VkIH0KICAgICAgICB9IGNhdGNoIHsKICAgICAgICAgICAgVGFzayB7IEBNYWluQWN0b3IgaW4gc2VsZi5sYXN0RXJyb3IgPSAi6L2m5Ya16Kej5p6Q5aSx6LSlIiB9CiAgICAgICAgfQogICAgfQp9CgovLyBNQVJLOiAtIOeVjOmdogoKc3RydWN0IENvbnRlbnRWaWV3OiBWaWV3IHsKICAgIEBTdGF0ZU9iamVjdCBwcml2YXRlIHZhciBjb250cm9sbGVyID0gQ2FyQ29udHJvbGxlcigpCiAgICBAU3RhdGUgcHJpdmF0ZSB2YXIgc2hvd1NldHRpbmdzID0gZmFsc2UKCiAgICB2YXIgYm9keTogc29tZSBWaWV3IHsKICAgICAgICBOYXZpZ2F0aW9uU3RhY2sgewogICAgICAgICAgICBTY3JvbGxWaWV3IHsKICAgICAgICAgICAgICAgIFZTdGFjayhzcGFjaW5nOiAxNikgewoKICAgICAgICAgICAgICAgICAgICBzdGF0dXNDYXJkCgogICAgICAgICAgICAgICAgICAgIGlmIGxldCBlcnJvciA9IGNvbnRyb2xsZXIubGFzdEVycm9yIHsKICAgICAgICAgICAgICAgICAgICAgICAgZXJyb3JCYW5uZXIoZXJyb3IpCiAgICAgICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgICAgICBncm91cENhcmQodGl0bGU6ICLovabplIHkuI7lr7vovaYiKSB7CiAgICAgICAgICAgICAgICAgICAgICAgIGNvbW1hbmRCdXR0b24oLmRvb3JVbmxvY2ssIGljb246ICJsb2NrLm9wZW4iKQogICAgICAgICAgICAgICAgICAgICAgICBjb21tYW5kQnV0dG9uKC5kb29yTG9jaywgaWNvbjogImxvY2siKQogICAgICAgICAgICAgICAgICAgICAgICBjb21tYW5kQnV0dG9uKC5jYXJTZWFyY2gsIGljb246ICJtYWduaWZ5aW5nZ2xhc3MiKQogICAgICAgICAgICAgICAgICAgICAgICBjb21tYW5kQnV0dG9uKC50cnVua1VubG9jaywgaWNvbjogImNhci5yZWFyLm9wZW4iKQogICAgICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICAgICAgZ3JvdXBDYXJkKHRpdGxlOiAi56m66LCD5LiO5rip5bqmIikgewogICAgICAgICAgICAgICAgICAgICAgICBjb21tYW5kQnV0dG9uKC5haXJDb25kaXRpb25lck9wZW4sIGljb246ICJmYW4iKQogICAgICAgICAgICAgICAgICAgICAgICBjb21tYW5kQnV0dG9uKC5haXJDb25kaXRpb25lckNsb3NlLCBpY29uOiAiZmFuLmZpbGwiKQogICAgICAgICAgICAgICAgICAgICAgICBjb21tYW5kQnV0dG9uKC5haXJDb25kaXRpb25lclJlZnJpZ2VyYXRpb24sIGljb246ICJzbm93Zmxha2UiKQogICAgICAgICAgICAgICAgICAgICAgICBjb21tYW5kQnV0dG9uKC5haXJDb25kaXRpb25lckhlYXRpbmcsIGljb246ICJmbGFtZSIpCiAgICAgICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgICAgICBncm91cENhcmQodGl0bGU6ICLovabnqpciKSB7CiAgICAgICAgICAgICAgICAgICAgICAgIGNvbW1hbmRCdXR0b24oLndpbmRvd09wZW4sIGljb246ICJhcnJvdy51cC5zcXVhcmUiKQogICAgICAgICAgICAgICAgICAgICAgICBjb21tYW5kQnV0dG9uKC53aW5kb3dDbG9zZSwgaWNvbjogImFycm93LmRvd24uc3F1YXJlIikKICAgICAgICAgICAgICAgICAgICAgICAgY29tbWFuZEJ1dHRvbigudG9wTGVmdFdpbmRvd09wZW4sIGljb246ICJyZWN0YW5nbGUuc3BsaXQuMngxIikKICAgICAgICAgICAgICAgICAgICAgICAgY29tbWFuZEJ1dHRvbigudG9wTGVmdFdpbmRvd0Nsb3NlLCBpY29uOiAicmVjdGFuZ2xlLnNwbGl0LjJ4MS5maWxsIikKICAgICAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgICAgIGdyb3VwQ2FyZCh0aXRsZTogIuWFheeUteS4jueUteaxoCIpIHsKICAgICAgICAgICAgICAgICAgICAgICAgY29tbWFuZEJ1dHRvbiguc3RhcnRDaGFyZ2UsIGljb246ICJib2x0LmZpbGwiKQogICAgICAgICAgICAgICAgICAgICAgICBjb21tYW5kQnV0dG9uKC5zdG9wQ2hhcmdlLCBpY29uOiAiYm9sdC5zbGFzaCIpCiAgICAgICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgICAgICBncm91cENhcmQodGl0bGU6ICLnlLXmupAiKSB7CiAgICAgICAgICAgICAgICAgICAgICAgIGNvbW1hbmRCdXR0b24oLnBvd2VyT24sIGljb246ICJwb3dlciIpCiAgICAgICAgICAgICAgICAgICAgICAgIGNvbW1hbmRCdXR0b24oLnBvd2VyT2ZmLCBpY29uOiAicG93ZXJvZmYiKQogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIC5wYWRkaW5nKCkKICAgICAgICAgICAgfQogICAgICAgICAgICAuYmFja2dyb3VuZChDb2xvciguc3lzdGVtR3JvdXBlZEJhY2tncm91bmQpKQogICAgICAgICAgICAubmF2aWdhdGlvblRpdGxlKCLlk6rlkJJMIikKICAgICAgICAgICAgLnRvb2xiYXIgewogICAgICAgICAgICAgICAgVG9vbGJhckl0ZW0ocGxhY2VtZW50OiAudG9wQmFyVHJhaWxpbmcpIHsKICAgICAgICAgICAgICAgICAgICBCdXR0b24gewogICAgICAgICAgICAgICAgICAgICAgICBzaG93U2V0dGluZ3MgPSB0cnVlCiAgICAgICAgICAgICAgICAgICAgfSBsYWJlbDogewogICAgICAgICAgICAgICAgICAgICAgICBMYWJlbCgi6K6+572uIiwgc3lzdGVtSW1hZ2U6ICJnZWFyc2hhcGUiKQogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgICAgICAucmVmcmVzaGFibGUgeyBhd2FpdCBjb250cm9sbGVyLnJlZnJlc2hTdGF0ZSgpIH0KICAgICAgICAgICAgLnNoZWV0KGlzUHJlc2VudGVkOiAkc2hvd1NldHRpbmdzKSB7CiAgICAgICAgICAgICAgICBTZXR0aW5nc1ZpZXcoY29udHJvbGxlcjogY29udHJvbGxlcikKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KCiAgICAvLyBNQVJLOiDlrZDop4blm74KCiAgICBwcml2YXRlIHZhciBzdGF0dXNDYXJkOiBzb21lIFZpZXcgewogICAgICAgIFZTdGFjayhhbGlnbm1lbnQ6IC5sZWFkaW5nLCBzcGFjaW5nOiA4KSB7CiAgICAgICAgICAgIEhTdGFjayB7CiAgICAgICAgICAgICAgICBMYWJlbCgKICAgICAgICAgICAgICAgICAgICBjb250cm9sbGVyLm5lYXJGaWVsZEF2YWlsYWJsZSA/ICLok53niZnlt7Lov57mjqUiIDogIuacqui/nuaOpeaIluS4i+WPkeWksei0peaXtui1sOe9kee7nCIsCiAgICAgICAgICAgICAgICAgICAgc3lzdGVtSW1hZ2U6IGNvbnRyb2xsZXIubmVhckZpZWxkQXZhaWxhYmxlID8gImRvdC5yYWRpb3dhdmVzLmxlZnQuYW5kLnJpZ2h0IiA6ICJpY2xvdWQuc2xhc2giCiAgICAgICAgICAgICAgICApCiAgICAgICAgICAgICAgICAuZm9udCguY2FwdGlvbikKICAgICAgICAgICAgICAgIC5mb3JlZ3JvdW5kU3R5bGUoY29udHJvbGxlci5uZWFyRmllbGRBdmFpbGFibGUgPyAuZ3JlZW4gOiAuc2Vjb25kYXJ5KQoKICAgICAgICAgICAgICAgIFNwYWNlcigpCgogICAgICAgICAgICAgICAgVGV4dChjb250cm9sbGVyLmNoYW5uZWwuZGlzcGxheU5hbWUpCiAgICAgICAgICAgICAgICAgICAgLmZvbnQoLmNhcHRpb24ud2VpZ2h0KC5tZWRpdW0pKQogICAgICAgICAgICAgICAgICAgIC5wYWRkaW5nKC5ob3Jpem9udGFsLCA4KQogICAgICAgICAgICAgICAgICAgIC5wYWRkaW5nKC52ZXJ0aWNhbCwgMikKICAgICAgICAgICAgICAgICAgICAuYmFja2dyb3VuZChDb2xvci5hY2NlbnRDb2xvci5vcGFjaXR5KDAuMTUpKQogICAgICAgICAgICAgICAgICAgIC5jbGlwU2hhcGUoQ2Fwc3VsZSgpKQogICAgICAgICAgICB9CgogICAgICAgICAgICBEaXZpZGVyKCkKCiAgICAgICAgICAgIC8vIOWPquWIl+W9k+WJjeaVsOaNrua6kOW3sue7meWHuuWPluWAvOeahOS/oeWPtwogICAgICAgICAgICBpZiBsZXQgc29jID0gY29udHJvbGxlci5zdGF0ZS5iYXR0ZXJ5U09DIHsKICAgICAgICAgICAgICAgIHN0YXR1c1Jvdygi55S16YePIiwgIlwoSW50KHNvYykpJSIpCiAgICAgICAgICAgIH0KICAgICAgICAgICAgaWYgbGV0IHRlbXAgPSBjb250cm9sbGVyLnN0YXRlLm91dGRvb3JUZW1wZXJhdHVyZSB7CiAgICAgICAgICAgICAgICBzdGF0dXNSb3coIui9puWklua4qeW6piIsICJcKFN0cmluZyhmb3JtYXQ6ICIlLjFmIiwgdGVtcCkp4oSDIikKICAgICAgICAgICAgfQogICAgICAgICAgICBpZiBsZXQgbWlsZWFnZSA9IGNvbnRyb2xsZXIuc3RhdGUudG90YWxNaWxlYWdlIHsKICAgICAgICAgICAgICAgIHN0YXR1c1Jvdygi5oC76KGM6am26YeM56iLIiwgIlwoSW50KG1pbGVhZ2UpKSBrbSIpCiAgICAgICAgICAgIH0KICAgICAgICAgICAgaWYgbGV0IGxvY2sgPSBjb250cm9sbGVyLnN0YXRlLmRvb3JzTG9jaywgbG9jayAhPSAudW5rbm93biB7CiAgICAgICAgICAgICAgICBzdGF0dXNSb3coIumXqOmUgSIsIGxvY2sucmF3VmFsdWUpCiAgICAgICAgICAgIH0KICAgICAgICAgICAgaWYgbGV0IHNlYXQgPSBjb250cm9sbGVyLnN0YXRlLmRyaXZlclNlYXRIZWF0aW5nLCBzZWF0ICE9IC51bmtub3duIHsKICAgICAgICAgICAgICAgIHN0YXR1c1Jvdygi5Li76am+5Yqg54OtIiwgc2VhdC5yYXdWYWx1ZSkKICAgICAgICAgICAgfQoKICAgICAgICAgICAgaWYgY29udHJvbGxlci5zdGF0ZS5pc0VtcHR5IHsKICAgICAgICAgICAgICAgIFRleHQoIuW9k+WJjeaVsOaNrua6kOayoeacieWPr+aYvuekuueahOWFtuS9mei9pui+hueKtuaAgSIpCiAgICAgICAgICAgICAgICAgICAgLmZvbnQoLmNhcHRpb24pCiAgICAgICAgICAgICAgICAgICAgLmZvcmVncm91bmRTdHlsZSguc2Vjb25kYXJ5KQogICAgICAgICAgICB9CgogICAgICAgICAgICBpZiBsZXQgcmVzdWx0ID0gY29udHJvbGxlci5sYXN0UmVzdWx0IHsKICAgICAgICAgICAgICAgIFRleHQocmVzdWx0KQogICAgICAgICAgICAgICAgICAgIC5mb250KC5jYXB0aW9uKQogICAgICAgICAgICAgICAgICAgIC5mb3JlZ3JvdW5kU3R5bGUoLnNlY29uZGFyeSkKICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICAucGFkZGluZygpCiAgICAgICAgLmJhY2tncm91bmQoQ29sb3IoLnNlY29uZGFyeVN5c3RlbUdyb3VwZWRCYWNrZ3JvdW5kKSkKICAgICAgICAuY2xpcFNoYXBlKFJvdW5kZWRSZWN0YW5nbGUoY29ybmVyUmFkaXVzOiAxMikpCiAgICB9CgogICAgcHJpdmF0ZSBmdW5jIHN0YXR1c1JvdyhfIGxhYmVsOiBTdHJpbmcsIF8gdmFsdWU6IFN0cmluZykgLT4gc29tZSBWaWV3IHsKICAgICAgICBIU3RhY2sgewogICAgICAgICAgICBUZXh0KGxhYmVsKS5mb250KC5zdWJoZWFkbGluZSkKICAgICAgICAgICAgU3BhY2VyKCkKICAgICAgICAgICAgVGV4dCh2YWx1ZSkuZm9udCguc3ViaGVhZGxpbmUud2VpZ2h0KC5tZWRpdW0pKQogICAgICAgIH0KICAgIH0KCiAgICBwcml2YXRlIGZ1bmMgZXJyb3JCYW5uZXIoXyBtZXNzYWdlOiBTdHJpbmcpIC0+IHNvbWUgVmlldyB7CiAgICAgICAgSFN0YWNrKHNwYWNpbmc6IDgpIHsKICAgICAgICAgICAgSW1hZ2Uoc3lzdGVtTmFtZTogImV4Y2xhbWF0aW9ubWFyay50cmlhbmdsZSIpCiAgICAgICAgICAgIFRleHQobWVzc2FnZSkuZm9udCguY2FwdGlvbikKICAgICAgICAgICAgU3BhY2VyKCkKICAgICAgICB9CiAgICAgICAgLnBhZGRpbmcoMTApCiAgICAgICAgLmZvcmVncm91bmRTdHlsZSgucmVkKQogICAgICAgIC5iYWNrZ3JvdW5kKENvbG9yLnJlZC5vcGFjaXR5KDAuMSkpCiAgICAgICAgLmNsaXBTaGFwZShSb3VuZGVkUmVjdGFuZ2xlKGNvcm5lclJhZGl1czogOCkpCiAgICB9CgogICAgcHJpdmF0ZSBmdW5jIGdyb3VwQ2FyZDxDb250ZW50OiBWaWV3PigKICAgICAgICB0aXRsZTogU3RyaW5nLAogICAgICAgIEBWaWV3QnVpbGRlciBjb250ZW50OiAoKSAtPiBDb250ZW50CiAgICApIC0+IHNvbWUgVmlldyB7CiAgICAgICAgVlN0YWNrKGFsaWdubWVudDogLmxlYWRpbmcsIHNwYWNpbmc6IDEwKSB7CiAgICAgICAgICAgIFRleHQodGl0bGUpLmZvbnQoLnN1YmhlYWRsaW5lLndlaWdodCgubWVkaXVtKSkKICAgICAgICAgICAgTGF6eVZHcmlkKGNvbHVtbnM6IFtHcmlkSXRlbSguZmxleGlibGUoKSksIEdyaWRJdGVtKC5mbGV4aWJsZSgpKV0sIHNwYWNpbmc6IDEwKSB7CiAgICAgICAgICAgICAgICBjb250ZW50KCkKICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICAucGFkZGluZygpCiAgICAgICAgLmZyYW1lKG1heFdpZHRoOiAuaW5maW5pdHksIGFsaWdubWVudDogLmxlYWRpbmcpCiAgICAgICAgLmJhY2tncm91bmQoQ29sb3IoLnNlY29uZGFyeVN5c3RlbUdyb3VwZWRCYWNrZ3JvdW5kKSkKICAgICAgICAuY2xpcFNoYXBlKFJvdW5kZWRSZWN0YW5nbGUoY29ybmVyUmFkaXVzOiAxMikpCiAgICB9CgogICAgcHJpdmF0ZSBmdW5jIGNvbW1hbmRCdXR0b24oXyBjb21tYW5kOiBWZWhpY2xlQ29tbWFuZCwgaWNvbjogU3RyaW5nKSAtPiBzb21lIFZpZXcgewogICAgICAgIEJ1dHRvbiB7CiAgICAgICAgICAgIFRhc2sgeyBhd2FpdCBjb250cm9sbGVyLnNlbmQoY29tbWFuZCkgfQogICAgICAgIH0gbGFiZWw6IHsKICAgICAgICAgICAgTGFiZWwoY29tbWFuZC5kaXNwbGF5TmFtZSwgc3lzdGVtSW1hZ2U6IGljb24pCiAgICAgICAgICAgICAgICAuZm9udCguY2FwdGlvbikKICAgICAgICAgICAgICAgIC5mcmFtZShtYXhXaWR0aDogLmluZmluaXR5KQogICAgICAgICAgICAgICAgLnBhZGRpbmcoLnZlcnRpY2FsLCAxMikKICAgICAgICB9CiAgICAgICAgLmJ1dHRvblN0eWxlKC5ib3JkZXJlZCkKICAgICAgICAuZGlzYWJsZWQoY29udHJvbGxlci5pc0J1c3kpCiAgICB9Cn0KCnN0cnVjdCBTZXR0aW5nc1ZpZXc6IFZpZXcgewogICAgQE9ic2VydmVkT2JqZWN0IHZhciBjb250cm9sbGVyOiBDYXJDb250cm9sbGVyCiAgICBARW52aXJvbm1lbnQoXC5kaXNtaXNzKSBwcml2YXRlIHZhciBkaXNtaXNzCgogICAgdmFyIGJvZHk6IHNvbWUgVmlldyB7CiAgICAgICAgTmF2aWdhdGlvblN0YWNrIHsKICAgICAgICAgICAgRm9ybSB7CiAgICAgICAgICAgICAgICBTZWN0aW9uKCLovabmjqfpgJrpgZMiKSB7CiAgICAgICAgICAgICAgICAgICAgUGlja2VyKCLpgJrpgZMiLCBzZWxlY3Rpb246IEJpbmRpbmcoCiAgICAgICAgICAgICAgICAgICAgICAgIGdldDogeyBjb250cm9sbGVyLmNoYW5uZWwgfSwKICAgICAgICAgICAgICAgICAgICAgICAgc2V0OiB7IGNvbnRyb2xsZXIuc2V0Q2hhbm5lbCgkMCkgfQogICAgICAgICAgICAgICAgICAgICkpIHsKICAgICAgICAgICAgICAgICAgICAgICAgRm9yRWFjaChDb250cm9sQ2hhbm5lbC5hbGxDYXNlcywgaWQ6IFwuc2VsZikgeyBjaCBpbgogICAgICAgICAgICAgICAgICAgICAgICAgICAgVGV4dChjaC5kaXNwbGF5TmFtZSkudGFnKGNoKQogICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgIC5waWNrZXJTdHlsZSguc2VnbWVudGVkKQoKICAgICAgICAgICAgICAgICAgICBUZXh0KCLoh6rliqjvvJrok53niZnlt7Lov57mjqXml7bkvJjlhYjkvb/nlKjvvIzmnKrov57mjqXmiJbkuIvlj5HlpLHotKXml7botbDnvZHnu5wiKQogICAgICAgICAgICAgICAgICAgICAgICAuZm9udCguY2FwdGlvbikKICAgICAgICAgICAgICAgICAgICAgICAgLmZvcmVncm91bmRTdHlsZSguc2Vjb25kYXJ5KQogICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgIFNlY3Rpb24oIuWNj+iuriIpIHsKICAgICAgICAgICAgICAgICAgICBMYWJlbGVkQ29udGVudCgi5pyN5Yqh56uvIiwgdmFsdWU6ICJjaGVoZXpoaS5jbjoxODQ0MyIpCiAgICAgICAgICAgICAgICAgICAgTGFiZWxlZENvbnRlbnQoIuetvuWQjeeKtuaAgSIsIHZhbHVlOiAi5b6F5oqT5YyF5qCh6aqMIikKICAgICAgICAgICAgICAgICAgICBMYWJlbGVkQ29udGVudCgiQkxFIOeKtuaAgSIsIHZhbHVlOiBibGVTdGF0ZVRleHQpCiAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgU2VjdGlvbigi5bel5YW3IikgewogICAgICAgICAgICAgICAgICAgIEJsZUNhcHR1cmVWaWV3LmNhcHR1cmVFbnRyeSgpCiAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgU2VjdGlvbiB7CiAgICAgICAgICAgICAgICAgICAgVGV4dCgi6L2m5Ya15oql5paH5YGP56e744CBVEJPRSDluKfmoLzlvI/jgIHnrb7lkI3nrpfms5XlnYfpnIDpgJrov4fmipPljIXooaXlhajvvIzor6bop4Hpmo/pmYTnmoTljY/orq7op4TmoLzmlofmoaPjgIIiKQogICAgICAgICAgICAgICAgICAgICAgICAuZm9udCguY2FwdGlvbikKICAgICAgICAgICAgICAgICAgICAgICAgLmZvcmVncm91bmRTdHlsZSguc2Vjb25kYXJ5KQogICAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CiAgICAgICAgICAgIC5uYXZpZ2F0aW9uVGl0bGUoIuiuvue9riIpCiAgICAgICAgICAgIC50b29sYmFyIHsKICAgICAgICAgICAgICAgIFRvb2xiYXJJdGVtKHBsYWNlbWVudDogLmNvbmZpcm1hdGlvbkFjdGlvbikgewogICAgICAgICAgICAgICAgICAgIEJ1dHRvbigi5a6M5oiQIikgeyBkaXNtaXNzKCkgfQogICAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CiAgICAgICAgfQogICAgfQoKICAgIHByaXZhdGUgdmFyIGJsZVN0YXRlVGV4dDogU3RyaW5nIHsKICAgICAgICBzd2l0Y2ggVGJvZVRyYW5zcG9ydC5zaGFyZWQuc3RhdGUgewogICAgICAgIGNhc2UgLnJlYWR5OiByZXR1cm4gIuW3sui/nuaOpSIKICAgICAgICBjYXNlIC5pZGxlOiByZXR1cm4gIuacqui/nuaOpSIKICAgICAgICBjYXNlIC5jb25uZWN0aW5nLCAuYXdhaXRpbmdDaGFsbGVuZ2UsIC5zZW5kaW5nUmVzcG9uc2UsCiAgICAgICAgICAgICAudmVyaWZ5aW5nUmVzcG9uc2UsIC5zeW5jaW5nV2hpdGVsaXN0OgogICAgICAgICAgICByZXR1cm4gIuaPoeaJi+S4rSIKICAgICAgICBjYXNlIC5mYWlsZWQ6IHJldHVybiAi5byC5bi4IgogICAgICAgIH0KICAgIH0KfQ==
+import Foundation
+import SwiftUI
+import Combine
+
+/// 车控协调器：按通道策略在 BLE 与网络之间路由指令。
+///
+/// 对应 APK 文案（已确认）：
+/// - 「蓝牙已连接时优先使用」
+/// - 「未连接或下发失败时走网络」
+/// - 「已按设置只走蓝牙」
+/// - 「该动作仅支持网络通道」
+@MainActor
+final class CarController: ObservableObject {
+
+    // MARK: 发布状态
+
+    @Published private(set) var state = VehicleState()
+    @Published private(set) var channel: ControlChannel = .automatic
+    @Published private(set) var isBusy = false
+    @Published private(set) var lastError: String?
+    @Published private(set) var lastResult: String?
+
+    // MARK: 依赖
+
+    private let api = NetaAPIClient()
+    private let tboe = TboeTransport.shared
+    private let proximity = ProximityUnlockPolicy()
+
+    // MARK: 初始化
+
+    init() {
+        proximity.isBluetoothConnected = false
+
+        proximity.onUnlock = { [weak self] in
+            Task { await self?.performUnlock() }
+        }
+
+        tboe.onVehicleState = { [weak self] newState in
+            Task { @MainActor in self?.state = newState }
+        }
+
+        tboe.onCommandResult = { [weak self] command, success in
+            Task { @MainActor in
+                self?.lastResult = success
+                    ? "\(command.displayName) 成功"
+                    : "\(command.displayName) 车端未回报执行结果"
+            }
+        }
+    }
+
+    // MARK: 通道
+
+    func setChannel(_ newChannel: ControlChannel) {
+        channel = newChannel
+    }
+
+    /// 当前可用的近场通道（对应 `NotificationSnapshot.isBluetoothConnected`）
+    var nearFieldAvailable: Bool {
+        TboeTransport.shared.state.isUsable
+    }
+
+    // MARK: 指令下发
+
+    /// 下发一条车控指令。
+    func send(_ command: VehicleCommand) async {
+        guard !isBusy else { return }
+        isBusy = true
+        lastError = nil
+        defer { isBusy = false }
+
+        // 该动作没有近场命令 → 只能走网络
+        guard command.supportsNearField || channel != .bluetoothOnly else {
+            await sendViaNetwork(command)
+            return
+        }
+
+        switch channel {
+        case .automatic:
+            if nearFieldAvailable {
+                sendViaBluetooth(command)
+                // 若近场下发失败，回退网络
+                if channel == .automatic && !lastResultIsSuccess {
+                    await sendViaNetwork(command)
+                }
+            } else {
+                await sendViaNetwork(command)
+            }
+
+        case .bluetoothOnly:
+            guard command.supportsNearField else {
+                lastError = "该动作仅支持网络通道"
+                return
+            }
+            sendViaBluetooth(command)
+
+        case .networkOnly:
+            await sendViaNetwork(command)
+        }
+    }
+
+    private var lastResultIsSuccess: Bool {
+        lastResult?.hasSuffix("成功") == true
+    }
+
+    private func sendViaBluetooth(_ command: VehicleCommand) {
+        guard TboeTransport.shared.state.isUsable else {
+            lastError = "尚未连接到车辆蓝牙"
+            return
+        }
+        TboeTransport.shared.send(command)
+        lastResult = "正在下发 \(command.displayName)"
+    }
+
+    private func sendViaNetwork(_ command: VehicleCommand) async {
+        do {
+            _ = try await api.sendCommand(command)
+            lastResult = "\(command.displayName) 已提交"
+        } catch {
+            lastError = error.localizedDescription
+        }
+    }
+
+    // MARK: 靠近解锁
+
+    private func performUnlock() async {
+        await send(.doorUnlock)
+    }
+
+    // MARK: 车况
+
+    func refreshState() async {
+        do {
+            state = try await api.fetchVehicleState()
+            lastError = nil
+        } catch {
+            lastError = error.localizedDescription
+        }
+    }
+
+    /// 处理 BLE 推送的 408 字节车况报文。
+    func handleBleStatus(_ data: Data) {
+        do {
+            let parsed = try VehicleStatusParser().parse(data)
+            Task { @MainActor in self.state = parsed }
+        } catch {
+            Task { @MainActor in self.lastError = "车况解析失败" }
+        }
+    }
+}
+
+// MARK: - 界面
+
+struct ContentView: View {
+    @StateObject private var controller = CarController()
+    @State private var showSettings = false
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 16) {
+
+                    statusCard
+
+                    if let error = controller.lastError {
+                        errorBanner(error)
+                    }
+
+                    groupCard(title: "车锁与寻车") {
+                        commandButton(.doorUnlock, icon: "lock.open")
+                        commandButton(.doorLock, icon: "lock")
+                        commandButton(.carSearch, icon: "magnifyingglass")
+                        commandButton(.trunkUnlock, icon: "car.rear.open")
+                    }
+
+                    groupCard(title: "空调与温度") {
+                        commandButton(.airConditionerOpen, icon: "fan")
+                        commandButton(.airConditionerClose, icon: "fan.fill")
+                        commandButton(.airConditionerRefrigeration, icon: "snowflake")
+                        commandButton(.airConditionerHeating, icon: "flame")
+                    }
+
+                    groupCard(title: "车窗") {
+                        commandButton(.windowOpen, icon: "arrow.up.square")
+                        commandButton(.windowClose, icon: "arrow.down.square")
+                        commandButton(.topLeftWindowOpen, icon: "rectangle.split.2x1")
+                        commandButton(.topLeftWindowClose, icon: "rectangle.split.2x1.fill")
+                    }
+
+                    groupCard(title: "充电与电池") {
+                        commandButton(.startCharge, icon: "bolt.fill")
+                        commandButton(.stopCharge, icon: "bolt.slash")
+                    }
+
+                    groupCard(title: "电源") {
+                        commandButton(.powerOn, icon: "power")
+                        commandButton(.powerOff, icon: "poweroff")
+                    }
+                }
+                .padding()
+            }
+            .background(Color(.systemGroupedBackground))
+            .navigationTitle("哪吒L")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showSettings = true
+                    } label: {
+                        Label("设置", systemImage: "gearshape")
+                    }
+                }
+            }
+            .refreshable { await controller.refreshState() }
+            .sheet(isPresented: $showSettings) {
+                SettingsView(controller: controller)
+            }
+        }
+    }
+
+    // MARK: 子视图
+
+    private var statusCard: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Label(
+                    controller.nearFieldAvailable ? "蓝牙已连接" : "未连接或下发失败时走网络",
+                    systemImage: controller.nearFieldAvailable ? "dot.radiowaves.left.and.right" : "icloud.slash"
+                )
+                .font(.caption)
+                .foregroundStyle(controller.nearFieldAvailable ? .green : .secondary)
+
+                Spacer()
+
+                Text(controller.channel.displayName)
+                    .font(.caption.weight(.medium))
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 2)
+                    .background(Color.accentColor.opacity(0.15))
+                    .clipShape(Capsule())
+            }
+
+            Divider()
+
+            // 只列当前数据源已给出取值的信号
+            if let soc = controller.state.batterySOC {
+                statusRow("电量", "\(Int(soc))%")
+            }
+            if let temp = controller.state.outdoorTemperature {
+                statusRow("车外温度", "\(String(format: "%.1f", temp))℃")
+            }
+            if let mileage = controller.state.totalMileage {
+                statusRow("总行驶里程", "\(Int(mileage)) km")
+            }
+            if let lock = controller.state.doorsLock, lock != .unknown {
+                statusRow("门锁", lock.rawValue)
+            }
+            if let seat = controller.state.driverSeatHeating, seat != .unknown {
+                statusRow("主驾加热", seat.rawValue)
+            }
+
+            if controller.state.isEmpty {
+                Text("当前数据源没有可显示的其余车辆状态")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            if let result = controller.lastResult {
+                Text(result)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding()
+        .background(Color(.secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    private func statusRow(_ label: String, _ value: String) -> some View {
+        HStack {
+            Text(label).font(.subheadline)
+            Spacer()
+            Text(value).font(.subheadline.weight(.medium))
+        }
+    }
+
+    private func errorBanner(_ message: String) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: "exclamationmark.triangle")
+            Text(message).font(.caption)
+            Spacer()
+        }
+        .padding(10)
+        .foregroundStyle(.red)
+        .background(Color.red.opacity(0.1))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private func groupCard<Content: View>(
+        title: String,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(title).font(.subheadline.weight(.medium))
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                content()
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(.secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    private func commandButton(_ command: VehicleCommand, icon: String) -> some View {
+        Button {
+            Task { await controller.send(command) }
+        } label: {
+            Label(command.displayName, systemImage: icon)
+                .font(.caption)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 12)
+        }
+        .buttonStyle(.bordered)
+        .disabled(controller.isBusy)
+    }
+}
+
+struct SettingsView: View {
+    @ObservedObject var controller: CarController
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("车控通道") {
+                    Picker("通道", selection: Binding(
+                        get: { controller.channel },
+                        set: { controller.setChannel($0) }
+                    )) {
+                        ForEach(ControlChannel.allCases, id: \.self) { ch in
+                            Text(ch.displayName).tag(ch)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+
+                    Text("自动：蓝牙已连接时优先使用，未连接或下发失败时走网络")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
+                Section("协议") {
+                    LabeledContent("服务端", value: "chehezhi.cn:18443")
+                    LabeledContent("签名状态", value: "待抓包校验")
+                    LabeledContent("BLE 状态", value: bleStateText)
+                }
+
+                Section("工具") {
+                    BleCaptureView.captureEntry()
+                }
+
+                Section {
+                    Text("车况报文偏移、TBOE 帧格式、签名算法均需通过抓包补全，详见随附的协议规格文档。")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .navigationTitle("设置")
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("完成") { dismiss() }
+                }
+            }
+        }
+    }
+
+    private var bleStateText: String {
+        switch TboeTransport.shared.state {
+        case .ready: return "已连接"
+        case .idle: return "未连接"
+        case .connecting, .awaitingChallenge, .sendingResponse,
+             .verifyingResponse, .syncingWhitelist:
+            return "握手中"
+        case .failed: return "异常"
+        }
+    }
+}
