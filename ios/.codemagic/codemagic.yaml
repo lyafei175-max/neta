@@ -1,1 +1,52 @@
-IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KIyAgQ29kZW1hZ2ljIOmFjee9riDigJTigJQg57yW6K+R5qOA5p+lICsg5peg562+5ZCNIElQQQojCiMgIOS4jemcgOimgeivgeS5puOAguazqOWGjOWQjui/nuS7k+W6k+WNs+WPr+eCuSBTdGFydCBidWlsZOOAggojICDlhY3otLnpop3luqbvvJrmr4/mnIggNTAwIOWIhumSn++8jOWFjeS/oeeUqOWNoeOAggojID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQoKbmFtZTogaU9TIEJ1aWxkCnR5cGU6IGlvcwoKZW52aXJvbm1lbnQ6CiAgWENPREVHRU5fVkVSU0lPTjogMi40Mi4wCgpzY3JpcHRzOgogIC0gbmFtZTogSW5zdGFsbCBYY29kZUdlbgogICAgc2NyaXB0OiB8CiAgICAgIGJyZXcgaW5zdGFsbCB4Y29kZWdlbgoKICAtIG5hbWU6IEdlbmVyYXRlIHByb2plY3QKICAgIHNjcmlwdDogfAogICAgICBjZCBpb3MKICAgICAgeGNvZGVnZW4gZ2VuZXJhdGUKCiAgLSBuYW1lOiBDb21waWxlIGNoZWNrCiAgICAjIOaXoOetvuWQjee8luivke+8jOeUqOS6juafpee8luivkemUmeivr+OAguaXpeW/l+mHjOS8mui+k+WHuuWFqOmDqCBlcnJvci93YXJuaW5nCiAgICBzY3JpcHQ6IHwKICAgICAgY2QgaW9zCiAgICAgIHNldCArZQogICAgICB4Y29kZWJ1aWxkIFwKICAgICAgICAtcHJvamVjdCBOZXRhTC54Y29kZXByb2ogXAogICAgICAgIC1zY2hlbWUgTmV0YUwgXAogICAgICAgIC1jb25maWd1cmF0aW9uIERlYnVnIFwKICAgICAgICAtZGVzdGluYXRpb24gJ2dlbmVyaWMvcGxhdGZvcm09aU9TIFNpbXVsYXRvcicgXAogICAgICAgIENPREVfU0lHTklOR19BTExPV0VEPU5PIFwKICAgICAgICBDT0RFX1NJR05JTkdfUkVRVUlSRUQ9Tk8gXAogICAgICAgIGJ1aWxkID4gY29tcGlsZS1sb2cudHh0IDI+JjEKICAgICAgc2V0IC1lCgogICAgICBlY2hvICI9PT0g57yW6K+R6ZSZ6K+vID09PSIKICAgICAgaWYgZ3JlcCAtcUUgImVycm9yOiIgY29tcGlsZS1sb2cudHh0OyB0aGVuCiAgICAgICAgZ3JlcCAtRSAiZXJyb3I6IiBjb21waWxlLWxvZy50eHQgfCBoZWFkIC02MAogICAgICAgIGVjaG8gIiIKICAgICAgICBlY2hvICI9PT0g6ZSZ6K+v5Y676YeNID09PSIKICAgICAgICBncmVwIC1vRSAiZXJyb3I6IC4qIiBjb21waWxlLWxvZy50eHQgfCBzb3J0IC11IHwgaGVhZCAtNDAKICAgICAgICBleGl0IDEKICAgICAgZWxzZQogICAgICAgIGVjaG8gIuaXoOmUmeivr++8jOe8luivkemAmui/hyIKICAgICAgZmkKCiAgLSBuYW1lOiBBcmNoaXZlICh1bnNpZ25lZCkKICAgIHNjcmlwdDogfAogICAgICBjZCBpb3MKICAgICAgc2V0ICtlCiAgICAgIHhjb2RlYnVpbGQgXAogICAgICAgIC1wcm9qZWN0IE5ldGFMLnhjb2RlcHJvaiBcCiAgICAgICAgLXNjaGVtZSBOZXRhTCBcCiAgICAgICAgLWNvbmZpZ3VyYXRpb24gUmVsZWFzZSBcCiAgICAgICAgLWRlc3RpbmF0aW9uICdnZW5lcmljL3BsYXRmb3JtPWlPUycgXAogICAgICAgIC1hcmNoaXZlUGF0aCBidWlsZC9OZXRhTC54Y2FyY2hpdmUgXAogICAgICAgIENPREVfU0lHTklOR19BTExPV0VEPU5PIFwKICAgICAgICBDT0RFX1NJR05JTkdfUkVRVUlSRUQ9Tk8gXAogICAgICAgIENPREVfU0lHTl9JREVOVElUWT0iIiBcCiAgICAgICAgYXJjaGl2ZSA+IGFyY2hpdmUtbG9nLnR4dCAyPiYxCiAgICAgIHNldCAtZQoKICAgICAgaWYgZ3JlcCAtcUUgImVycm9yOiIgYXJjaGl2ZS1sb2cudHh0OyB0aGVuCiAgICAgICAgZ3JlcCAtRSAiZXJyb3I6IiBhcmNoaXZlLWxvZy50eHQgfCBoZWFkIC0zMAogICAgICAgIGV4aXQgMQogICAgICBmaQoKICAgICAgbWtkaXIgLXAgaXBhCiAgICAgIGNhdCA+IEV4cG9ydE9wdGlvbnMtdW5zaWduZWQucGxpc3QgPDwgJ1BMSVNUJwogICAgICA8P3htbCB2ZXJzaW9uPSIxLjAiIGVuY29kaW5nPSJVVEYtOCI/PgogICAgICA8cGxpc3QgdmVyc2lvbj0iMS4wIj4KICAgICAgPGRpY3Q+CiAgICAgICAgICA8a2V5Pm1ldGhvZDwva2V5PjxzdHJpbmc+ZGV2ZWxvcG1lbnQ8L3N0cmluZz4KICAgICAgICAgIDxrZXk+c2lnbmluZ1N0eWxlPC9rZXk+PHN0cmluZz5tYW51YWw8L3N0cmluZz4KICAgICAgICAgIDxrZXk+c2lnbmluZ0NlcnRpZmljYXRlPC9rZXk+PHN0cmluZz48L3N0cmluZz4KICAgICAgICAgIDxrZXk+cHJvdmlzaW9uaW5nUHJvZmlsZXM8L2tleT48ZGljdC8+CiAgICAgICAgICA8a2V5PnN0cmlwU3dpZnRTeW1ib2xzPC9rZXk+PHRydWUvPgogICAgICA8L2RpY3Q+CiAgICAgIDwvcGxpc3Q+CiAgICAgIFBMSVNUCgogICAgICB4Y29kZWJ1aWxkIFwKICAgICAgICAtZXhwb3J0QXJjaGl2ZSBcCiAgICAgICAgLWFyY2hpdmVQYXRoIGJ1aWxkL05ldGFMLnhjYXJjaGl2ZSBcCiAgICAgICAgLWV4cG9ydE9wdGlvbnNQbGlzdCBFeHBvcnRPcHRpb25zLXVuc2lnbmVkLnBsaXN0IFwKICAgICAgICAtZXhwb3J0UGF0aCBpcGEKCmFydGlmYWN0czoKICAtIHBhdGg6IGlvcy9pcGEvKi5pcGEKICAgIHR5cGU6IGZpbGUKICAgIG5hbWU6IE5ldGFMLmlwYQoKICAtIHBhdGg6IGlvcy9jb21waWxlLWxvZy50eHQKICAgIHR5cGU6IGZpbGUKICAgIG5hbWU6IGNvbXBpbGUtbG9nLnR4dAoKICAtIHBhdGg6IGlvcy9hcmNoaXZlLWxvZy50eHQKICAgIHR5cGU6IGZpbGUKICAgIG5hbWU6IGFyY2hpdmUtbG9nLnR4dA==
+name: iOS Build
+type: ios
+
+environment:
+  XCODEGEN_VERSION: 2.42.0
+
+scripts:
+  - name: Install XcodeGen
+    script: |
+      brew install xcodegen
+
+  - name: Generate project
+    script: |
+      cd ios
+      xcodegen generate
+
+  - name: Compile check
+    script: |
+      cd ios
+      set +e
+      xcodebuild \
+        -project NetaL.xcodeproj \
+        -scheme NetaL \
+        -configuration Debug \
+        -destination 'generic/platform=iOS Simulator' \
+        CODE_SIGNING_ALLOWED=NO \
+        build > compile-log.txt 2>&1
+      set -e
+      if grep -qE "error:" compile-log.txt; then
+        grep -oE "error: .*" compile-log.txt | sort -u | head -40
+        exit 1
+      fi
+      echo "编译通过"
+
+  - name: Build unsigned IPA
+    script: |
+      cd ios
+      chmod +x make-ipa.sh
+      ./make-ipa.sh build/NetaL.xcarchive .
+
+artifacts:
+  - path: ios/NetaL-unsigned.ipa
+    type: file
+    name: NetaL-unsigned.ipa
+
+  - path: ios/compile-log.txt
+    type: file
+    name: compile-log.txt
+
+  - path: ios/archive-log.txt
+    type: file
+    name: archive-log.txt
