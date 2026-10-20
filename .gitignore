@@ -1,1 +1,32 @@
-IyBYY29kZQpidWlsZC8KRGVyaXZlZERhdGEvCioueGNvZGVwcm9qLwoqLnhjd29ya3NwYWNlLwp4Y3VzZXJkYXRhLwoqLnhjYXJjaGl2ZQoqLmlwYQoqLmRTWU0vCgojIOetvuWQjeadkOaWmSDigJTigJQg5YiH5Yu/5o+Q5LqkCioucDEyCioubW9iaWxlcHJvdmlzaW9uCiouY2VyCioua2V5CgojIFN3aWZ0IFBhY2thZ2UKLmJ1aWxkLwouc3dpZnRwbS8KCiMgUHl0aG9uCl9fcHljYWNoZV9fLwoqLnB5YwoKIyBtYWNPUwouRFNfU3RvcmUKCiMg5oqT5YyF5pWw5o2u5Y+v6IO95ZCr5pWP5oSf5L+h5oGvCiouY2FwdHVyZS5qc29uCgojIFdvcmtCdWRkeSDlhoXpg6jmlbDmja7nm67lvZUg4oCU4oCUIOS4jeW6lOi/m+S7o+eggeS7k+W6kwoud29ya2J1ZGR5Lwo=
+# Xcode
+build/
+DerivedData/
+*.xcodeproj/
+*.xcworkspace/
+xcuserdata/
+*.xcarchive
+*.ipa
+*.dSYM/
+
+# 签名材料 —— 切勿提交
+*.p12
+*.mobileprovision
+*.cer
+*.key
+
+# Swift Package
+.build/
+.swiftpm/
+
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# 抓包数据可能含敏感信息
+*.capture.json
+
+# WorkBuddy 内部数据目录 —— 不应进代码仓库
+.workbuddy/
