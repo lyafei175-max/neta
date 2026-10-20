@@ -112,6 +112,27 @@ actor AuthService {
         lastRefreshAt = nil
     }
 
+    /// 是否持有本地会话。供 UI 门禁判断是否显示登录页。
+    var isAuthenticated: Bool {
+        store.accessToken != nil && store.refreshToken != nil
+    }
+
+    /// 校验本地会话是否仍然有效。
+    ///
+    /// ⚠️ 端点与响应结构待抓包校准。
+    func verifySession() async -> Bool {
+        guard isAuthenticated else { return false }
+        do {
+            let response = try await NetaAPIClient().post(
+                path: Endpoint.accountInfo,
+                parameters: [:]
+            )
+            return response.isSuccess
+        } catch {
+            return false
+        }
+    }
+
     /// 供已登录接口调用：确保有可用 token，必要时刷新。
     ///
     /// 对应文案「登录状态已变化」「需要重新登录刷新钥匙」。
@@ -223,4 +244,6 @@ extension Endpoint {
     static let requestSMSCode = "/api/account/sendSmsCode"
     /// 登录（推断端点）
     static let login = "/api/account/login"
+    /// 账户信息，用于校验会话（推断端点）
+    static let accountInfo = "/api/account/info"
 }
