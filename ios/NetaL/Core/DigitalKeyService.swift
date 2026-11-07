@@ -40,8 +40,9 @@ final class DigitalKeyService: ObservableObject {
     }
 
     /// 稳定设备 ID = 登录时的 seriesNo（实测安卓 deviceID 与 seriesNo 同值）。
+    /// 安卓为小写带连字符 UUID，转小写对齐。
     var deviceID: String {
-        (try? CredentialStore.shared.deviceSeriesNo()) ?? ""
+        ((try? CredentialStore.shared.deviceSeriesNo()) ?? "").lowercased()
     }
 
     /// userName = customer.id（实测抓包，非手机号）。
@@ -101,19 +102,24 @@ final class DigitalKeyService: ObservableObject {
 
             for (label, body) in variants {
                 append("① 尝试 \(label)：body=\(Self.bodyString(body))")
-                let resp = try await api.postJSON(path: Endpoint.eccPubkeyUpload, jsonBody: body,
-                                                  extraHeaders: requestIdHeader)
-                append("① [\(label)] code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-") body=\(resp.rawPreview)")
-                if resp.isSuccess {
-                    publicKeyUploaded = true
-                    try? KeychainHelper.set("1", account: "dk_public_uploaded")
-                    append("✅ 公钥上传成功（格式=\(label)）")
-                    return
-                }
-                if resp.code == 110217 {
-                    append("（公钥已登记，等待车端确认，稍后重试；格式=\(label)）")
-                    publicKeyUploaded = true
-                    return
+                do {
+                    let resp = try await api.postJSON(path: Endpoint.eccPubkeyUpload, jsonBody: body,
+                                                      extraHeaders: requestIdHeader)
+                    append("① [\(label)] code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-") body=\(resp.rawPreview)")
+                    if resp.isSuccess {
+                        publicKeyUploaded = true
+                        try? KeychainHelper.set("1", account: "dk_public_uploaded")
+                        append("✅ 公钥上传成功（格式=\(label)）")
+                        return
+                    }
+                    if resp.code == 110217 {
+                        append("（公钥已登记，等待车端确认，稍后重试；格式=\(label)）")
+                        publicKeyUploaded = true
+                        return
+                    }
+                } catch {
+                    // 单个变体失败（如 HTTP 400）继续试下一个
+                    append("① [\(label)] 异常 " + error.localizedDescription)
                 }
             }
             append("❌ 四种公钥格式均被拒（HTTP 400）——需对照安卓请求逐字段排查")
