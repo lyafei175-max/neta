@@ -43,9 +43,24 @@ final class DigitalKeyService: ObservableObject {
         (try? CredentialStore.shared.deviceSeriesNo()) ?? ""
     }
 
-    /// userName = customer.id（实测抓包，非手机号）
-    private var userName: String {
-        CredentialStore.shared.customerId ?? CredentialStore.shared.phone ?? ""
+    /// userName = customer.id（实测抓包，非手机号）。
+    /// 缺失说明登录会话早于 v0.3.1，需要重新登录补存。
+    var userName: String {
+        CredentialStore.shared.customerId ?? ""
+    }
+
+    /// 同步前校验：账号 ID 缺失时提示重新登录，避免拿手机号盲打 400
+    private func requireUserName() -> String? {
+        let u = userName
+        if u.isEmpty {
+            append("⚠️ 缺少账号 ID（customer.id）：请「账户 → 退出登录」后重新登录一次，再执行同步")
+        }
+        return u.isEmpty ? nil : u
+    }
+
+    /// 实测安卓 SDK 在数字钥匙请求上携带 request-id 头
+    private var requestIdHeader: [String: String] {
+        ["request-id": "Android-SDK-\(userName)-\(Int64(Date().timeIntervalSince1970 * 1000))"]
     }
 
     /// 本机 ECC P-256 公钥。上传格式 = **SPKI DER base64**（`MFkwEwYH…`，实测抓包），
@@ -76,15 +91,17 @@ final class DigitalKeyService: ObservableObject {
         defer { busy = false }
         do {
             append("① 上传公钥…")
+            guard let user = requireUserName() else { return }
             let pub = try ensureLocalKeyPair()
             let body: [String: Any] = [
-                "userName": userName,
+                "userName": user,
                 "deviceID": deviceID,
                 "deviceModel": DeviceInfo.current.deviceModel,
                 "deviceSysVer": DeviceInfo.current.systemVersion,
                 "eccPubkey": pub,
             ]
-            let resp = try await api.postJSON(path: Endpoint.eccPubkeyUpload, jsonBody: body)
+            let resp = try await api.postJSON(path: Endpoint.eccPubkeyUpload, jsonBody: body,
+                                              extraHeaders: requestIdHeader)
             append("① code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-")")
             append(resp.rawPreview)
             if resp.isSuccess {
@@ -105,8 +122,10 @@ final class DigitalKeyService: ObservableObject {
         defer { busy = false }
         do {
             append("② 取钥匙列表…")
-            let body: [String: Any] = ["userName": userName, "deviceID": deviceID]
-            let resp = try await api.postJSON(path: Endpoint.keyList, jsonBody: body)
+            guard let user = requireUserName() else { return }
+            let body: [String: Any] = ["userName": user, "deviceID": deviceID]
+            let resp = try await api.postJSON(path: Endpoint.keyList, jsonBody: body,
+                                              extraHeaders: requestIdHeader)
             append("② code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-")")
             // 钥匙接口信封是 {businessObj, code, message}（实测），data 兜底
             keyListRaw = Self.jsonToString(resp.businessObj ?? resp.data)
@@ -124,12 +143,14 @@ final class DigitalKeyService: ObservableObject {
         defer { busy = false }
         do {
             append("③ 下载钥匙原文 keyIDList=\(keyIDs)…")
+            guard let user = requireUserName() else { return }
             let body: [String: Any] = [
-                "userName": userName,
+                "userName": user,
                 "deviceID": deviceID,
                 "keyIDList": keyIDs,
             ]
-            let resp = try await api.postJSON(path: Endpoint.downloadKeyRaw, jsonBody: body)
+            let resp = try await api.postJSON(path: Endpoint.downloadKeyRaw, jsonBody: body,
+                                              extraHeaders: requestIdHeader)
             append("③ code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-")")
             append(resp.rawPreview)
             if let payload = resp.businessObj ?? resp.data,
@@ -178,12 +199,14 @@ final class DigitalKeyService: ObservableObject {
         defer { busy = false }
         do {
             append("⑤ 取白名单 VIN=\(vin)…")
+            guard let user = requireUserName() else { return }
             let body: [String: Any] = [
-                "userName": userName,
+                "userName": user,
                 "deviceID": deviceID,
                 "VINList": [vin],
             ]
-            let resp = try await api.postJSON(path: Endpoint.whiteList, jsonBody: body)
+            let resp = try await api.postJSON(path: Endpoint.whiteList, jsonBody: body,
+                                              extraHeaders: requestIdHeader)
             append("⑤ code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-")")
             append(resp.rawPreview)
         } catch {

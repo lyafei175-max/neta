@@ -20,6 +20,7 @@ struct KeyManagerView: View {
         NavigationStack {
             Form {
                 Section("数字钥匙同步（①→②→③→⑤）") {
+                    LabeledContent("userName", value: dk.userName.isEmpty ? "（未获取：请退出后重新登录）" : dk.userName)
                     LabeledContent("deviceID", value: dk.deviceID)
                     LabeledContent("公钥已上传", value: dk.publicKeyUploaded ? "是" : "否")
 

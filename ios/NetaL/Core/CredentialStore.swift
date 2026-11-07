@@ -185,13 +185,14 @@ final class CredentialStore {
 
     /// 设备序列号（登录请求体 `seriesNo` 字段）。
     ///
-    /// 原 APK 由 `Ls1/a;->a()` 生成设备串。iOS 端首次生成随机 UUID
-    /// 后持久化到 Keychain，保证同一设备稳定。
+    /// v0.3.3：实测数字钥匙接口的 deviceID 是**带连字符**的 UUID
+    /// （安卓 946078a9-43c7-…，与 seriesNo 同值），旧版无连字符格式会 400，
+    /// 存量值自动迁移为带连字符的新身份（需重新登录生效）。
     func deviceSeriesNo() throws -> String {
-        if let existing = try KeychainHelper.get(account: "seriesNo") {
+        if let existing = try KeychainHelper.get(account: "seriesNo"), existing.contains("-") {
             return existing
         }
-        let series = UUID().uuidString.replacingOccurrences(of: "-", with: "").lowercased()
+        let series = UUID().uuidString
         try KeychainHelper.set(series, account: "seriesNo")
         return series
     }

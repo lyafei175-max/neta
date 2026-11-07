@@ -50,13 +50,14 @@ struct NetaAPIClient {
 
     /// 发送带签名的 JSON 请求（原 `registerOrLoginUncheck` / `getAppVehicleData` 走此通道）。
     /// 业务码未授权时（如 30219「Token 已过期」）自动刷新令牌并重试一次。
-    func postJSON(path: String, jsonBody: [String: Any]) async throws -> NetaResponse {
+    /// extraHeaders：数字钥匙接口需要 request-id 头（实测安卓 SDK 携带）。
+    func postJSON(path: String, jsonBody: [String: Any], extraHeaders: [String: String]? = nil) async throws -> NetaResponse {
         let data = try JSONSerialization.data(withJSONObject: jsonBody)
         let bodyString = String(data: data, encoding: .utf8) ?? "{}"
-        let response = try await performPost(path: path, jsonBody: bodyString)
+        let response = try await performPost(path: path, jsonBody: bodyString, extraHeaders: extraHeaders)
         if response.requiresRelogin, injectAuth {
             _ = try await AuthService.shared.refresh()
-            return try await performPost(path: path, jsonBody: bodyString)
+            return try await performPost(path: path, jsonBody: bodyString, extraHeaders: extraHeaders)
         }
         return response
     }
@@ -64,7 +65,8 @@ struct NetaAPIClient {
     /// 单次请求，不含重试。
     private func performPost(path: String,
                              formParams: [(String, String)] = [],
-                             jsonBody: String? = nil) async throws -> NetaResponse {
+                             jsonBody: String? = nil,
+                             extraHeaders: [String: String]? = nil) async throws -> NetaResponse {
         guard let url = URL(string: config.baseURL + path) else {
             throw APIError.invalidURL
         }
@@ -86,6 +88,10 @@ struct NetaAPIClient {
             headers["Authorization"] = raw
         } else if injectAuth, let token = CredentialStore.shared.accessToken, !token.isEmpty {
             headers["Authorization"] = token
+        }
+        // 额外头（如数字钥匙接口的 request-id），后写覆盖同名基础头
+        for (k, v) in (extraHeaders ?? [:]) {
+            headers[k] = v
         }
 
         var request = URLRequest(url: url)
