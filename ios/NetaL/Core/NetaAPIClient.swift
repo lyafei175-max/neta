@@ -80,10 +80,12 @@ struct NetaAPIClient {
 
         // 30229 ??:??????? accessToken???/???? injectAuth=false?
         // rawAuthorization ??:??????? refreshToken ???(APK `w1/z.f`)?
+        // Authorization = token ???,? Bearer ??(APK D1/u.b ?7????,
+        // ??? "Bearer" ??;????????? 67520???????)?
         if let raw = rawAuthorization, !raw.isEmpty {
             headers["Authorization"] = raw
         } else if injectAuth, let token = CredentialStore.shared.accessToken, !token.isEmpty {
-            headers["Authorization"] = "Bearer " + token
+            headers["Authorization"] = token
         }
 
         var request = URLRequest(url: url)
@@ -160,19 +162,22 @@ struct NetaAPIClient {
 
     /// ?????
     ///
-    /// DEX `J1/G0.smali` ?????? **JSON**(????????? body=(?)):
-    /// `{ "vin", "accessToken", "types": "0,1,2,3,4,5,7,8,9,10,11,12" }`
+    /// DEX `J1/G0.smali` ????(v0.1.6 ??):
+    /// - ???**??**(u.b ?5?? jsonBody=null ? form),?? JSON
+    /// - ????????:`vin`?`types="0,1,2,3,4,5,7,8,9,10,11,12"`(? accessToken)
+    /// - Authorization ? = accessToken ???(? Bearer)
+    /// ????:v0.1.4 ? types ? ?? body=(?);v0.1.5 ?? JSON ? 67520???????
     func fetchVehicleState() async throws -> VehicleState {
         try requireLogin()
 
-        var body: [String: Any] = ["types": "0,1,2,3,4,5,7,8,9,10,11,12"]
+        var params: [String: String] = ["types": "0,1,2,3,4,5,7,8,9,10,11,12"]
         if let vin = CredentialStore.shared.defaultVin, !vin.isEmpty {
-            body["vin"] = vin
+            params["vin"] = vin
         }
-        if let token = CredentialStore.shared.accessToken, !token.isEmpty {
-            body["accessToken"] = token
-        }
-        let response = try await postJSON(path: Endpoint.vehicleStatus, jsonBody: body)
+        let response = try await post(
+            path: Endpoint.vehicleStatus,
+            parameters: params
+        )
 
         guard let data = response.data else {
             throw APIError.serverDetail("????? code=\(response.code ?? -1) desc=\(response.description ?? "-") vin=\(CredentialStore.shared.defaultVin ?? "nil") body=\(response.rawPreview)")
