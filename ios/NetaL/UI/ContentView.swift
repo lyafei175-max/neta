@@ -394,48 +394,38 @@ struct ContentView: View {
         VStack(alignment: .leading, spacing: 12) {
             Label("胎压监测", systemImage: "speedometer")
                 .font(.subheadline.weight(.semibold))
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                tireView("左前", controller.state.frontLeftTire)
-                tireView("右前", controller.state.frontRightTire)
-                tireView("左后", controller.state.rearLeftTire)
-                tireView("右后", controller.state.rearRightTire)
+            HStack(alignment: .top, spacing: 10) {
+                VStack(spacing: 14) {
+                    TireGaugeView(name: "左前",
+                                  pressure: controller.state.frontLeftTire.pressure,
+                                  temperature: controller.state.frontLeftTire.temperature)
+                    TireGaugeView(name: "左后",
+                                  pressure: controller.state.rearLeftTire.pressure,
+                                  temperature: controller.state.rearLeftTire.temperature)
+                }
+                VStack {
+                    Spacer(minLength: 20)
+                    Image(systemName: "car.side.fill")
+                        .font(.system(size: 44))
+                        .foregroundStyle(Color(.systemGray3))
+                    Spacer(minLength: 20)
+                }
+                .frame(maxHeight: .infinity)
+                VStack(spacing: 14) {
+                    TireGaugeView(name: "右前",
+                                  pressure: controller.state.frontRightTire.pressure,
+                                  temperature: controller.state.frontRightTire.temperature)
+                    TireGaugeView(name: "右后",
+                                  pressure: controller.state.rearRightTire.pressure,
+                                  temperature: controller.state.rearRightTire.temperature)
+                }
             }
+            .frame(maxWidth: .infinity)
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color(.secondarySystemGroupedBackground))
         .clipShape(RoundedRectangle(cornerRadius: 18))
-    }
-
-    private func tireView(_ name: String, _ tire: VehicleState.Tire) -> some View {
-        VStack(spacing: 3) {
-            Text(name)
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-            if let p = tire.pressure {
-                HStack(alignment: .firstTextBaseline, spacing: 2) {
-                    Text(String(format: "%.2f", p))
-                        .font(.system(.title3, design: .rounded).weight(.bold))
-                        .monospacedDigit()
-                    Text("bar")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                }
-            } else {
-                Text("--")
-                    .font(.system(.title3, design: .rounded).weight(.bold))
-                    .foregroundStyle(.secondary)
-            }
-            if let t = tire.temperature {
-                Text("\(Int(t))℃")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-            }
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 12)
-        .background(Color(.systemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
     // MARK: 结果 / 错误 / 调试
