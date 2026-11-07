@@ -201,6 +201,11 @@ final class CredentialStore {
         try KeychainHelper.set(vin, account: "defaultVin")
     }
 
+    /// 登录手机号（数字钥匙接口 userName 字段）。
+    var phone: String? {
+        try? KeychainHelper.get(account: "phone")
+    }
+
     var defaultVin: String? {
         try? KeychainHelper.get(account: "defaultVin")
     }
