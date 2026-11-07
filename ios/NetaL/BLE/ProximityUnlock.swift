@@ -117,6 +117,7 @@ final class ProximityUnlockPolicy: NSObject {
     }
 
     private func update(_ result: Proximity, rssi: Int) {
+        DiagnosticLog.shared.log("Proximity", "判定=\(result) rssi=\(rssi) 样本=\(samples.count)")
         guard result != proximity else { return }
         proximity = result
         onProximityChange?(result, rssi)

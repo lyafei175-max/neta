@@ -36,6 +36,7 @@ final class DigitalKeyService: ObservableObject {
 
     private func append(_ line: String) {
         logText += line + "\n"
+        DiagnosticLog.shared.log("KeySync", line)
     }
 
     /// 稳定设备 ID = 登录时的 seriesNo（实测安卓 deviceID 与 seriesNo 同值）。
@@ -162,6 +163,37 @@ final class DigitalKeyService: ObservableObject {
             }
         } catch {
             append("③ 异常 " + error.localizedDescription)
+        }
+    }
+
+    /// ③ 主流程：激活钥匙（activeKeyByID）→ 响应直接带 keyRawData（keyDataVer +1）。
+    /// 实测安卓流程走激活；downloadKeyRawDataByKeyIDList 是激活失败时的兜底，
+    /// 未激活的 key 走下载会返回空（iOS v0.3.3 实测）。
+    func activateAndDownloadKey(keyID: String) async {
+        busy = true
+        defer { busy = false }
+        guard let user = requireUserName() else { return }
+        do {
+            append("③ 激活钥匙 keyID=\(keyID)…")
+            let body: [String: Any] = ["userName": user, "deviceID": deviceID, "keyID": keyID]
+            let resp = try await api.postJSON(path: Endpoint.activeKey, jsonBody: body,
+                                              extraHeaders: requestIdHeader)
+            append("③ code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-")")
+            append(resp.rawPreview)
+            if let payload = resp.businessObj ?? resp.data,
+               let encoded = try? JSONEncoder().encode(payload),
+               let raw = String(data: encoded, encoding: .utf8),
+               raw.contains("keyRawData") {
+                keyRawData = raw
+                try? KeychainHelper.set(raw, account: "dk_keyraw")
+                append("✅ 钥匙原文已存 Keychain（含 keyRawData，供 TBOE 握手解密）")
+            } else {
+                append("（激活未返回钥匙原文，回退下载接口…）")
+                await downloadKeyRawData(keyIDs: [keyID])
+            }
+        } catch {
+            append("③ 异常 " + error.localizedDescription + "，回退下载接口…")
+            await downloadKeyRawData(keyIDs: [keyID])
         }
     }
 

@@ -154,8 +154,10 @@ final class CarController: ObservableObject {
         do {
             _ = try await api.sendCommand(command)
             lastResult = "\(command.displayName) 已提交"
+            DiagnosticLog.shared.log("NetaCar", "\(command.displayName) 已提交（网络）")
         } catch {
             lastError = error.localizedDescription
+            DiagnosticLog.shared.log("NetaCar", "\(command.displayName) 失败 \(error.localizedDescription.prefix(200))")
         }
     }
 
@@ -737,6 +739,19 @@ struct SettingsView: View {
                         Label("数字钥匙与蓝牙", systemImage: "key.fill")
                     }
                     BleCaptureEntry()
+                }
+
+                Section("诊断") {
+                    LabeledContent("日志大小", value: DiagnosticLog.shared.sizeText)
+                    ShareLink(item: DiagnosticLog.shared.fileURL) {
+                        Label("导出诊断日志", systemImage: "square.and.arrow.up")
+                    }
+                    Button("清空日志", role: .destructive) {
+                        DiagnosticLog.shared.clear()
+                    }
+                    Text("记录云端请求、蓝牙原始帧与靠近判定。文件含 VIN 与钥匙材料，请只发给自己或可信的分析者。")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
 
                 Section {

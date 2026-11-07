@@ -113,15 +113,20 @@ struct NetaAPIClient {
             request.httpBody = comps.percentEncodedQuery?.data(using: .utf8)
         }
 
+        DiagnosticLog.shared.log("NetHttp", "→ POST \(path) nonce=\(headers["nonce"] ?? "")")
+
         let (data, response) = try await session.data(for: request)
 
         guard let http = response as? HTTPURLResponse else {
+            DiagnosticLog.shared.log("NetHttp", "✕ \(path) 无 HTTP 响应")
             throw APIError.invalidResponse
         }
         guard (200..<300).contains(http.statusCode) else {
+            DiagnosticLog.shared.log("NetHttp", "✕ HTTP \(http.statusCode) \(path)")
             throw APIError.httpStatus(http.statusCode)
         }
 
+        DiagnosticLog.shared.log("NetHttp", "← HTTP \(http.statusCode) \(path) \(data.count)B")
         return try JSONDecoder().decode(NetaResponse.self, from: data)
     }
 

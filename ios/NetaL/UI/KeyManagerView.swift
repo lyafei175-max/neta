@@ -35,14 +35,17 @@ struct KeyManagerView: View {
                     .disabled(dk.busy)
 
                     HStack {
-                        TextField("keyID（逗号分隔，空=自动提取）", text: $keyIDInput)
+                        TextField("keyID（空=自动提取）", text: $keyIDInput)
                             .font(.footnote)
-                        Button("③ 下载钥匙原文") {
-                            let ids = keyIDInput
-                                .split(separator: ",")
-                                .map { $0.trimmingCharacters(in: .whitespaces) }
-                                .filter { !$0.isEmpty }
-                            Task { await dk.downloadKeyRawData(keyIDs: ids.isEmpty ? dk.extractKeyIDs() : ids) }
+                        Button("③ 激活并下载钥匙") {
+                            let manual = keyIDInput
+                                .trimmingCharacters(in: .whitespaces)
+                            let ids = manual.isEmpty ? dk.extractKeyIDs() : [manual]
+                            if let first = ids.first {
+                                Task { await dk.activateAndDownloadKey(keyID: first) }
+                            } else {
+                                Task { await dk.downloadKeyRawData(keyIDs: []) }
+                            }
                         }
                         .disabled(dk.busy)
                     }
@@ -59,13 +62,27 @@ struct KeyManagerView: View {
                     if dk.busy { ProgressView() }
                 }
 
-                Section("蓝牙扫描（FFF1 广播设备）") {
+                if let raw = dk.keyRawData, !raw.isEmpty {
+                    Section("钥匙原文（已存 Keychain，可复制发给我分析）") {
+                        ScrollView {
+                            Text(raw)
+                                .font(.system(size: 9, design: .monospaced))
+                                .textSelection(.enabled)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        .frame(maxHeight: 150)
+                    }
+                }
+
+                Section("蓝牙扫描（车机名 HOZON_KEY_<VIN尾5位>）") {
                     Button("扫描 10 秒") {
                         discovered.removeAll()
                         TboeTransport.shared.onDiscovered = { p, n, r in
+                            // 过滤无名设备噪音；车机广播名固定为 HOZON_KEY_<VIN尾5位>
+                            guard let n, !n.isEmpty else { return }
                             if let idx = discovered.firstIndex(where: { $0.peripheral.identifier == p.identifier }) {
                                 discovered[idx].rssi = r
-                                discovered[idx].name = n ?? discovered[idx].name
+                                discovered[idx].name = n
                             } else {
                                 discovered.append(DiscoveredDevice(peripheral: p, name: n, rssi: r))
                             }
@@ -107,6 +124,9 @@ struct KeyManagerView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     .frame(maxHeight: 240)
+                    ShareLink(item: DiagnosticLog.shared.fileURL) {
+                        Label("导出诊断日志（含蓝牙原始帧）", systemImage: "square.and.arrow.up")
+                    }
                     Button("清空日志", role: .destructive) { dk.clearLog() }
                 }
 

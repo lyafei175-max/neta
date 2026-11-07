@@ -61,7 +61,10 @@ final class TboeTransport: NSObject {
     // MARK: 状态
 
     private(set) var state: TboeSessionState = .idle {
-        didSet { onStateChange?(state) }
+        didSet {
+            onStateChange?(state)
+            DiagnosticLog.shared.log("NetaTboe", "state=\(state)")
+        }
     }
 
     /// 车况回调
@@ -191,12 +194,15 @@ final class TboeTransport: NSObject {
                                   for: characteristic, type: .withResponse)
             offset = end
         }
+        DiagnosticLog.shared.log("NetaTboeLink", "tx len=\(data.count) body=\(DiagnosticLog.hex(data))")
     }
 
     // MARK: - 帧解析
 
     private func handleReceived(_ data: Data) {
         onRawFrame?(data)
+        // 原始帧入诊断日志（握手校准的数据源）
+        DiagnosticLog.shared.log("NetaTboeLink", "rx len=\(data.count) body=\(DiagnosticLog.hex(data))")
 
         // 分片重组（若 FrameLayout 配了长度字段）
         let frameData: Data
@@ -308,6 +314,7 @@ extension TboeTransport: CBCentralManagerDelegate {
         onDiscovered?(peripheral, name, RSSI.intValue)
         // 实测车机广播名 = HOZON_KEY_<VIN尾5位>（随机地址，按名字匹配）
         if let name, name.hasPrefix(TboeUUID.advertisePrefix) {
+            DiagnosticLog.shared.log("NetaTboeLink", "扫到车机 name=\(name) rssi=\(RSSI)")
             connect(to: peripheral)
         }
     }
