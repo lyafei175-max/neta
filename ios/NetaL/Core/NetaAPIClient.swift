@@ -299,7 +299,7 @@ struct NetaResponse: Codable {
     }
 
     init(from decoder: Decoder) throws {
-        let c = decoder.container(keyedBy: CodingKeys.self)
+        let c = try decoder.container(keyedBy: CodingKeys.self)
 
         if let intCode = try? c.decodeIfPresent(Int.self, forKey: .code) {
             code = intCode
