@@ -1,17 +1,17 @@
 import Foundation
 import CryptoKit
 
-/// 会话管理：登录、token 刷新、401 自动重试。
+/// ????:???token ???401 ?????
 ///
-/// 原 APK 流程（中文文案已确认）：
+/// ? APK ??(???????):
 /// ```
-/// 获取验证码 → 验证码已发送 → 输入手机号+验证码 → 登录 → 获取 token
-/// 后续 401 → /customer/account/info/refreshApiToken 刷新
+/// ????? ? ?????? ? ?????+??? ? ?? ? ?? token
+/// ?? 401 ? /customer/account/info/refreshApiToken ??
 /// ```
 ///
-/// 文案佐证：
-/// `请输入正确的手机号`、`验证码发送失败`、`验证码已发送`、`登录失败`、
-/// `登录已过期`、`需要重新登录`、`退出登录`、`登录状态已变化`
+/// ????:
+/// `?????????`?`???????`?`??????`?`????`?
+/// `?????`?`??????`?`????`?`???????`
 enum AuthError: Error, LocalizedError {
     case invalidPhone
     case codeNotRequested
@@ -22,19 +22,19 @@ enum AuthError: Error, LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .invalidPhone:      return "请输入正确的手机号"
-        case .codeNotRequested:  return "请先获取验证码"
-        case .codeExpired:       return "验证码已过期"
-        case .credentialMissing: return "登录失败"
-        case .sessionExpired:    return "登录已过期，需要重新登录"
-        case .serverRejected(let m): return m.isEmpty ? "登录失败" : m
+        case .invalidPhone:      return "?????????"
+        case .codeNotRequested:  return "???????"
+        case .codeExpired:       return "??????"
+        case .credentialMissing: return "????"
+        case .sessionExpired:    return "?????,??????"
+        case .serverRejected(let m): return m.isEmpty ? "????" : m
         }
     }
 }
 
-/// 登录会话。
+/// ?????
 ///
-/// 短信由**云端网关**发送（原 APK 无 SEND_SMS 权限），App 只调用接口。
+/// ???**????**??(? APK ? SEND_SMS ??),App ??????
 actor AuthService {
 
     static let shared = AuthService()
@@ -42,21 +42,21 @@ actor AuthService {
     private let api: NetaAPIClient
     private let store = CredentialStore.shared
 
-    /// 登录态。发送前先刷新，失败则清除会话。
+    /// ??????????,????????
     private var loggedIn = false
 
-    /// 是否已登录（供 UI 绑定）
+    /// ?????(? UI ??)
     private(set) var isLoggedIn = false
 
     private init() {
         api = NetaAPIClient()
     }
 
-    // MARK: - 验证码
+    // MARK: - ???
 
-    /// 发送短信验证码。
+    /// ????????
     ///
-    /// 端点与参数已确认（`LA1/s0;->a`）：POST 表单，唯一字段 `phone`。
+    /// ????????(`LA1/s0;->a`):POST ??,???? `phone`?
     func requestSMSCode(phone: String) async throws {
         guard Self.isValidPhone(phone) else { throw AuthError.invalidPhone }
 
@@ -66,23 +66,23 @@ actor AuthService {
         )
 
         guard response.isSuccess else {
-            // 服务端把失败原因放在 description（如 40911「获取验证码过于频繁」、
-            // 40505「短信验证码发送错误」），message 常为 null，
-            // 必须用 failureText 才能把真实原因显示给用户
+            // ?????????? description(? 40911????????????
+            // 40505???????????),message ?? null,
+            // ??? failureText ????????????
             throw AuthError.serverRejected(response.failureText)
         }
 
-        // 验证码已发送
+        // ??????
     }
 
-    // MARK: - 登录
+    // MARK: - ??
 
-    /// 提交手机号 + 验证码登录。
+    /// ????? + ??????
     ///
-    /// 请求体已确认（`LA1/e0;->a`，JSON）：
+    /// ??????(`LA1/e0;->a`,JSON):
     /// `{ phone, code, appVersion, seriesNo, deviceType, pushToken }`
     ///
-    /// 响应结构已确认（`Ly1/j;->h` 解析）：
+    /// ???????(`Ly1/j;->h` ??):
     /// ```
     /// { "code": 0, "data": {
     ///     "token":    { "access_token", "refresh_token", "expires_in" },
@@ -90,7 +90,7 @@ actor AuthService {
     ///     "vin": "..."
     /// } }
     /// ```
-    /// 注意 token 在 `data.token` 下，不是 `data` 根层（安卓用 `getString`，缺字段即抛异常）。
+    /// ?? token ? `data.token` ?,?? `data` ??(??? `getString`,???????)?
     func login(phone: String, code: String) async throws {
         guard Self.isValidPhone(phone) else { throw AuthError.invalidPhone }
         guard !code.isEmpty else { throw AuthError.codeNotRequested }
@@ -118,12 +118,12 @@ actor AuthService {
         guard let accessToken = token?["access_token"]?.asString ?? response.data?["access_token"]?.asString,
               let refreshToken = token?["refresh_token"]?.asString ?? response.data?["refresh_token"]?.asString
         else {
-            throw AuthError.serverRejected("登录响应缺少 token 字段：\(response.rawPreview)")
+            throw AuthError.serverRejected("?????? token ??:\(response.rawPreview)")
         }
 
         try store.saveSession(accessToken: accessToken, refreshToken: refreshToken)
 
-        // 顺手记下默认车辆 VIN 与账号信息，供车控/账户页使用
+        // ???????? VIN ?????,???/?????
         if let vin = response.data?["vin"]?.asString, !vin.isEmpty {
             try? store.saveVin(vin)
         }
@@ -136,7 +136,7 @@ actor AuthService {
         isLoggedIn = true
     }
 
-    // MARK: - 退出
+    // MARK: - ??
 
     func logout() {
         store.clearSession()
@@ -145,14 +145,14 @@ actor AuthService {
         lastRefreshAt = nil
     }
 
-    /// 是否持有本地会话。供 UI 门禁判断是否显示登录页。
+    /// ?????????? UI ????????????
     var isAuthenticated: Bool {
         store.accessToken != nil && store.refreshToken != nil
     }
 
-    /// 校验本地会话是否仍然有效。
+    /// ?????????????
     ///
-    /// 通过刷新 token 验证（会话失效时刷新必然失败）。
+    /// ???? token ??(???????????)?
     func verifySession() async -> Bool {
         guard isAuthenticated else { return false }
         do {
@@ -163,12 +163,12 @@ actor AuthService {
         }
     }
 
-    /// 供已登录接口调用：确保有可用 token，必要时刷新。
+    /// ????????:????? token,??????
     ///
-    /// 对应文案「登录状态已变化」「需要重新登录刷新钥匙」。
+    /// ??????????????????????????
     func ensureValidSession() async throws {
         if !loggedIn, store.accessToken != nil {
-            loggedIn = true   // App 重启后本地仍有 token
+            loggedIn = true   // App ??????? token
         }
 
         guard loggedIn else { throw AuthError.sessionExpired }
@@ -182,9 +182,9 @@ actor AuthService {
         }
     }
 
-    // MARK: - Token 刷新
+    // MARK: - Token ??
 
-    /// 距上次刷新超过阈值时主动刷新（默认 5 分钟）。
+    /// ??????????????(?? 5 ??)?
     private var lastRefreshAt: Date?
     private let refreshThreshold: TimeInterval = 300
 
@@ -202,22 +202,27 @@ actor AuthService {
             throw AuthError.sessionExpired
         }
 
-        let response = try await api.post(
+        // DEX `w1/z.f` ??????????(?????????):
+        // 1. ???????? `refreshToken`(?? refresh_token)
+        // 2. Authorization ???? refreshToken ???(? Bearer ??)
+        // 3. ???? "refreshtoken:<?>" ?(????????,RequestSigner ???)
+        let noAuth = NetaAPIClient(injectAuth: false, rawAuthorization: refreshToken)
+        let response = try await noAuth.post(
             path: Endpoint.refreshToken,
-            parameters: ["refresh_token": refreshToken]
+            parameters: ["refreshToken": refreshToken]
         )
 
         guard response.isSuccess else {
             throw AuthError.sessionExpired
         }
 
-        // 与登录同构：data.token.access_token，兼容扁平结构
+        // ?????:data.token.access_token,??????
         let token = response.data?["token"]
         guard let accessToken = token?["access_token"]?.asString
                 ?? response.data?["access_token"]?.asString
                 ?? response.data?["accessToken"]?.asString
         else {
-            throw AuthError.serverRejected("刷新响应缺少 token：\(response.rawPreview)")
+            throw AuthError.serverRejected("?????? token:\(response.rawPreview)")
         }
 
         try store.saveSession(
@@ -230,62 +235,69 @@ actor AuthService {
         return accessToken
     }
 
-    /// 服务端返回未授权时调用，刷新后重试一次。
+    /// ???????????,????????
     ///
-    /// 对应文案「登录已过期」→ 刷新 → 若仍失败则「需要重新登录」。
+    /// ???????????? ?? ? ??????????????
     func retryAfterUnauthorized<T>(_ operation: () async throws -> T) async throws -> T {
         _ = try await refresh()
         return try await operation()
     }
 
-    // MARK: - 校验
+    // MARK: - ??
 
-    /// 中国大陆手机号：1 开头 11 位。
+    /// ???????:1 ?? 11 ??
     static func isValidPhone(_ phone: String) -> Bool {
         phone.count == 11 && phone.hasPrefix("1") && phone.allSatisfy(\.isNumber)
     }
 }
 
-// MARK: - 响应辅助
+// MARK: - ????
 
 extension NetaResponse {
-    /// 业务成功码集合，来自 `Ly1/m;-><clinit>`：`{200, 20000, 0, 1001, 42528}`。
-    /// 已确认（静态 Set 常量）。
+    /// ???????,?? `Ly1/m;-><clinit>`:`{200, 20000, 0, 1001, 42528}`?
+    /// ???(?? Set ??)?
     static let successCodes: Set<Int> = [0, 200, 1001, 20000, 42528]
 
     var isSuccess: Bool {
         guard let code else {
-            // 无 code 字段时按 HTTP 层已通过、body 有 data 视为成功
+            // ? code ???? HTTP ?????body ? data ????
             return data != nil
         }
         return Self.successCodes.contains(code)
     }
 
-    /// 需要重新登录的业务码。
+    /// ??????(????)?????
+    ///
+    /// 30219?Token ?????? 2026-11 ????;30229 ?????????
+    /// ??????,???????????????
     var requiresRelogin: Bool {
         guard let code else { return false }
-        return [401, 40101, 403].contains(code)
+        if [401, 40101, 403, 30219, 30229].contains(code) { return true }
+        let text = ((message ?? "") + " " + (description ?? "")).lowercased()
+        if text.contains("???") || text.contains("?????") || text.contains("???") { return true }
+        if text.contains("token") && (text.contains("??") || text.contains("??") || text.contains("invalid")) { return true }
+        return false
     }
 
-    /// 面向用户的失败描述：错误码 + 服务端文案。
+    /// ?????????:??? + ??????
     var failureText: String {
         var parts: [String] = []
-        if let code { parts.append("错误码 \(code)") }
+        if let code { parts.append("??? \(code)") }
         let text = [message, description]
             .compactMap { $0 }
             .filter { !$0.isEmpty }
             .joined(separator: " / ")
-        parts.append(text.isEmpty ? "服务未返回原因" : text)
-        return parts.joined(separator: "：")
+        parts.append(text.isEmpty ? "???????" : text)
+        return parts.joined(separator: ":")
     }
 
-    /// 原始 JSON 预览（诊断用，截断到 300 字符）。
+    /// ?? JSON ??(???,??? 300 ??)?
     var rawPreview: String {
-        guard let data else { return "(空)" }
+        guard let data else { return "(?)" }
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.withoutEscapingSlashes]
         guard let encoded = try? encoder.encode(data),
-              let s = String(data: encoded, encoding: .utf8) else { return "(无法序列化)" }
-        return s.count > 2000 ? String(s.prefix(2000)) + "…" : s
+              let s = String(data: encoded, encoding: .utf8) else { return "(?????)" }
+        return s.count > 2000 ? String(s.prefix(2000)) + "." : s
     }
 }

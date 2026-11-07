@@ -1,7 +1,7 @@
-# XcodeGen 配置 —— macOS 上 `xcodegen generate` 即可生成 NetaL.xcodeproj
+# XcodeGen ?? -- macOS ? `xcodegen generate` ???? NetaL.xcodeproj
 #
-# 相比手写 .xcodeproj，这是更可靠的方式（不需要维护 project.pbxproj）。
-# 安装：brew install xcodegen
+# ???? .xcodeproj,????????(????? project.pbxproj)?
+# ??:brew install xcodegen
 
 name: NetaL
 
@@ -16,8 +16,8 @@ options:
 settings:
   base:
     SWIFT_VERSION: "5.9"
-    MARKETING_VERSION: "0.1.4"
-    CURRENT_PROJECT_VERSION: "1"
+    MARKETING_VERSION: "0.1.5"
+    CURRENT_PROJECT_VERSION: "2"
     ENABLE_USER_SCRIPT_SANDBOXING: YES
     SWIFT_EMIT_LOC_STRINGS: YES
     CODE_SIGN_STYLE: Manual
@@ -48,9 +48,9 @@ targets:
     info:
       path: NetaL/Resources/Info.plist
       properties:
-        CFBundleDisplayName: 哪吒L
-        CFBundleShortVersionString: "0.1.4"
-        CFBundleVersion: "1"
+        CFBundleDisplayName: ??L
+        CFBundleShortVersionString: "0.1.5"
+        CFBundleVersion: "2"
         UILaunchScreen:
           UIColorName: AccentColor
         UIApplicationSupportsIndirectInputEvents: true
@@ -60,11 +60,11 @@ targets:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
-        NSBluetoothAlwaysUsageDescription: 用于扫描车辆蓝牙，实现近场车控与靠近自动解锁
-        NSBluetoothPeripheralUsageDescription: 用于连接车辆蓝牙设备
-        NSLocationWhenInUseUsageDescription: 用于将车辆位置解析为地址
-        NSLocationAlwaysAndWhenInUseUsageDescription: 用于在车辆附近时自动唤醒并连接蓝牙
-        NSLocationAlwaysUsageDescription: 用于在车辆附近时自动唤醒并连接蓝牙
+        NSBluetoothAlwaysUsageDescription: ????????,?????????????
+        NSBluetoothPeripheralUsageDescription: ??????????
+        NSLocationWhenInUseUsageDescription: ????????????
+        NSLocationAlwaysAndWhenInUseUsageDescription: ?????????????????
+        NSLocationAlwaysUsageDescription: ?????????????????
         UIBackgroundModes:
           - bluetooth-central
         ITSAppUsesNonExemptEncryption: false

@@ -1,39 +1,45 @@
 import Foundation
 
-/// 云端车控客户端。
+/// ????????
 ///
-/// 请求规范来自 APK `Ly1/m;->a`（通用请求构造器），已确认：
+/// ?????? APK `Ly1/m;->a`(???????),???:
 /// - POST
-/// - 公共字段放 **header**：appId / appKey / appVersion / login_channel /
-///   channel / nonce / timestamp / sign / Accept / Authorization(空)
-/// - body 二选一：`application/x-www-form-urlencoded` 表单（验证码）或
-///   `application/json` JSON（登录）
-/// - 响应包装：`{ "code": Int, "message": String, "description": String?, "data": ... }`
+/// - ????? **header**:appId / appKey / appVersion / login_channel /
+///   channel / nonce / timestamp / sign / Accept / Authorization(?)
+/// - body ???:`application/x-www-form-urlencoded` ??(???)?
+///   `application/json` JSON(??)
+/// - ????:`{ "code": Int, "message": String, "description": String?, "data": ... }`
 struct NetaAPIClient {
 
     let config: NetaAPIConfig
     let session: URLSession
-    /// 最近一次车况接口原始返回（调试用）
+    /// ????????????(???)
     static var lastRawVehicleSnapshot: String = ""
 
-    /// 是否自动注入 accessToken。登录/注册/刷新接口应设为 false。
+    /// ?????? accessToken???/??/??????? false?
     var injectAuth: Bool = true
+
+    /// ???? Authorization ??????
+    /// ????? refreshToken ?? Authorization(APK `w1/z.f` ??,? Bearer ??)?
+    var rawAuthorization: String? = nil
 
     init(config: NetaAPIConfig = .default,
          session: URLSession = .shared,
-         injectAuth: Bool = true) {
+         injectAuth: Bool = true,
+         rawAuthorization: String? = nil) {
         self.config = config
         self.session = session
         self.injectAuth = injectAuth
+        self.rawAuthorization = rawAuthorization
     }
 
-    // MARK: - 底层请求
+    // MARK: - ????
 
-    /// 发送带签名的表单请求（原 `sendCodeAndSignCheck` 走此通道）。
+    /// ??????????(? `sendCodeAndSignCheck` ????)?
     func post(path: String, parameters: [String: String]) async throws -> NetaResponse {
         let response = try await performPost(path: path, formParams: parameters.sorted { $0.key < $1.key })
 
-        // 业务层未授权 → 刷新 token 后自动重试一次
+        // ?????? ? ?? token ???????
         if response.requiresRelogin, injectAuth {
             _ = try await AuthService.shared.refresh()
             return try await performPost(path: path, formParams: parameters.sorted { $0.key < $1.key })
@@ -42,14 +48,20 @@ struct NetaAPIClient {
         return response
     }
 
-    /// 发送带签名的 JSON 请求（原 `registerOrLoginUncheck` 走此通道）。
+    /// ?????? JSON ??(? `registerOrLoginUncheck` / `getAppVehicleData` ????)?
+    /// ???????(? 30219?Token ????)????????????
     func postJSON(path: String, jsonBody: [String: Any]) async throws -> NetaResponse {
         let data = try JSONSerialization.data(withJSONObject: jsonBody)
         let bodyString = String(data: data, encoding: .utf8) ?? "{}"
-        return try await performPost(path: path, jsonBody: bodyString)
+        let response = try await performPost(path: path, jsonBody: bodyString)
+        if response.requiresRelogin, injectAuth {
+            _ = try await AuthService.shared.refresh()
+            return try await performPost(path: path, jsonBody: bodyString)
+        }
+        return response
     }
 
-    /// 单次请求，不含重试。
+    /// ????,?????
     private func performPost(path: String,
                              formParams: [(String, String)] = [],
                              jsonBody: String? = nil) async throws -> NetaResponse {
@@ -66,8 +78,11 @@ struct NetaAPIClient {
             ? "application/json"
             : "application/x-www-form-urlencoded;charset=utf-8"
 
-        // 30229 修复：业务请求必须带 accessToken。登录/刷新接口 injectAuth=false。
-        if injectAuth, let token = CredentialStore.shared.accessToken, !token.isEmpty {
+        // 30229 ??:??????? accessToken???/???? injectAuth=false?
+        // rawAuthorization ??:??????? refreshToken ???(APK `w1/z.f`)?
+        if let raw = rawAuthorization, !raw.isEmpty {
+            headers["Authorization"] = raw
+        } else if injectAuth, let token = CredentialStore.shared.accessToken, !token.isEmpty {
             headers["Authorization"] = "Bearer " + token
         }
 
@@ -76,15 +91,15 @@ struct NetaAPIClient {
         for (k, v) in headers {
             request.setValue(v, forHTTPHeaderField: k)
         }
-        // ⚠️ 不要在这里补发全小写别名（曾导致 30256「第三方主体密钥已失效」）。
-        // HTTP header 名不区分大小写，URLSession 会把 `appId` 和 `appid` 合并成
-        // 一行逗号分隔的值（appId: HOZON-..., HOZON-...），服务端读到的 appId
-        // 就不再是合法主体。只发这一套驼峰 header 即可（已实测服务端认可）。
+        // ?? ????????????(??? 30256????????????)?
+        // HTTP header ???????,URLSession ?? `appId` ? `appid` ???
+        // ????????(appId: HOZON-..., HOZON-...),?????? appId
+        // ???????????????? header ??(????????)?
 
         if isJSON {
             request.httpBody = jsonBody?.data(using: .utf8)
         } else {
-            // 表单体：k=v&k2=v2（v 需 URL 编码）
+            // ???:k=v&k2=v2(v ? URL ??)
             var comps = URLComponents()
             comps.queryItems = formParams.map { URLQueryItem(name: $0.0, value: $0.1) }
             request.httpBody = comps.percentEncodedQuery?.data(using: .utf8)
@@ -102,17 +117,17 @@ struct NetaAPIClient {
         return try JSONDecoder().decode(NetaResponse.self, from: data)
     }
 
-    // MARK: - 业务方法
+    // MARK: - ????
 
-    /// 下发车控指令（网络通道）。
+    /// ??????(????)?
     func sendCommand(_ command: VehicleCommand) async throws -> NetaResponse {
         try requireLogin()
 
-        // DEX 反编译 LC1/T;->f 确认 rvcCombined 请求体结构：
+        // DEX ??? LC1/T;->f ?? rvcCombined ?????:
         // {
         //   "vin": "...",
         //   "accessToken": "...",
-        //   "combinedCmd": [{"opr": <编号1-46>, "params": "<六位hex>"}]
+        //   "combinedCmd": [{"opr": <??1-46>, "params": "<??hex>"}]
         // }
         var body: [String: Any] = [
             "combinedCmd": [
@@ -127,12 +142,12 @@ struct NetaAPIClient {
         }
         let response = try await postJSON(path: Endpoint.rvcSend, jsonBody: body)
         guard response.isSuccess else {
-            throw APIError.serverDetail("车控下发失败 code=\(response.code ?? -1) desc=\(response.description ?? "-") body=\(response.rawPreview)")
+            throw APIError.serverDetail("?????? code=\(response.code ?? -1) desc=\(response.description ?? "-") body=\(response.rawPreview)")
         }
         return response
     }
 
-    /// 把本地已存的 VIN 塞进业务请求（参数名试常见三种，服务端自取）。
+    /// ?????? VIN ??????(????????,?????)?
     private func vehicleParams(_ base: [String:String]) -> [String:String] {
         var p = base
         if let vin = CredentialStore.shared.defaultVin, !vin.isEmpty {
@@ -143,24 +158,31 @@ struct NetaAPIClient {
         return p
     }
 
-    /// 查询车况。
+    /// ?????
+    ///
+    /// DEX `J1/G0.smali` ?????? **JSON**(????????? body=(?)):
+    /// `{ "vin", "accessToken", "types": "0,1,2,3,4,5,7,8,9,10,11,12" }`
     func fetchVehicleState() async throws -> VehicleState {
         try requireLogin()
 
-        let response = try await post(
-            path: Endpoint.vehicleStatus,
-            parameters: vehicleParams([:])
-        )
+        var body: [String: Any] = ["types": "0,1,2,3,4,5,7,8,9,10,11,12"]
+        if let vin = CredentialStore.shared.defaultVin, !vin.isEmpty {
+            body["vin"] = vin
+        }
+        if let token = CredentialStore.shared.accessToken, !token.isEmpty {
+            body["accessToken"] = token
+        }
+        let response = try await postJSON(path: Endpoint.vehicleStatus, jsonBody: body)
 
         guard let data = response.data else {
-            throw APIError.serverDetail("车况无数据 code=\(response.code ?? -1) desc=\(response.description ?? "-") vin=\(CredentialStore.shared.defaultVin ?? "nil") body=\(response.rawPreview)")
+            throw APIError.serverDetail("????? code=\(response.code ?? -1) desc=\(response.description ?? "-") vin=\(CredentialStore.shared.defaultVin ?? "nil") body=\(response.rawPreview)")
         }
 
         NetaAPIClient.lastRawVehicleSnapshot = response.rawPreview
 
-        // data 是 JSONValue enum，不能直接喂给 JSONSerialization.data(withJSONObject:)
-        // （那会因 NSInvalidArgumentException 直接 crash）。正确做法：用 JSONEncoder
-        // 把 JSONValue 编成 Data，再解成 CloudVehicleData。
+        // data ? JSONValue enum,?????? JSONSerialization.data(withJSONObject:)
+        // (??? NSInvalidArgumentException ?? crash)?????:? JSONEncoder
+        // ? JSONValue ?? Data,??? CloudVehicleData?
         let cloud: CloudVehicleData
         if let nestedString = data.stringValue,
            let decoded = try? JSONDecoder().decode(CloudVehicleData.self,
@@ -170,16 +192,16 @@ struct NetaAPIClient {
                   let decoded = try? JSONDecoder().decode(CloudVehicleData.self, from: encoded) {
             cloud = decoded
         } else {
-            throw APIError.serverDetail("车况解析失败: " + response.rawPreview)
+            throw APIError.serverDetail("??????: " + response.rawPreview)
         }
 
         return cloud.toVehicleState()
     }
 
-    /// 刷新 token（端点 `/customer/account/info/refreshApiToken`，已确认）。
+    /// ?? token(?? `/customer/account/info/refreshApiToken`,???)?
     ///
-    /// 响应与登录同构：`data.token.access_token`。请求参数名未从 APK 提取到
-    /// （刷新逻辑在 SDK 内部），先按 `refresh_token` 表单字段发送。
+    /// ???????:`data.token.access_token`???????? APK ???
+    /// (????? SDK ??),?? `refresh_token` ???????
     func refreshAccessToken() async throws -> String {
         guard let refreshToken = CredentialStore.shared.refreshToken else {
             throw APIError.notLoggedIn
@@ -204,7 +226,7 @@ struct NetaAPIClient {
         return accessToken
     }
 
-    // MARK: - 内部
+    // MARK: - ??
 
     private func requireLogin() throws {
         guard CredentialStore.shared.accessToken != nil else {
@@ -213,12 +235,12 @@ struct NetaAPIClient {
     }
 }
 
-// MARK: - 响应模型
+// MARK: - ????
 
-/// 统一响应包装，对应 APK `Ly1/m;->a` 的解析逻辑：
-/// `code`（Int）、`message`、`description`、`data`（对象或数组）。
+/// ??????,?? APK `Ly1/m;->a` ?????:
+/// `code`(Int)?`message`?`description`?`data`(?????)?
 ///
-/// `code` 做容错解码：服务端可能返回数字或字符串（安卓用 `optInt` 兼容）。
+/// `code` ?????:?????????????(??? `optInt` ??)?
 struct NetaResponse: Codable {
     var code: Int?
     var message: String?
@@ -257,7 +279,7 @@ struct NetaResponse: Codable {
     }
 }
 
-/// 灵活 JSON 值，处理 data 字段可能是对象/字符串/数组的多种情况。
+/// ?? JSON ?,?? data ???????/???/????????
 enum JSONValue: Codable {
     case string(String)
     case number(Double)
@@ -281,7 +303,7 @@ enum JSONValue: Codable {
         } else if let v = try? container.decode([JSONValue].self) {
             self = .array(v)
         } else {
-            throw DecodingError.dataCorruptedError(in: container, debugDescription: "无法解析 JSON 值")
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "???? JSON ?")
         }
     }
 
@@ -330,7 +352,7 @@ extension Optional where Wrapped == JSONValue {
     var asDictionary: [String: JSONValue]? { self?.asDictionary }
 }
 
-// MARK: - 错误
+// MARK: - ??
 
 enum APIError: Error, LocalizedError {
     case invalidURL
@@ -343,12 +365,12 @@ enum APIError: Error, LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .invalidURL:        return "地址无效"
-        case .invalidResponse:   return "响应无法解析"
-        case .httpStatus(let s): return "服务返回 \(s)"
-        case .missingPayload:    return "响应缺少数据"
-        case .notLoggedIn:       return "登录后才能下发车控指令"
-        case .tokenRefreshFailed: return "登录已过期，需要重新登录"
+        case .invalidURL:        return "????"
+        case .invalidResponse:   return "??????"
+        case .httpStatus(let s): return "???? \(s)"
+        case .missingPayload:    return "??????"
+        case .notLoggedIn:       return "???????????"
+        case .tokenRefreshFailed: return "?????,??????"
         case .serverDetail(let s): return s
         }
     }
