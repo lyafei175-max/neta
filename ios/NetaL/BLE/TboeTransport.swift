@@ -68,6 +68,8 @@ final class TboeTransport: NSObject {
     var onStateChange: ((TboeSessionState) -> Void)?
     /// 原始帧回调（调试用）
     var onRawFrame: ((Data) -> Void)?
+    /// 扫描发现回调（全部 FFF1 广播设备，供手动选择连接）
+    var onDiscovered: ((CBPeripheral, String?, Int) -> Void)?
     /// RSSI 回调（靠近解锁用）
     var onRSSIUpdate: ((Int) -> Void)?
     /// 收到车端挑战码
@@ -295,9 +297,11 @@ extension TboeTransport: CBCentralManagerDelegate {
         rssi RSSI: NSNumber
     ) {
         onRSSIUpdate?(RSSI.intValue)
+        let name = advertisementData[CBAdvertisementDataLocalNameKey] as? String
+        // 全部 FFF1 广播设备上报（含车机与钥匙相关外设），由 UI 层选择连接
+        onDiscovered?(peripheral, name, RSSI.intValue)
         // 车机设备名匹配逻辑需抓包确定
-        if let name = advertisementData[CBAdvertisementDataLocalNameKey] as? String,
-           name.contains("Neta") {
+        if let name, name.contains("Neta") {
             connect(to: peripheral)
         }
     }

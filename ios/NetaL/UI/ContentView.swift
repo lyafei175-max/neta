@@ -601,6 +601,7 @@ struct AccountView: View {
 struct SettingsView: View {
     @ObservedObject var controller: CarController
     @Environment(\.dismiss) private var dismiss
+    @State private var showKeyManager = false
 
     var body: some View {
         NavigationStack {
@@ -628,6 +629,11 @@ struct SettingsView: View {
                 }
 
                 Section("工具") {
+                    Button {
+                        showKeyManager = true
+                    } label: {
+                        Label("数字钥匙与蓝牙", systemImage: "key.fill")
+                    }
                     BleCaptureEntry()
                 }
 
@@ -642,6 +648,9 @@ struct SettingsView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("完成") { dismiss() }
                 }
+            }
+            .sheet(isPresented: $showKeyManager) {
+                KeyManagerView()
             }
         }
     }
