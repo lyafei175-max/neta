@@ -211,13 +211,15 @@ final class BleFrameRecorder: NSObject {
             index = next
         }
 
-        guard let peripheral = connectedPeripheral,
-              let characteristic = subscribedCharacteristics.first(where: {
-                  usePrimary
-                      ? $0.uuid == TboeUUID.primaryService
-                      : $0.uuid == TboeUUID.secondaryService
-              })
-        else {
+        guard let peripheral = connectedPeripheral else {
+            onStateChange?("目标特征未就绪")
+            return
+        }
+        // v0.3.1：TBOE 特征按实测语义更名（write=FFF2 / notify=FFF1），
+        // 并拆解闭包表达式避免类型检查超时（2026-11-07 CI 实测）
+        let targetUUID: CBUUID = usePrimary ? TboeUUID.write : TboeUUID.notify
+        let characteristic = subscribedCharacteristics.first { $0.uuid == targetUUID }
+        guard let characteristic else {
             onStateChange?("目标特征未就绪")
             return
         }
