@@ -90,6 +90,12 @@ struct VehicleState {
     /// 燃油续航 km（enduranceStatus.fuelRangeKm）
     var fuelRangeKm: Double?
 
+    /// 车辆驻车经度（vehicleExtend.lng ÷ 1e6）
+    var longitude: Double?
+
+    /// 车辆驻车纬度（vehicleExtend.lat ÷ 1e6）
+    var latitude: Double?
+
     // MARK: 座椅
 
     enum SeatHeatLevel: String { case off = "关", low = "低", mid = "中", high = "高", unknown = "未知" }
@@ -473,6 +479,14 @@ struct CloudVehicleData: Codable {
         var driverSizeWinStatus: Int?
         var coDriverSizeWinStatus: Int?
     }
+    struct Extend: Codable {
+        var lng: Double?                  // 实测 114775657 → 114.775657（×1e6）
+        var lat: Double?                  // 实测 34568424 → 34.568424
+        var battery12Voltage: Double?
+        var engineStatus: Int?
+    }
+    var vehicleExtend: Extend?
+
     struct Endurance: Codable {
         // 键名按 2026-11-07 实测抓包（fuelPercent/fuelRangeKm 不存在于真实响应）
         var powerPercentage: Double?       // 电池 % ×100（实测 8100 = 81%）
@@ -512,6 +526,11 @@ struct CloudVehicleData: Codable {
             s.fuelPercent = e.estimateFuelPercent
             s.fuelRangeKm = e.fuelMileageRemaining.map { $0 / 10.0 }
             s.availableMileage = e.powerResidueMileage.map { $0 / 10.0 }
+        }
+        if let x = vehicleExtend {
+            // 驻车坐标：车端为 ×1e6 整数
+            s.longitude = x.lng.map { $0 / 1_000_000.0 }
+            s.latitude = x.lat.map { $0 / 1_000_000.0 }
         }
         if let l = lockStatus {
             // 0=已锁，非0视为未锁（推断，待校准）

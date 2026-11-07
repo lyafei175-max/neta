@@ -1,6 +1,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import CoreLocation
 
 /// 车控协调器：按通道策略在 BLE 与网络之间路由指令。
 ///
@@ -20,17 +21,36 @@ final class CarController: ObservableObject {
     @Published private(set) var lastError: String?
     @Published private(set) var lastResult: String?
     @Published var lastRawVehicleData: String?
+    /// 驻车地址（CLGeocoder 逆地理，坐标缓存防重复请求）
+    @Published private(set) var parkingAddress: String?
 
     // MARK: 依赖
 
     private let api = NetaAPIClient()
     private let tboe = TboeTransport.shared
     private let proximity = ProximityUnlockPolicy()
+    private let geocoder = CLGeocoder()
+    private var lastGeocodeKey = ""
+
+    /// 靠近解锁档位（RSSI 与真实距离强环境相关，为近似映射）
+    struct ProximityRange: Identifiable {
+        let label: String
+        let meters: Int
+        let dbm: Int
+        var id: Int { dbm }
+    }
+    static let proximityRanges: [ProximityRange] = [
+        ProximityRange(label: "约 3 米", meters: 3, dbm: -60),
+        ProximityRange(label: "约 5 米", meters: 5, dbm: -70),
+        ProximityRange(label: "约 8 米", meters: 8, dbm: -80),
+    ]
 
     // MARK: 初始化
 
     init() {
-        proximity.isBluetoothConnected = false
+        // 用户档位持久化（默认 约 3 米 / -60 dBm）
+        let savedDbm = UserDefaults.standard.object(forKey: "proximity_dbm") as? Int ?? -60
+        proximity.updateThresholds(enter: savedDbm, exit: savedDbm - 10)
 
         proximity.onUnlock = { [weak self] in
             Task { await self?.performUnlock() }
@@ -47,6 +67,24 @@ final class CarController: ObservableObject {
                     : "\(command.displayName) 车端未回报执行结果"
             }
         }
+
+        // 靠近解锁数据源补线：RSSI 采样 + 会话就绪状态（v0.3.2）
+        tboe.onRSSIUpdate = { [weak self] rssi in
+            Task { @MainActor in self?.proximity.ingest(rssi: rssi) }
+        }
+        tboe.onStateChange = { [weak self] s in
+            Task { @MainActor in self?.proximity.isBluetoothConnected = s.isUsable }
+        }
+    }
+
+    /// 设置页调用：更新靠近解锁阈值并持久化
+    func setProximityThreshold(_ dbm: Int) {
+        proximity.updateThresholds(enter: dbm, exit: dbm - 10)
+        UserDefaults.standard.set(dbm, forKey: "proximity_dbm")
+    }
+
+    var proximityThresholdDbm: Int {
+        UserDefaults.standard.object(forKey: "proximity_dbm") as? Int ?? -60
     }
 
     // MARK: 通道
@@ -134,8 +172,32 @@ final class CarController: ObservableObject {
             state = try await api.fetchVehicleState()
             lastRawVehicleData = NetaAPIClient.lastRawVehicleSnapshot
             lastError = nil
+            resolveParkingAddress()
         } catch {
             lastError = error.localizedDescription
+        }
+    }
+
+    /// 驻车坐标 → 中文地址（CLGeocoder；坐标变化 <0.001° 不重复请求）
+    private func resolveParkingAddress() {
+        guard let lat = state.latitude, let lng = state.longitude,
+              lat != 0, lng != 0 else { return }
+        let key = String(format: "%.3f,%.3f", lat, lng)
+        guard key != lastGeocodeKey else { return }
+        lastGeocodeKey = key
+        geocoder.reverseGeocodeLocation(CLLocation(latitude: lat, longitude: lng)) { [weak self] placemarks, _ in
+            let address: String? = placemarks?.first.map { pm in
+                var parts: [String] = []
+                if let d = pm.district { parts.append(d) }
+                if let t = pm.thoroughfare { parts.append(t) }
+                if let s = pm.subThoroughfare { parts.append(s) }
+                return parts.isEmpty
+                    ? String(format: "%.5f, %.5f", lat, lng)
+                    : parts.joined(separator: "")
+            }
+            Task { @MainActor in
+                self?.parkingAddress = address
+            }
         }
     }
 
@@ -315,6 +377,14 @@ struct ContentView: View {
         controller.state.doorsLock.rawValue
     }
 
+    private var electricRangeText: String {
+        controller.state.availableMileage.map { "\(Int($0)) km" } ?? "--"
+    }
+
+    private var fuelRangeText: String {
+        controller.state.fuelRangeKm.map { "\(Int($0)) km" } ?? "--"
+    }
+
     private var statusHeroCard: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
@@ -351,10 +421,25 @@ struct ContentView: View {
                     .font(.system(size: 44, weight: .light))
             }
 
-            HStack(spacing: 8) {
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
                 heroChip(value: mileageText, label: "总里程")
+                heroChip(value: electricRangeText, label: "纯电续航")
+                heroChip(value: fuelRangeText, label: "油续航")
                 heroChip(value: tempText, label: "车外温度")
                 heroChip(value: lockText, label: "门锁")
+            }
+
+            if let addr = controller.parkingAddress {
+                HStack(alignment: .top, spacing: 4) {
+                    Image(systemName: "mappin.and.ellipse")
+                        .font(.caption2)
+                    Text("驻车：\(addr)")
+                        .font(.caption2)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
+                }
+                .foregroundStyle(.white.opacity(0.85))
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
         .padding(18)
@@ -619,6 +704,22 @@ struct SettingsView: View {
                     .pickerStyle(.segmented)
 
                     Text("自动：蓝牙已连接时优先使用，未连接或下发失败时走网络")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
+                Section("靠近解锁（蓝牙）") {
+                    Picker("触发距离", selection: Binding(
+                        get: { controller.proximityThresholdDbm },
+                        set: { controller.setProximityThreshold($0) }
+                    )) {
+                        ForEach(CarController.proximityRanges) { r in
+                            Text(r.label).tag(r.dbm)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+
+                    Text("蓝牙会话就绪后，RSSI 持续高于阈值（滑动窗口采样）且处于冷却期之外时自动下发解锁。RSSI 与实际距离受环境影响，档位为近似值；iOS 后台无法常驻扫描，常驻感知需配合地理围栏。")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
