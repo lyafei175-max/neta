@@ -189,13 +189,20 @@ final class CarController: ObservableObject {
         lastGeocodeKey = key
         geocoder.reverseGeocodeLocation(CLLocation(latitude: lat, longitude: lng)) { [weak self] placemarks, _ in
             let address: String? = placemarks?.first.map { pm in
+                // 省市区县路号全带上（v0.3.2 只取区县导致只显示「杞县」）
                 var parts: [String] = []
-                if let d = pm.subLocality { parts.append(d) }
+                if let d = pm.administrativeArea { parts.append(d) }
+                if let c = pm.locality { parts.append(c) }
+                if let s = pm.subLocality, !parts.contains(s) { parts.append(s) }
                 if let t = pm.thoroughfare { parts.append(t) }
-                if let s = pm.subThoroughfare { parts.append(s) }
-                return parts.isEmpty
-                    ? String(format: "%.5f, %.5f", lat, lng)
-                    : parts.joined(separator: "")
+                if let n = pm.subThoroughfare { parts.append(n) }
+                var addr = parts.joined(separator: "")
+                // Apple 的 name 字段常含更完整的格式化地址，取更长者
+                if let nm = pm.name, nm.count > addr.count { addr = nm }
+                if addr.count < 8 {
+                    addr = String(format: "%@ (%.5f, %.5f)", addr, lat, lng)
+                }
+                return addr
             }
             Task { @MainActor in
                 self?.parkingAddress = address
@@ -494,11 +501,20 @@ struct ContentView: View {
                 }
                 VStack {
                     Spacer(minLength: 10)
-                    Image("car_topview")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 170)
-                        .accessibilityLabel("车辆俯视图")
+                    // 双通道加载：先按名（asset/bundle），失败直读文件路径；
+                    // 都失败退回 SF 图标，保证中间列一定有车
+                    if let ui = CarTopImage.load() {
+                        Image(uiImage: ui)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 170)
+                            .accessibilityLabel("车辆俯视图")
+                    } else {
+                        Image(systemName: "car.side.fill")
+                            .font(.system(size: 44))
+                            .foregroundStyle(Color(.systemGray3))
+                            .frame(height: 170)
+                    }
                     Spacer(minLength: 10)
                 }
                 .frame(maxHeight: .infinity)
@@ -634,6 +650,18 @@ struct ContentView: View {
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .disabled(controller.isBusy)
         .opacity(controller.isBusy ? 0.55 : 1)
+    }
+}
+
+/// 车辆俯视图加载：named（asset/bundle）→ 文件路径直读 → nil（调用方退回 SF 图标）
+enum CarTopImage {
+    static func load() -> UIImage? {
+        if let ui = UIImage(named: "car_topview") { return ui }
+        if let p = Bundle.main.path(forResource: "car_topview", ofType: "png"),
+           let ui = UIImage(contentsOfFile: p) {
+            return ui
+        }
+        return nil
     }
 }
 
