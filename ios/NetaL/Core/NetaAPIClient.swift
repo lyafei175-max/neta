@@ -114,6 +114,10 @@ struct NetaAPIClient {
         }
 
         DiagnosticLog.shared.log("NetHttp", "→ POST \(path) nonce=\(headers["nonce"] ?? "")")
+        // 数字钥匙接口族：记录完整请求体（无敏感字段，用于排查 400）
+        if path.contains("digitalkey") {
+            DiagnosticLog.shared.log("NetHttp", "body=\(jsonBody ?? "{}")")
+        }
 
         let (data, response) = try await session.data(for: request)
 
@@ -122,8 +126,10 @@ struct NetaAPIClient {
             throw APIError.invalidResponse
         }
         guard (200..<300).contains(http.statusCode) else {
-            DiagnosticLog.shared.log("NetHttp", "✕ HTTP \(http.statusCode) \(path)")
-            throw APIError.httpStatus(http.statusCode)
+            let body = String(data: data, encoding: .utf8) ?? ""
+            DiagnosticLog.shared.log("NetHttp",
+                "✕ HTTP \(http.statusCode) \(path) body=\(body.prefix(300))")
+            throw APIError.httpStatus(http.statusCode, body)
         }
 
         DiagnosticLog.shared.log("NetHttp", "← HTTP \(http.statusCode) \(path) \(data.count)B")
@@ -414,7 +420,7 @@ extension Optional where Wrapped == JSONValue {
 enum APIError: Error, LocalizedError {
     case invalidURL
     case invalidResponse
-    case httpStatus(Int)
+    case httpStatus(Int, String)
     case missingPayload
     case notLoggedIn
     case tokenRefreshFailed
@@ -424,7 +430,9 @@ enum APIError: Error, LocalizedError {
         switch self {
         case .invalidURL:        return "地址无效"
         case .invalidResponse:   return "响应无法解析"
-        case .httpStatus(let s): return "服务返回 \(s)"
+        case .httpStatus(let s, let body):
+            let detail = body.trimmingCharacters(in: .whitespacesAndNewlines)
+            return detail.isEmpty ? "服务返回 \(s)" : "服务返回 \(s)：\(detail.prefix(200))"
         case .missingPayload:    return "响应缺少数据"
         case .notLoggedIn:       return "登录后才能下发车控指令"
         case .tokenRefreshFailed: return "登录已过期，需要重新登录"
