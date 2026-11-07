@@ -220,6 +220,8 @@ struct ContentView: View {
                         tireCard
                     }
 
+                    energyCard
+
                     groupCard(title: "车锁与寻车", icon: "lock.fill", accent: .blue) {
                         commandButton(.doorUnlock, icon: "lock.open", accent: .blue)
                         commandButton(.doorLock, icon: "lock", accent: .blue)
@@ -404,11 +406,13 @@ struct ContentView: View {
                                   temperature: controller.state.rearLeftTire.temperature)
                 }
                 VStack {
-                    Spacer(minLength: 20)
-                    Image(systemName: "car.side.fill")
-                        .font(.system(size: 44))
-                        .foregroundStyle(Color(.systemGray3))
-                    Spacer(minLength: 20)
+                    Spacer(minLength: 10)
+                    Image("car_topview")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 170)
+                        .accessibilityLabel("车辆俯视图")
+                    Spacer(minLength: 10)
                 }
                 .frame(maxHeight: .infinity)
                 VStack(spacing: 14) {
@@ -421,6 +425,31 @@ struct ContentView: View {
                 }
             }
             .frame(maxWidth: .infinity)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(.secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 18))
+    }
+
+    // MARK: 能源卡（电量 + 油量，增程版）
+
+    private var energyCard: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Label("能源状态", systemImage: "bolt.fill")
+                .font(.subheadline.weight(.semibold))
+
+            if controller.state.batterySOC != nil || controller.state.fuelPercent != nil {
+                EnergyRowView(icon: "bolt.fill", color: .blue, label: "电量",
+                              percent: controller.state.batterySOC, note: nil)
+                EnergyRowView(icon: "fuelpump.fill", color: .orange, label: "油量",
+                              percent: controller.state.fuelPercent,
+                              note: controller.state.fuelRangeKm.map { String(format: "续航 %.0f km", $0) })
+            } else {
+                Text("暂无能源数据")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -625,6 +654,63 @@ struct SettingsView: View {
              .verifyingResponse, .syncingWhitelist:
             return "握手中"
         case .failed: return "异常"
+        }
+    }
+}
+
+/// 能源条目：图标 + 标签 + 渐变进度条（进场填充动画）+ 百分比/备注。
+struct EnergyRowView: View {
+
+    let icon: String
+    let color: Color
+    let label: String
+    let percent: Double?
+    let note: String?
+
+    @State private var progress: CGFloat = 0
+
+    private var percentText: String {
+        percent.map { "\(Int($0))%" } ?? "--"
+    }
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: icon)
+                .font(.callout)
+                .foregroundStyle(color)
+                .frame(width: 24)
+
+            Text(label)
+                .font(.subheadline)
+
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(Color(.systemGray5))
+                    Capsule()
+                        .fill(
+                            LinearGradient(colors: [color.opacity(0.65), color],
+                                           startPoint: .leading, endPoint: .trailing)
+                        )
+                        .frame(width: max(0, geo.size.width * progress))
+                        .shadow(color: color.opacity(0.35), radius: 3)
+                }
+            }
+            .frame(height: 12)
+
+            Text(percentText)
+                .font(.subheadline.weight(.semibold))
+                .monospacedDigit()
+                .frame(width: 46, alignment: .trailing)
+        }
+        .onAppear(perform: animateIn)
+        .onChange(of: percent) { _ in animateIn() }
+    }
+
+    private func animateIn() {
+        progress = 0
+        withAnimation(.easeOut(duration: 1.1)) {
+            progress = CGFloat((percent ?? 0) / 100.0)
         }
     }
 }

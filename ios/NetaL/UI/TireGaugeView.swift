@@ -61,19 +61,21 @@ struct TireGaugeView: View {
             }
             .frame(width: 82, height: 82)
 
-            Text(name)
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-
-            Group {
+            HStack(spacing: 4) {
+                Text(name)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
                 if let t = temperature {
+                    // 胎温徽章（℃），换算 raw−50，见 CloudVehicleData.tireTempC
                     Text("\(Int(t))℃")
-                } else {
-                    Text(" ")
+                        .font(.system(size: 9, weight: .semibold))
+                        .foregroundStyle(.blue)
+                        .padding(.horizontal, 5)
+                        .padding(.vertical, 2)
+                        .background(Color.blue.opacity(0.12))
+                        .clipShape(Capsule())
                 }
             }
-            .font(.system(size: 10))
-            .foregroundStyle(.secondary)
         }
         .onAppear(perform: animateIn)
         .onChange(of: pressure) { _ in animateIn() }

@@ -84,6 +84,12 @@ struct VehicleState {
     /// 总行驶里程 km（totalMileage）
     var totalMileage: Double?
 
+    /// 燃油液位 %（enduranceStatus.fuelPercent，增程版）
+    var fuelPercent: Double?
+
+    /// 燃油续航 km（enduranceStatus.fuelRangeKm）
+    var fuelRangeKm: Double?
+
     // MARK: 座椅
 
     enum SeatHeatLevel: String { case off = "关", low = "低", mid = "中", high = "高", unknown = "未知" }
@@ -468,7 +474,9 @@ struct CloudVehicleData: Codable {
         var coDriverSizeWinStatus: Int?
     }
     struct Endurance: Codable {
-        var fuelMileageRemaining: Double?  // ×10 km
+        var fuelPercent: Double?
+        var fuelRangeKm: Double?
+        var fuelMileageRemaining: Double?  // 兼容旧字段
         var estimateFuelPercent: Double?
         var powerPercentage: Double?
     }
@@ -497,7 +505,9 @@ struct CloudVehicleData: Codable {
                                                  temperature: t.tireRightAfterTemp.flatMap(Self.tireTempC))
         }
         if let e = enduranceStatus {
-            s.availableMileage = e.fuelMileageRemaining.map { $0 / 10.0 }
+            // 油量字段（增程版），v0.2.1 按官方 DEX 键名接入
+            s.fuelPercent = e.fuelPercent ?? e.estimateFuelPercent
+            s.fuelRangeKm = e.fuelRangeKm ?? e.fuelMileageRemaining
         }
         if let l = lockStatus {
             // 0=已锁，非0视为未锁（推断，待校准）
