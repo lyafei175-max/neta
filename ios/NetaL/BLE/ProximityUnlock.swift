@@ -40,6 +40,13 @@ final class ProximityUnlockPolicy: NSObject {
 
     private(set) var policy = Policy()
 
+    /// 用户可调靠近门限（设置页档位 → RSSI 阈值）。RSSI 与真实距离强环境相关，档位为近似值。
+    func updateThresholds(enter: Int, exit: Int) {
+        policy.enterThresholdDbm = enter
+        policy.exitThresholdDbm = exit
+        evaluate()
+    }
+
     /// 滑动窗口采样
     private var samples: [Int] = []
     private var lastTriggerAt: Date?

@@ -188,7 +188,7 @@ final class CarController: ObservableObject {
         geocoder.reverseGeocodeLocation(CLLocation(latitude: lat, longitude: lng)) { [weak self] placemarks, _ in
             let address: String? = placemarks?.first.map { pm in
                 var parts: [String] = []
-                if let d = pm.district { parts.append(d) }
+                if let d = pm.subLocality { parts.append(d) }
                 if let t = pm.thoroughfare { parts.append(t) }
                 if let s = pm.subThoroughfare { parts.append(s) }
                 return parts.isEmpty
