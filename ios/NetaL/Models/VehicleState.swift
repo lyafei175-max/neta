@@ -421,6 +421,19 @@ struct CloudVehicleData: Codable {
     var doorCoverStatus: DoorCover?
     var windowStatus: Win?
     var enduranceStatus: Endurance?
+    var tyreStatus: Tyre?
+
+    /// 胎压/胎温原始值，换算公式来自官方 APK `J1/j0.1.smali`（v0.1.9 实测确认）。
+    struct Tyre: Codable {
+        var tireLeftFrontPress: Double?
+        var tireRightFrontPress: Double?
+        var tireLeftAfterPress: Double?
+        var tireRightAfterPress: Double?
+        var tireLeftFrontTemp: Double?
+        var tireRightFrontTemp: Double?
+        var tireLeftAfterTemp: Double?
+        var tireRightAfterTemp: Double?
+    }
 
     struct Basic: Codable {
         var soc: Double?               // 电量百分比
@@ -467,9 +480,21 @@ struct CloudVehicleData: Codable {
             s.totalMileage = b.mileage.map { $0 / 10.0 }
         }
         if let a = airconditionStatus {
-            s.outdoorTemperature = a.airOutTemp.map { $0 / 10.0 }
-            s.indoorTemperature = a.airInTemp.map { $0 / 10.0 }
+            // 官方换算（J1/j0.1.smali method a）：raw × 0.5 − 55，255 视为无效
+            s.outdoorTemperature = a.airOutTemp.flatMap(Self.outsideTempC)
+            s.indoorTemperature = a.airInTemp.flatMap(Self.outsideTempC)
             s.airWindLevel = a.airWindLevel
+        }
+        if let t = tyreStatus {
+            // 官方换算：压力 (raw+0.5)×0.0177 → bar（raw≥254 无效）；胎温 raw−50 → ℃（raw≥255 无效）
+            s.frontLeftTire  = VehicleState.Tire(pressure: t.tireLeftFrontPress.flatMap(Self.tirePressureBar),
+                                                 temperature: t.tireLeftFrontTemp.flatMap(Self.tireTempC))
+            s.frontRightTire = VehicleState.Tire(pressure: t.tireRightFrontPress.flatMap(Self.tirePressureBar),
+                                                 temperature: t.tireRightFrontTemp.flatMap(Self.tireTempC))
+            s.rearLeftTire   = VehicleState.Tire(pressure: t.tireLeftAfterPress.flatMap(Self.tirePressureBar),
+                                                 temperature: t.tireLeftAfterTemp.flatMap(Self.tireTempC))
+            s.rearRightTire  = VehicleState.Tire(pressure: t.tireRightAfterPress.flatMap(Self.tirePressureBar),
+                                                 temperature: t.tireRightAfterTemp.flatMap(Self.tireTempC))
         }
         if let e = enduranceStatus {
             s.availableMileage = e.fuelMileageRemaining.map { $0 / 10.0 }
@@ -496,6 +521,24 @@ struct CloudVehicleData: Codable {
     }
 
     // MARK: 枚举映射（需抓包校准）
+
+    /// 官方胎压换算：`(raw + 0.5) × 0.0177` → bar；raw ≥ 254 视为无效（J1/j0.1.smali method d）
+    static func tirePressureBar(_ raw: Double) -> Double? {
+        guard raw < 254 else { return nil }
+        return (raw + 0.5) * 0.0177
+    }
+
+    /// 官方胎温换算：`raw − 50` → ℃；raw ≥ 255 视为无效（J1/j0.1.smali method i）
+    static func tireTempC(_ raw: Double) -> Double? {
+        guard raw < 255 else { return nil }
+        return raw - 50.0
+    }
+
+    /// 官方车外/车内温度换算：`raw × 0.5 − 55` → ℃；raw ≥ 255 视为无效（J1/j0.1.smali method a）
+    static func outsideTempC(_ raw: Double) -> Double? {
+        guard raw < 255 else { return nil }
+        return raw * 0.5 - 55.0
+    }
 
     private func mapDoor(_ raw: String?) -> VehicleState.DoorState {
         switch raw?.lowercased() {

@@ -199,53 +199,64 @@ struct ContentView: View {
     @StateObject private var controller = CarController()
     @State private var showSettings = false
     @State private var showLogin = false
+    @State private var showRawData = false
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 16) {
+                VStack(spacing: 14) {
 
-                    statusCard
+                    statusHeroCard
 
                     if let error = controller.lastError {
                         errorBanner(error)
                     }
 
-                    groupCard(title: "车锁与寻车") {
-                        commandButton(.doorUnlock, icon: "lock.open")
-                        commandButton(.doorLock, icon: "lock")
-                        commandButton(.carSearch, icon: "magnifyingglass")
-                        commandButton(.trunkUnlock, icon: "car.rear.open")
+                    if let result = controller.lastResult {
+                        resultLine(result)
                     }
 
-                    groupCard(title: "空调与温度") {
-                        commandButton(.airConditionerOpen, icon: "fan")
-                        commandButton(.airConditionerClose, icon: "fan.fill")
-                        commandButton(.airConditionerRefrigeration, icon: "snowflake")
-                        commandButton(.airConditionerHeating, icon: "flame")
+                    if hasTireData {
+                        tireCard
                     }
 
-                    groupCard(title: "车窗") {
-                        commandButton(.windowOpen, icon: "arrow.up.square")
-                        commandButton(.windowClose, icon: "arrow.down.square")
-                        commandButton(.topLeftWindowOpen, icon: "rectangle.split.2x1")
-                        commandButton(.topLeftWindowClose, icon: "rectangle.split.2x1.fill")
+                    groupCard(title: "车锁与寻车", icon: "lock.fill", accent: .blue) {
+                        commandButton(.doorUnlock, icon: "lock.open", accent: .blue)
+                        commandButton(.doorLock, icon: "lock", accent: .blue)
+                        commandButton(.carSearch, icon: "magnifyingglass", accent: .blue)
+                        commandButton(.trunkUnlock, icon: "car.rear.open", accent: .blue)
                     }
 
-                    groupCard(title: "充电与电池") {
-                        commandButton(.startCharge, icon: "bolt.fill")
-                        commandButton(.stopCharge, icon: "bolt.slash")
+                    groupCard(title: "空调与温度", icon: "wind", accent: .teal) {
+                        commandButton(.airConditionerOpen, icon: "fan", accent: .teal)
+                        commandButton(.airConditionerClose, icon: "fan.fill", accent: .teal)
+                        commandButton(.airConditionerRefrigeration, icon: "snowflake", accent: .cyan)
+                        commandButton(.airConditionerHeating, icon: "flame", accent: .orange)
                     }
 
-                    groupCard(title: "电源") {
-                        commandButton(.powerOn, icon: "power")
-                        commandButton(.powerOff, icon: "poweroff")
+                    groupCard(title: "车窗", icon: "rectangle.split.2x1", accent: .indigo) {
+                        commandButton(.windowOpen, icon: "arrow.up.square", accent: .indigo)
+                        commandButton(.windowClose, icon: "arrow.down.square", accent: .indigo)
+                        commandButton(.topLeftWindowOpen, icon: "arrow.up.left.square", accent: .indigo)
+                        commandButton(.topLeftWindowClose, icon: "arrow.down.left.square", accent: .indigo)
                     }
+
+                    groupCard(title: "充电与电池", icon: "bolt.fill", accent: .green) {
+                        commandButton(.startCharge, icon: "bolt.fill", accent: .green)
+                        commandButton(.stopCharge, icon: "bolt.slash", accent: .green)
+                    }
+
+                    groupCard(title: "电源", icon: "power", accent: .orange) {
+                        commandButton(.powerOn, icon: "power", accent: .orange)
+                        commandButton(.powerOff, icon: "poweroff", accent: .orange)
+                    }
+
+                    debugCard
                 }
                 .padding()
             }
             .background(Color(.systemGroupedBackground))
-            .navigationTitle("哪吒L")
+            .navigationTitle("哪吒车控")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
@@ -263,6 +274,7 @@ struct ContentView: View {
                 }
             }
             .refreshable { await controller.refreshState() }
+            .task { await controller.refreshState() }
             .sheet(isPresented: $showSettings) {
                 SettingsView(controller: controller)
             }
@@ -272,78 +284,192 @@ struct ContentView: View {
         }
     }
 
-    // MARK: 子视图
+    // MARK: 主状态卡（渐变 + 大电量）
 
-    private var statusCard: some View {
-        VStack(alignment: .leading, spacing: 8) {
+    private var socText: String {
+        controller.state.batterySOC.map { "\(Int($0))" } ?? "--"
+    }
+
+    private var batteryIcon: String {
+        guard let soc = controller.state.batterySOC else { return "battery.0percent" }
+        switch soc {
+        case 90...: return "battery.100"
+        case 70..<90: return "battery.75"
+        case 40..<70: return "battery.50"
+        case 15..<40: return "battery.25"
+        default: return "battery.0percent"
+        }
+    }
+
+    private var mileageText: String {
+        controller.state.totalMileage.map { "\(Int($0)) km" } ?? "--"
+    }
+
+    private var tempText: String {
+        controller.state.outdoorTemperature.map { String(format: "%.1f℃", $0) } ?? "--"
+    }
+
+    private var lockText: String {
+        controller.state.doorsLock.rawValue
+    }
+
+    private var statusHeroCard: some View {
+        VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Label(
-                    controller.nearFieldAvailable ? "蓝牙已连接" : "未连接或下发失败时走网络",
-                    systemImage: controller.nearFieldAvailable ? "dot.radiowaves.left.and.right" : "icloud.slash"
+                    controller.nearFieldAvailable ? "蓝牙已连接" : "未连接 · 走网络通道",
+                    systemImage: controller.nearFieldAvailable ? "dot.radiowaves.left.and.right" : "wifi"
                 )
                 .font(.caption)
-                .foregroundStyle(controller.nearFieldAvailable ? .green : .secondary)
 
                 Spacer()
 
                 Text(controller.channel.displayName)
-                    .font(.caption.weight(.medium))
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 2)
-                    .background(Color.accentColor.opacity(0.15))
+                    .font(.caption.weight(.semibold))
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .background(.white.opacity(0.22))
                     .clipShape(Capsule())
             }
 
-            Divider()
-
-            // 只列当前数据源已给出取值的信号
-            if let soc = controller.state.batterySOC {
-                statusRow("电量", "\(Int(soc))%")
-            }
-            if let temp = controller.state.outdoorTemperature {
-                statusRow("车外温度", "\(String(format: "%.1f", temp))℃")
-            }
-            if let mileage = controller.state.totalMileage {
-                statusRow("总行驶里程", "\(Int(mileage)) km")
-            }
-            if controller.state.doorsLock != .unknown {
-                statusRow("门锁", controller.state.doorsLock.rawValue)
-            }
-            if controller.state.driverSeatHeating != .unknown {
-                statusRow("主驾加热", controller.state.driverSeatHeating.rawValue)
+            HStack(alignment: .center, spacing: 14) {
+                VStack(alignment: .leading, spacing: 2) {
+                    HStack(alignment: .firstTextBaseline, spacing: 2) {
+                        Text(socText)
+                            .font(.system(size: 54, weight: .bold, design: .rounded))
+                        Text("%")
+                            .font(.system(size: 22, weight: .semibold, design: .rounded))
+                    }
+                    Text("动力电池 SOC")
+                        .font(.caption2)
+                        .foregroundStyle(.white.opacity(0.75))
+                }
+                Spacer()
+                Image(systemName: batteryIcon)
+                    .font(.system(size: 44, weight: .light))
             }
 
-            if controller.state.isEmpty {
-                Text("当前数据源没有可显示的其余车辆状态")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-
-            if let raw = controller.lastRawVehicleData, !raw.isEmpty {
-                Divider()
-                Text("原始返回: " + raw)
-                    .font(.system(size: 9, design: .monospaced))
-                    .foregroundStyle(.secondary)
-                    .textSelection(.enabled)
-            }
-
-            if let result = controller.lastResult {
-                Text(result)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+            HStack(spacing: 8) {
+                heroChip(value: mileageText, label: "总里程")
+                heroChip(value: tempText, label: "车外温度")
+                heroChip(value: lockText, label: "门锁")
             }
         }
-        .padding()
-        .background(Color(.secondarySystemGroupedBackground))
+        .padding(18)
+        .foregroundStyle(.white)
+        .background(
+            LinearGradient(colors: [Color.blue, Color.teal],
+                           startPoint: .topLeading, endPoint: .bottomTrailing)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 22))
+        .shadow(color: Color.blue.opacity(0.25), radius: 8, y: 4)
+    }
+
+    private func heroChip(value: String, label: String) -> some View {
+        VStack(spacing: 2) {
+            Text(value)
+                .font(.footnote.weight(.semibold))
+                .monospacedDigit()
+            Text(label)
+                .font(.caption2)
+                .foregroundStyle(.white.opacity(0.72))
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 8)
+        .background(.white.opacity(0.16))
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
-    private func statusRow(_ label: String, _ value: String) -> some View {
-        HStack {
-            Text(label).font(.subheadline)
-            Spacer()
-            Text(value).font(.subheadline.weight(.medium))
+    // MARK: 胎压卡（换算公式来自官方 APK J1/j0.1.smali）
+
+    private var hasTireData: Bool {
+        [controller.state.frontLeftTire,
+         controller.state.frontRightTire,
+         controller.state.rearLeftTire,
+         controller.state.rearRightTire]
+            .contains { $0.pressure != nil }
+    }
+
+    private var tireCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("胎压监测", systemImage: "speedometer")
+                .font(.subheadline.weight(.semibold))
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                tireView("左前", controller.state.frontLeftTire)
+                tireView("右前", controller.state.frontRightTire)
+                tireView("左后", controller.state.rearLeftTire)
+                tireView("右后", controller.state.rearRightTire)
+            }
         }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(.secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 18))
+    }
+
+    private func tireView(_ name: String, _ tire: VehicleState.Tire) -> some View {
+        VStack(spacing: 3) {
+            Text(name)
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+            if let p = tire.pressure {
+                HStack(alignment: .firstTextBaseline, spacing: 2) {
+                    Text(String(format: "%.2f", p))
+                        .font(.system(.title3, design: .rounded).weight(.bold))
+                        .monospacedDigit()
+                    Text("bar")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+            } else {
+                Text("--")
+                    .font(.system(.title3, design: .rounded).weight(.bold))
+                    .foregroundStyle(.secondary)
+            }
+            if let t = tire.temperature {
+                Text("\(Int(t))℃")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 12)
+        .background(Color(.systemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+    }
+
+    // MARK: 结果 / 错误 / 调试
+
+    private func resultLine(_ text: String) -> some View {
+        Label(text, systemImage: "checkmark.circle")
+            .font(.caption)
+            .foregroundStyle(.green)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(10)
+            .background(Color.green.opacity(0.1))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+
+    private var debugCard: some View {
+        DisclosureGroup("调试数据", isExpanded: $showRawData) {
+            VStack(alignment: .leading, spacing: 8) {
+                if let raw = controller.lastRawVehicleData, !raw.isEmpty {
+                    Text(raw)
+                        .font(.system(size: 9, design: .monospaced))
+                        .foregroundStyle(.secondary)
+                        .textSelection(.enabled)
+                } else {
+                    Text("暂无")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .padding(.top, 6)
+        }
+        .font(.subheadline)
+        .padding(14)
+        .background(Color(.secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 
     private func errorBanner(_ message: String) -> some View {
@@ -360,31 +486,47 @@ struct ContentView: View {
 
     private func groupCard<Content: View>(
         title: String,
+        icon: String,
+        accent: Color,
         @ViewBuilder content: () -> Content
     ) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(title).font(.subheadline.weight(.medium))
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.caption)
+                    .foregroundStyle(accent)
+                Text(title)
+                    .font(.subheadline.weight(.semibold))
+            }
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
                 content()
             }
         }
-        .padding()
+        .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color(.secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .clipShape(RoundedRectangle(cornerRadius: 18))
     }
 
-    private func commandButton(_ command: VehicleCommand, icon: String) -> some View {
+    private func commandButton(_ command: VehicleCommand, icon: String, accent: Color) -> some View {
         Button {
             Task { await controller.send(command) }
         } label: {
-            Label(command.displayName, systemImage: icon)
-                .font(.caption)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 12)
+            HStack(spacing: 8) {
+                Image(systemName: icon)
+                    .font(.callout)
+                Text(command.displayName)
+                    .font(.caption.weight(.medium))
+                    .multilineTextAlignment(.leading)
+            }
+            .frame(maxWidth: .infinity, minHeight: 46)
         }
-        .buttonStyle(.bordered)
+        .buttonStyle(.plain)
+        .foregroundStyle(accent)
+        .background(accent.opacity(0.12))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
         .disabled(controller.isBusy)
+        .opacity(controller.isBusy ? 0.55 : 1)
     }
 }
 
@@ -462,7 +604,7 @@ struct SettingsView: View {
 
                 Section("协议") {
                     LabeledContent("服务端", value: "chehezhi.cn:18443")
-                    LabeledContent("签名状态", value: "待抓包校验")
+                    LabeledContent("云端协议", value: "已对齐官方 6.4.2")
                     LabeledContent("BLE 状态", value: bleStateText)
                 }
 

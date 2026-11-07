@@ -58,7 +58,7 @@ struct LoginView: View {
             Image(systemName: "car.side.fill")
                 .font(.system(size: 44))
                 .foregroundStyle(Color.accentColor)
-            Text("哪吒汽车")
+            Text("哪吒车控")
                 .font(.title2.weight(.medium))
             Text("登录后管理车辆与车控")
                 .font(.caption)
