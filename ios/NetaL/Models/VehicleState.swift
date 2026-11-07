@@ -474,11 +474,14 @@ struct CloudVehicleData: Codable {
         var coDriverSizeWinStatus: Int?
     }
     struct Endurance: Codable {
-        var fuelPercent: Double?
-        var fuelRangeKm: Double?
-        var fuelMileageRemaining: Double?  // 兼容旧字段
-        var estimateFuelPercent: Double?
-        var powerPercentage: Double?
+        // 键名按 2026-11-07 实测抓包（fuelPercent/fuelRangeKm 不存在于真实响应）
+        var powerPercentage: Double?       // 电池 % ×100（实测 8100 = 81%）
+        var powerResidueMileage: Double?   // 纯电续航 ×10（实测 2220 = 222km）
+        var estimateFuelLevel: Double?     // 油量 L（实测 20）
+        var estimateFuelPercent: Double?   // 油量 %（实测 40）
+        var fuelMileageRemaining: Double?  // 油续航 ×10（实测 2910 = 291km）
+        var bmsBatteryTotalCapacity: Double?
+        var bmsHdsAhActiveCpSum: Double?
     }
 
     func toVehicleState() -> VehicleState {
@@ -505,9 +508,10 @@ struct CloudVehicleData: Codable {
                                                  temperature: t.tireRightAfterTemp.flatMap(Self.tireTempC))
         }
         if let e = enduranceStatus {
-            // 油量字段（增程版），v0.2.1 按官方 DEX 键名接入
-            s.fuelPercent = e.fuelPercent ?? e.estimateFuelPercent
-            s.fuelRangeKm = e.fuelRangeKm ?? e.fuelMileageRemaining
+            // 油量字段（增程版），键名按 2026-11-07 实测抓包校正
+            s.fuelPercent = e.estimateFuelPercent
+            s.fuelRangeKm = e.fuelMileageRemaining.map { $0 / 10.0 }
+            s.availableMileage = e.powerResidueMileage.map { $0 / 10.0 }
         }
         if let l = lockStatus {
             // 0=已锁，非0视为未锁（推断，待校准）

@@ -129,9 +129,14 @@ actor AuthService {
         if let vin = response.data?["vin"]?.asString, !vin.isEmpty {
             try? store.saveVin(vin)
         }
-        if let customer = response.data?["customer"],
-           let nick = customer["nickName"]?.asString {
-            UserDefaults.standard.set(nick, forKey: "neta.nickName")
+        if let customer = response.data?["customer"] {
+            // customer.id = 数字钥匙接口的 userName（实测抓包 2026-11-07）
+            if let cid = customer["id"]?.asString, !cid.isEmpty {
+                try? KeychainHelper.set(cid, account: "customerId")
+            }
+            if let nick = customer["nickName"]?.asString {
+                UserDefaults.standard.set(nick, forKey: "neta.nickName")
+            }
         }
 
         loggedIn = true

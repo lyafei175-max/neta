@@ -1,19 +1,23 @@
 import Foundation
 import CoreBluetooth
 
-/// BLE GATT 常量。UUID 来自 APK 明文，已确认。
+/// BLE GATT 常量。v0.3.1 按安卓实测日志校准（TBOE校准-2026-11-07.md）：
+/// 「GATT 特征 write=0000fff2 properties=0x0C notify=0000fff1 properties=0x10」
 enum TboeUUID {
 
-    /// 主特征（读写通道）
-    static let primaryService = CBUUID(string: "0000fff1-0000-1000-8000-00805f9b34fb")
-    /// 次要特征
-    static let secondaryService = CBUUID(string: "0000fff2-0000-1000-8000-00805f9b34fb")
+    /// notify 特征（车 → 手机，含 CCCD 2902）
+    static let notify = CBUUID(string: "0000fff1-0000-1000-8000-00805f9b34fb")
+    /// write 特征（手机 → 车）
+    static let write = CBUUID(string: "0000fff2-0000-1000-8000-00805f9b34fb")
     /// CCCD（订阅通知）
     static let cccd = CBUUID(string: "00002902-0000-1000-8000-00805f9b34fb")
 
-    /// 请求 MTU。APK 中存在 `MTU=` 协商但未取到具体值。
-    /// 2048 是车机透传模组常见上限。
-    static let preferredMTU: Int = 512
+    /// 实测 MTU=247（安卓主动请求；iOS 自动协商，写之前查 maximumWriteValueLength）
+    static let preferredMTU: Int = 247
+
+    /// 车机广播名前缀：HOZON_KEY_<VIN 尾 5 位>（实测 HOZON_KEY_00946）。
+    /// 车机用随机轮换地址，必须按名字匹配。
+    static let advertisePrefix = "HOZON_KEY_"
 }
 
 /// TBOE 会话状态机。
@@ -81,8 +85,8 @@ final class TboeTransport: NSObject {
 
     private var centralManager: CBCentralManager!
     private var peripheral: CBPeripheral?
-    private var primaryCharacteristic: CBCharacteristic?
-    private var secondaryCharacteristic: CBCharacteristic?
+    private var writeCharacteristic: CBCharacteristic?    // FFF2（手机→车）
+    private var notifyCharacteristic: CBCharacteristic?   // FFF1（车→手机）
 
     /// 重组缓冲区
     private var reassemblyBuffer = Data()
@@ -100,8 +104,9 @@ final class TboeTransport: NSObject {
             state = .failed("系统蓝牙未开启")
             return
         }
+        // 实测车端广播靠名字匹配（随机地址），不按服务 UUID 过滤
         centralManager.scanForPeripherals(
-            withServices: [TboeUUID.primaryService],
+            withServices: nil,
             options: [CBCentralManagerScanOptionAllowDuplicatesKey: true]
         )
         DispatchQueue.main.asyncAfter(deadline: .now() + timeout) { [weak self] in
@@ -131,8 +136,8 @@ final class TboeTransport: NSObject {
         // ⚠️ 断开帧格式未知，此处直接断开。
         centralManager.cancelPeripheralConnection(peripheral)
         self.peripheral = nil
-        primaryCharacteristic = nil
-        secondaryCharacteristic = nil
+        writeCharacteristic = nil
+        notifyCharacteristic = nil
         state = .idle
     }
 
@@ -174,10 +179,11 @@ final class TboeTransport: NSObject {
     }
 
     private func write(_ data: Data) {
-        guard let peripheral, let characteristic = primaryCharacteristic else { return }
+        guard let peripheral, let characteristic = writeCharacteristic else { return }
         // 原 APK 存在分片逻辑（`车端报文分片丢失`）。
-        // 分片规则待抓包确认，此处按 MTU 朴素切分。
-        let chunkSize = min(TboeUUID.preferredMTU - 3, data.count)
+        // 分片规则待抓包确认，此处按协商 MTU 朴素切分。
+        let mtu = peripheral.maximumWriteValueLength(for: .withResponse)
+        let chunkSize = max(mtu > 0 ? mtu : TboeUUID.preferredMTU - 3, 20)
         var offset = 0
         while offset < data.count {
             let end = min(offset + chunkSize, data.count)
@@ -298,10 +304,10 @@ extension TboeTransport: CBCentralManagerDelegate {
     ) {
         onRSSIUpdate?(RSSI.intValue)
         let name = advertisementData[CBAdvertisementDataLocalNameKey] as? String
-        // 全部 FFF1 广播设备上报（含车机与钥匙相关外设），由 UI 层选择连接
+        // 全部广播设备上报（含车机与钥匙相关外设），由 UI 层选择连接
         onDiscovered?(peripheral, name, RSSI.intValue)
-        // 车机设备名匹配逻辑需抓包确定
-        if let name, name.contains("Neta") {
+        // 实测车机广播名 = HOZON_KEY_<VIN尾5位>（随机地址，按名字匹配）
+        if let name, name.hasPrefix(TboeUUID.advertisePrefix) {
             connect(to: peripheral)
         }
     }
@@ -309,7 +315,8 @@ extension TboeTransport: CBCentralManagerDelegate {
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         state = .connecting
         peripheral.delegate = self
-        peripheral.discoverServices([TboeUUID.primaryService, TboeUUID.secondaryService])
+        // 实测车端有 5 个服务，特征按 UUID 匹配，服务 UUID 未枚举 → 全量发现
+        peripheral.discoverServices(nil)
     }
 
     func centralManager(
@@ -326,8 +333,8 @@ extension TboeTransport: CBCentralManagerDelegate {
         error: Error?
     ) {
         state = .idle
-        primaryCharacteristic = nil
-        secondaryCharacteristic = nil
+        writeCharacteristic = nil
+        notifyCharacteristic = nil
     }
 }
 
@@ -363,10 +370,10 @@ extension TboeTransport: CBPeripheralDelegate {
 
         for characteristic in service.characteristics ?? [] {
             switch characteristic.uuid {
-            case TboeUUID.primaryService:
-                primaryCharacteristic = characteristic
-            case TboeUUID.secondaryService:
-                secondaryCharacteristic = characteristic
+            case TboeUUID.write:
+                writeCharacteristic = characteristic
+            case TboeUUID.notify:
+                notifyCharacteristic = characteristic
             default:
                 continue
             }

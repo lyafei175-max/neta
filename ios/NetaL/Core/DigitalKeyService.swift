@@ -38,20 +38,18 @@ final class DigitalKeyService: ObservableObject {
         logText += line + "\n"
     }
 
-    /// 稳定设备 ID（对应安卓 deviceID），首次生成后持久化。
+    /// 稳定设备 ID = 登录时的 seriesNo（实测安卓 deviceID 与 seriesNo 同值）。
     var deviceID: String {
-        if let v = try? KeychainHelper.get(account: "dk_deviceID"), !v.isEmpty { return v }
-        let v = UUID().uuidString.replacingOccurrences(of: "-", with: "").lowercased()
-        try? KeychainHelper.set(v, account: "dk_deviceID")
-        return v
+        (try? CredentialStore.shared.deviceSeriesNo()) ?? ""
     }
 
-    /// userName 即登录账号（手机号）
+    /// userName = customer.id（实测抓包，非手机号）
     private var userName: String {
-        CredentialStore.shared.phone ?? ""
+        CredentialStore.shared.customerId ?? CredentialStore.shared.phone ?? ""
     }
 
-    /// 本机 ECC P-256 公钥（X9.63 非压缩 65 字节 base64），私钥留在 Secure Enclave。
+    /// 本机 ECC P-256 公钥。上传格式 = **SPKI DER base64**（`MFkwEwYH…`，实测抓包），
+    /// 私钥留在 Secure Enclave。
     private func ensureLocalKeyPair() throws -> String {
         let key: SecKey
         do {
@@ -59,10 +57,16 @@ final class DigitalKeyService: ObservableObject {
         } catch {
             key = try CredentialStore.shared.generateDeviceKeyPair()
         }
-        guard let b64 = CredentialStore.shared.publicKeyBase64(key) else {
+        guard let raw = CredentialStore.shared.publicKeyBase64(key),
+              let point = Data(base64Encoded: raw), point.count == 65, point[0] == 0x04 else {
             throw APIError.serverDetail("公钥导出失败")
         }
-        return b64
+        // P-256 SPKI 固定头（26 字节）+ X9.63 非压缩点位
+        let spkiHeader: [UInt8] = [
+            0x30, 0x59, 0x30, 0x13, 0x06, 0x07, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x02, 0x01,
+            0x06, 0x08, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x03, 0x01, 0x07, 0x03, 0x42, 0x00
+        ]
+        return (Data(spkiHeader) + point).base64EncodedString()
     }
 
     // MARK: ① 上传公钥
@@ -104,8 +108,9 @@ final class DigitalKeyService: ObservableObject {
             let body: [String: Any] = ["userName": userName, "deviceID": deviceID]
             let resp = try await api.postJSON(path: Endpoint.keyList, jsonBody: body)
             append("② code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-")")
-            keyListRaw = resp.rawPreview
-            append(resp.rawPreview)
+            // 钥匙接口信封是 {businessObj, code, message}（实测），data 兜底
+            keyListRaw = Self.jsonToString(resp.businessObj ?? resp.data)
+            if let k = keyListRaw { append(k) }
         } catch {
             append("② 异常 " + error.localizedDescription)
         }
@@ -127,8 +132,8 @@ final class DigitalKeyService: ObservableObject {
             let resp = try await api.postJSON(path: Endpoint.downloadKeyRaw, jsonBody: body)
             append("③ code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-")")
             append(resp.rawPreview)
-            if let data = resp.data,
-               let encoded = try? JSONEncoder().encode(data),
+            if let payload = resp.businessObj ?? resp.data,
+               let encoded = try? JSONEncoder().encode(payload),
                let raw = String(data: encoded, encoding: .utf8) {
                 keyRawData = raw
                 try? KeychainHelper.set(raw, account: "dk_keyraw")
@@ -137,6 +142,11 @@ final class DigitalKeyService: ObservableObject {
         } catch {
             append("③ 异常 " + error.localizedDescription)
         }
+    }
+
+    private static func jsonToString(_ j: JSONValue?) -> String? {
+        guard let j, let d = try? JSONEncoder().encode(j) else { return nil }
+        return String(data: d, encoding: .utf8)
     }
 
     /// 从钥匙列表原始 JSON 里尽力提取 keyID（递归收集）

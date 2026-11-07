@@ -441,10 +441,11 @@ struct ContentView: View {
 
             if controller.state.batterySOC != nil || controller.state.fuelPercent != nil {
                 EnergyRowView(icon: "bolt.fill", color: .blue, label: "电量",
-                              percent: controller.state.batterySOC, note: nil)
+                              percent: controller.state.batterySOC,
+                              note: controller.state.availableMileage.map { String(format: "纯电续航 %.0f km", $0) })
                 EnergyRowView(icon: "fuelpump.fill", color: .orange, label: "油量",
                               percent: controller.state.fuelPercent,
-                              note: controller.state.fuelRangeKm.map { String(format: "续航 %.0f km", $0) })
+                              note: controller.state.fuelRangeKm.map { String(format: "油续航 %.0f km", $0) })
             } else {
                 Text("暂无能源数据")
                     .font(.caption)

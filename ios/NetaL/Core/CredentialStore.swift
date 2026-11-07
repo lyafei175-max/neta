@@ -206,6 +206,11 @@ final class CredentialStore {
         try? KeychainHelper.get(account: "phone")
     }
 
+    /// 登录账号 ID（customer.id）——数字钥匙接口 userName 的真实取值（实测抓包）。
+    var customerId: String? {
+        try? KeychainHelper.get(account: "customerId")
+    }
+
     var defaultVin: String? {
         try? KeychainHelper.get(account: "defaultVin")
     }
