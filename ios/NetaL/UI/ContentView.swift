@@ -180,16 +180,70 @@ final class CarController: ObservableObject {
         }
     }
 
-    /// 驻车坐标 → 中文地址（CLGeocoder；坐标变化 <0.001° 不重复请求）
+    /// 驻车坐标 → 地址。与安卓 ParkingGeocoder 同策略：
+    /// 配置了高德 key → restapi.amap.com regeo（街道级）；否则系统逆地理（省市级）。
     private func resolveParkingAddress() {
         guard let lat = state.latitude, let lng = state.longitude,
               lat != 0, lng != 0 else { return }
         let key = String(format: "%.3f,%.3f", lat, lng)
         guard key != lastGeocodeKey else { return }
         lastGeocodeKey = key
+
+        let amapKey = UserDefaults.standard.string(forKey: "amap_key") ?? ""
+        if !amapKey.isEmpty {
+            amapRegeo(key: amapKey, lat: lat, lng: lng) { [weak self] addr in
+                Task { @MainActor in
+                    if let addr, !addr.isEmpty {
+                        self?.parkingAddress = addr
+                    } else {
+                        // 高德失败 → 系统逆地理兜底
+                        self?.systemRegeo(lat: lat, lng: lng)
+                    }
+                }
+            }
+        } else {
+            systemRegeo(lat: lat, lng: lng)
+        }
+    }
+
+    /// 高德逆地理（GET，与安卓同端点同参数）
+    private func amapRegeo(key: String, lat: Double, lng: Double,
+                           completion: @escaping (String?) -> Void) {
+        let loc = String(format: "%.6f,%.6f", lng, lat)
+        var comps = URLComponents(string: "https://restapi.amap.com/v3/geocode/regeo")!
+        comps.queryItems = [
+            URLQueryItem(name: "key", value: key),
+            URLQueryItem(name: "location", value: loc),
+            URLQueryItem(name: "extensions", value: "base"),
+            URLQueryItem(name: "output", value: "JSON"),
+        ]
+        var req = URLRequest(url: comps.url!)
+        req.timeoutInterval = 8
+        req.setValue("application/json", forHTTPHeaderField: "Accept")
+        req.setValue("neta-l-control", forHTTPHeaderField: "User-Agent")
+        Task {
+            do {
+                let (data, resp) = try await URLSession.shared.data(for: req)
+                guard let http = resp as? HTTPURLResponse, http.statusCode == 200,
+                      let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                      (obj["status"] as? String) == "1",
+                      let regeocode = obj["regeocode"] as? [String: Any],
+                      let addr = regeocode["formatted_address"] as? String,
+                      !addr.isEmpty else {
+                    completion(nil)
+                    return
+                }
+                completion(addr)
+            } catch {
+                completion(nil)
+            }
+        }
+    }
+
+    /// 系统逆地理（省市区县路号全带，短地址附坐标）
+    private func systemRegeo(lat: Double, lng: Double) {
         geocoder.reverseGeocodeLocation(CLLocation(latitude: lat, longitude: lng)) { [weak self] placemarks, _ in
             let address: String? = placemarks?.first.map { pm in
-                // 省市区县路号全带上（v0.3.2 只取区县导致只显示「杞县」）
                 var parts: [String] = []
                 if let d = pm.administrativeArea { parts.append(d) }
                 if let c = pm.locality { parts.append(c) }
@@ -197,7 +251,6 @@ final class CarController: ObservableObject {
                 if let t = pm.thoroughfare { parts.append(t) }
                 if let n = pm.subThoroughfare { parts.append(n) }
                 var addr = parts.joined(separator: "")
-                // Apple 的 name 字段常含更完整的格式化地址，取更长者
                 if let nm = pm.name, nm.count > addr.count { addr = nm }
                 if addr.count < 8 {
                     addr = String(format: "%@ (%.5f, %.5f)", addr, lat, lng)
@@ -718,6 +771,7 @@ struct SettingsView: View {
     @ObservedObject var controller: CarController
     @Environment(\.dismiss) private var dismiss
     @State private var showKeyManager = false
+    @State private var amapKey = UserDefaults.standard.string(forKey: "amap_key") ?? ""
 
     var body: some View {
         NavigationStack {
@@ -750,6 +804,16 @@ struct SettingsView: View {
                     .pickerStyle(.segmented)
 
                     Text("蓝牙会话就绪后，RSSI 持续高于阈值（滑动窗口采样）且处于冷却期之外时自动下发解锁。RSSI 与实际距离受环境影响，档位为近似值；iOS 后台无法常驻扫描，常驻感知需配合地理围栏。")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
+                Section("驻车地址") {
+                    TextField("高德 Web 服务 key（可选）", text: $amapKey)
+                        .font(.footnote)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
+                    Text("配置高德 Web 服务 key 后，驻车地址显示街道级（与安卓一致）；未配置时使用系统逆地理（省市级）。key 在高德开放平台创建「Web 服务」类型应用获得。")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -797,6 +861,9 @@ struct SettingsView: View {
             .sheet(isPresented: $showKeyManager) {
                 KeyManagerView()
             }
+            .onChange(of: amapKey) { newValue in
+                UserDefaults.standard.set(newValue, forKey: "amap_key")
+            }
         }
     }
 
@@ -834,8 +901,17 @@ struct EnergyRowView: View {
                 .foregroundStyle(color)
                 .frame(width: 24)
 
-            Text(label)
-                .font(.subheadline)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(label)
+                    .font(.subheadline)
+                if let note, !note.isEmpty {
+                    // 剩余续航等补充信息（v0.3.7 之前算了没画出来）
+                    Text(note)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
+            }
 
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
