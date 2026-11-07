@@ -64,56 +64,91 @@ final class DigitalKeyService: ObservableObject {
         ["request-id": "Android-SDK-\(userName)-\(Int64(Date().timeIntervalSince1970 * 1000))"]
     }
 
-    /// 本机 ECC P-256 公钥。上传格式 = **SPKI DER base64**（`MFkwEwYH…`，实测抓包），
-    /// 私钥留在 Secure Enclave。
-    private func ensureLocalKeyPair() throws -> String {
+    // MARK: ① 上传公钥
+    //
+    // 实测：SPKI/裸点位 × 完整/主版本号 四种组合一次跑完，哪个组合被接受即固化
+    // （安卓实测 body：deviceModel=JLH-AN00, deviceSysVer="12"（仅主版本）, eccPubkey=SPKI base64）
+
+    func uploadPublicKey() async {
+        busy = true
+        defer { busy = false }
+        guard let user = requireUserName() else { return }
+        do {
+            let raw = try localPublicKeyRaw()
+            let spki = spkiBase64(fromRaw: raw)
+            let rawB64 = raw.base64EncodedString()
+            let full = DeviceInfo.current.systemVersion
+            let major = full.split(separator: ".").first.map(String.init) ?? full
+
+            let variants: [(String, [String: Any])] = [
+                ("SPKI+完整版本号", [
+                    "userName": user, "deviceID": deviceID,
+                    "deviceModel": DeviceInfo.current.deviceModel,
+                    "deviceSysVer": full, "eccPubkey": spki ?? rawB64]),
+                ("SPKI+主版本号", [
+                    "userName": user, "deviceID": deviceID,
+                    "deviceModel": DeviceInfo.current.deviceModel,
+                    "deviceSysVer": major, "eccPubkey": spki ?? rawB64]),
+                ("裸点位+完整版本号", [
+                    "userName": user, "deviceID": deviceID,
+                    "deviceModel": DeviceInfo.current.deviceModel,
+                    "deviceSysVer": full, "eccPubkey": rawB64]),
+                ("裸点位+主版本号", [
+                    "userName": user, "deviceID": deviceID,
+                    "deviceModel": DeviceInfo.current.deviceModel,
+                    "deviceSysVer": major, "eccPubkey": rawB64]),
+            ]
+
+            for (label, body) in variants {
+                append("① 尝试 \(label)：body=\(Self.bodyString(body))")
+                let resp = try await api.postJSON(path: Endpoint.eccPubkeyUpload, jsonBody: body,
+                                                  extraHeaders: requestIdHeader)
+                append("① [\(label)] code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-") body=\(resp.rawPreview)")
+                if resp.isSuccess {
+                    publicKeyUploaded = true
+                    try? KeychainHelper.set("1", account: "dk_public_uploaded")
+                    append("✅ 公钥上传成功（格式=\(label)）")
+                    return
+                }
+                if resp.code == 110217 {
+                    append("（公钥已登记，等待车端确认，稍后重试；格式=\(label)）")
+                    publicKeyUploaded = true
+                    return
+                }
+            }
+            append("❌ 四种公钥格式均被拒（HTTP 400）——需对照安卓请求逐字段排查")
+        } catch {
+            append("① 异常 " + error.localizedDescription)
+        }
+    }
+
+    private static func bodyString(_ body: [String: Any]) -> String {
+        guard let d = try? JSONSerialization.data(withJSONObject: body, options: [.sortedKeys]),
+              let s = String(data: d, encoding: .utf8) else { return "?" }
+        return s.count > 400 ? String(s.prefix(400)) + "…" : s
+    }
+
+    private func localPublicKeyRaw() throws -> Data {
         let key: SecKey
         do {
             key = try CredentialStore.shared.loadDevicePrivateKey()
         } catch {
             key = try CredentialStore.shared.generateDeviceKeyPair()
         }
-        guard let raw = CredentialStore.shared.publicKeyBase64(key),
-              let point = Data(base64Encoded: raw), point.count == 65, point[0] == 0x04 else {
+        guard let b64 = CredentialStore.shared.publicKeyBase64(key),
+              let raw = Data(base64Encoded: b64), raw.count == 65, raw[0] == 0x04 else {
             throw APIError.serverDetail("公钥导出失败")
         }
+        return raw
+    }
+
+    private func spkiBase64(fromRaw raw: Data) -> String? {
         // P-256 SPKI 固定头（26 字节）+ X9.63 非压缩点位
-        let spkiHeader: [UInt8] = [
+        let header: [UInt8] = [
             0x30, 0x59, 0x30, 0x13, 0x06, 0x07, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x02, 0x01,
             0x06, 0x08, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x03, 0x01, 0x07, 0x03, 0x42, 0x00
         ]
-        return (Data(spkiHeader) + point).base64EncodedString()
-    }
-
-    // MARK: ① 上传公钥
-
-    func uploadPublicKey() async {
-        busy = true
-        defer { busy = false }
-        do {
-            append("① 上传公钥…")
-            guard let user = requireUserName() else { return }
-            let pub = try ensureLocalKeyPair()
-            let body: [String: Any] = [
-                "userName": user,
-                "deviceID": deviceID,
-                "deviceModel": DeviceInfo.current.deviceModel,
-                "deviceSysVer": DeviceInfo.current.systemVersion,
-                "eccPubkey": pub,
-            ]
-            let resp = try await api.postJSON(path: Endpoint.eccPubkeyUpload, jsonBody: body,
-                                              extraHeaders: requestIdHeader)
-            append("① code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-")")
-            append(resp.rawPreview)
-            if resp.isSuccess {
-                publicKeyUploaded = true
-                try? KeychainHelper.set("1", account: "dk_public_uploaded")
-            } else if resp.code == 110217 {
-                append("（公钥已登记，等待车端确认，稍后重试）")
-            }
-        } catch {
-            append("① 异常 " + error.localizedDescription)
-        }
+        return (Data(header) + raw).base64EncodedString()
     }
 
     // MARK: ② 钥匙列表
