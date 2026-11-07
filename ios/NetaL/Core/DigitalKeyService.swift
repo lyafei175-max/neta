@@ -60,7 +60,7 @@ final class DigitalKeyService: ObservableObject {
             key = try CredentialStore.shared.generateDeviceKeyPair()
         }
         guard let b64 = CredentialStore.shared.publicKeyBase64(key) else {
-            throw APIError.badResponse("公钥导出失败")
+            throw APIError.serverDetail("公钥导出失败")
         }
         return b64
     }
@@ -127,8 +127,9 @@ final class DigitalKeyService: ObservableObject {
             let resp = try await api.postJSON(path: Endpoint.downloadKeyRaw, jsonBody: body)
             append("③ code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-")")
             append(resp.rawPreview)
-            if let data = resp.data {
-                let raw = data.prettyJSON()
+            if let data = resp.data,
+               let encoded = try? JSONEncoder().encode(data),
+               let raw = String(data: encoded, encoding: .utf8) {
                 keyRawData = raw
                 try? KeychainHelper.set(raw, account: "dk_keyraw")
                 append("（钥匙原文已存 Keychain，待解密分析）")
@@ -138,11 +139,26 @@ final class DigitalKeyService: ObservableObject {
         }
     }
 
-    /// 从钥匙列表原始 JSON 里尽力提取 keyID
+    /// 从钥匙列表原始 JSON 里尽力提取 keyID（递归收集）
     func extractKeyIDs() -> [String] {
         guard let raw = keyListRaw, let d = raw.data(using: .utf8),
               let obj = (try? JSONSerialization.jsonObject(with: d)) as? [String: Any] else { return [] }
-        return obj.allStringValues(forKey: "keyID")
+        var found: [String] = []
+        func walk(_ any: Any) {
+            if let dict = any as? [String: Any] {
+                for (k, v) in dict {
+                    if k == "keyID" {
+                        if let s = v as? String { found.append(s) }
+                        else if let n = v as? NSNumber { found.append(n.stringValue) }
+                    }
+                    walk(v)
+                }
+            } else if let arr = any as? [Any] {
+                arr.forEach(walk)
+            }
+        }
+        walk(obj)
+        return found
     }
 
     // MARK: ⑤ 白名单
