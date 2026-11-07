@@ -11,7 +11,7 @@ struct KeyManagerView: View {
 
     struct DiscoveredDevice: Identifiable {
         let peripheral: CBPeripheral
-        let name: String?
+        var name: String?
         var rssi: Int
         var id: UUID { peripheral.identifier }
     }
