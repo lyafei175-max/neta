@@ -16,8 +16,8 @@ options:
 settings:
   base:
     SWIFT_VERSION: "5.9"
-    MARKETING_VERSION: "0.1.6"
-    CURRENT_PROJECT_VERSION: "3"
+    MARKETING_VERSION: "0.1.7"
+    CURRENT_PROJECT_VERSION: "4"
     ENABLE_USER_SCRIPT_SANDBOXING: YES
     SWIFT_EMIT_LOC_STRINGS: YES
     CODE_SIGN_STYLE: Manual
@@ -49,8 +49,8 @@ targets:
       path: NetaL/Resources/Info.plist
       properties:
         CFBundleDisplayName: ??L
-        CFBundleShortVersionString: "0.1.6"
-        CFBundleVersion: "3"
+        CFBundleShortVersionString: "0.1.7"
+        CFBundleVersion: "4"
         UILaunchScreen:
           UIColorName: AccentColor
         UIApplicationSupportsIndirectInputEvents: true

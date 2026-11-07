@@ -121,32 +121,79 @@ struct NetaAPIClient {
 
     // MARK: - ????
 
+    /// ?????????????(???)
+    static var lastCommandAttemptLog: String = ""
+
     /// ??????(????)?
+    ///
+    /// DEX ??(v0.1.7,M0.smali / D1/u.j / J1/w0.f):
+    /// - **??????? body ??? accessToken**(v0.1.5/0.1.6 ?? accessToken,
+    ///   ???? 42500?????????????);token ?? Authorization ?
+    /// - rvcAll = **??**??,body {vin, opr, params?},?????? opr?params?vin
+    /// - rvcCombined = JSON ?? {vin, combinedCmd:[{opr:int, params:JSONArray?}]},
+    ///   params ?????????(M0.smali :cond_95)
+    /// ??????????????,???? 4 ???,??????
     func sendCommand(_ command: VehicleCommand) async throws -> NetaResponse {
         try requireLogin()
+        guard let vin = CredentialStore.shared.defaultVin, !vin.isEmpty else {
+            throw APIError.serverDetail("?? VIN,???????????")
+        }
+        var log: [String] = []
+        let opr = Int(command.rawValue)
 
-        // DEX ??? LC1/T;->f ?? rvcCombined ?????:
-        // {
-        //   "vin": "...",
-        //   "accessToken": "...",
-        //   "combinedCmd": [{"opr": <??1-46>, "params": "<??hex>"}]
-        // }
-        var body: [String: Any] = [
-            "combinedCmd": [
-                ["opr": Int(command.rawValue), "params": command.value]
-            ]
-        ]
-        if let vin = CredentialStore.shared.defaultVin, !vin.isEmpty {
-            body["vin"] = vin
-        }
-        if let token = CredentialStore.shared.accessToken, !token.isEmpty {
-            body["accessToken"] = token
-        }
-        let response = try await postJSON(path: Endpoint.rvcSend, jsonBody: body)
-        guard response.isSuccess else {
-            throw APIError.serverDetail("?????? code=\(response.code ?? -1) desc=\(response.description ?? "-") body=\(response.rawPreview)")
-        }
-        return response
+        // ??1: rvcAll ??,? params(???????? params)
+        do {
+            let r = try await post(path: Endpoint.rvcAll,
+                                   parameters: ["vin": vin, "opr": String(opr)])
+            log.append("[rvcAll ?params] " + Self.attemptText(r))
+            if r.isSuccess {
+                NetaAPIClient.lastCommandAttemptLog = log.joined(separator: "\n")
+                return r
+            }
+        } catch { log.append("[rvcAll ?params] ?? " + error.localizedDescription) }
+
+        // ??2: rvcAll ??,params = JSON ????? ["010101"]
+        do {
+            let paramsJSON = "[\"" + command.value + "\"]"
+            let r = try await post(path: Endpoint.rvcAll,
+                                   parameters: ["vin": vin, "opr": String(opr), "params": paramsJSON])
+            log.append("[rvcAll params??] " + Self.attemptText(r))
+            if r.isSuccess {
+                NetaAPIClient.lastCommandAttemptLog = log.joined(separator: "\n")
+                return r
+            }
+        } catch { log.append("[rvcAll params??] ?? " + error.localizedDescription) }
+
+        // ??3: rvcCombined JSON,? params
+        do {
+            let body: [String: Any] = ["vin": vin, "combinedCmd": [["opr": opr]]]
+            let r = try await postJSON(path: Endpoint.rvcSend, jsonBody: body)
+            log.append("[combined ?params] " + Self.attemptText(r))
+            if r.isSuccess {
+                NetaAPIClient.lastCommandAttemptLog = log.joined(separator: "\n")
+                return r
+            }
+        } catch { log.append("[combined ?params] ?? " + error.localizedDescription) }
+
+        // ??4: rvcCombined JSON,params = [value](JSON ??)
+        do {
+            let body: [String: Any] = ["vin": vin,
+                                       "combinedCmd": [["opr": opr, "params": [command.value]]]]
+            let r = try await postJSON(path: Endpoint.rvcSend, jsonBody: body)
+            log.append("[combined params??] " + Self.attemptText(r))
+            if r.isSuccess {
+                NetaAPIClient.lastCommandAttemptLog = log.joined(separator: "\n")
+                return r
+            }
+        } catch { log.append("[combined params??] ?? " + error.localizedDescription) }
+
+        NetaAPIClient.lastCommandAttemptLog = log.joined(separator: "\n")
+        throw APIError.serverDetail("??????,4 ???????:\n" + log.joined(separator: "\n"))
+    }
+
+    private static func attemptText(_ r: NetaResponse) -> String {
+        let desc = r.description ?? r.message ?? "-"
+        return "code=\(r.code ?? -1) desc=\(desc) body=\(r.rawPreview.count > 160 ? String(r.rawPreview.prefix(160)) + "." : r.rawPreview)"
     }
 
     /// ?????? VIN ??????(????????,?????)?
