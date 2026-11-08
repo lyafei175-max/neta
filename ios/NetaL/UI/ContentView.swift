@@ -55,6 +55,9 @@ final class CarController: ObservableObject {
         let savedDbm = UserDefaults.standard.object(forKey: "proximity_dbm") as? Int ?? -60
         proximity.updateThresholds(enter: savedDbm, exit: savedDbm - 10)
 
+        // v0.3.14：前台自动扫描循环——靠近车自动连接，无需手动进钥匙页扫描
+        tboe.setAutoScan(true)
+
         proximity.onUnlock = { [weak self] in
             Task { await self?.performUnlock() }
         }

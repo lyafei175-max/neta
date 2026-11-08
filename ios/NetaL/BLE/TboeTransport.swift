@@ -161,6 +161,39 @@ final class TboeTransport: NSObject {
         centralManager.stopScan()
     }
 
+    // MARK: 自动扫描循环（v0.3.14）
+
+    /// 靠近自动连接：空闲时周期性开扫描（扫 4s / 停 8s 占空比省电），
+    /// 连上后自动静默，断开后自动恢复。手动扫描页不受影响。
+    private var autoScanEnabled = false
+    private var autoScanTimer: DispatchSourceTimer?
+
+    func setAutoScan(_ enabled: Bool) {
+        autoScanEnabled = enabled
+        if enabled {
+            startAutoScanLoop()
+        } else {
+            autoScanTimer?.cancel()
+            autoScanTimer = nil
+            if centralManager.state == .poweredOn, state != .ready {
+                stopScan()
+            }
+        }
+    }
+
+    private func startAutoScanLoop() {
+        guard autoScanTimer == nil else { return }
+        let t = DispatchSource.makeTimerSource(queue: .main)
+        t.schedule(deadline: .now(), repeating: 8)
+        t.setEventHandler { [weak self] in
+            guard let self, self.autoScanEnabled, self.isIdleOrFailed else { return }
+            guard self.centralManager.state == .poweredOn else { return }
+            self.startScan(timeout: 4)
+        }
+        t.resume()
+        autoScanTimer = t
+    }
+
     // MARK: - 连接
 
     func connect(to peripheral: CBPeripheral) {
