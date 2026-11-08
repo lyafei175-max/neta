@@ -35,6 +35,11 @@ final class CarController: ObservableObject {
     private let geocoder = CLGeocoder()
     private var lastGeocodeKey = ""
 
+    /// 离开自动锁车（v0.3.16）：near→far 后延时 5 秒仍 far 才执行
+    private var walkAwayLockTask: DispatchWorkItem?
+    /// 自动锁车进行中——onCommandResult 不做网络兜底（远处车端本来就 asleep）
+    private var isWalkAwayLocking = false
+
     /// 靠近解锁档位（RSSI 与真实距离强环境相关，为近似映射）
     struct ProximityRange: Identifiable {
         let label: String
@@ -68,6 +73,12 @@ final class CarController: ObservableObject {
 
         tboe.onCommandResult = { [weak self] command, success in
             Task { @MainActor in
+                // 离开自动锁车：不做网络兜底（用户已离开，车端 TBOX 多半休眠）
+                if self?.isWalkAwayLocking == true, command == .doorLock {
+                    self?.isWalkAwayLocking = false
+                    self?.lastResult = success ? "离开自动锁车 成功" : "离开自动锁车 未获车端回执"
+                    return
+                }
                 if success {
                     self?.lastResult = "\(command.displayName) 成功"
                 } else {
@@ -78,6 +89,37 @@ final class CarController: ObservableObject {
                         return
                     }
                     self?.lastError = "\(command.displayName) 车端未回执执行结果"
+                }
+            }
+        }
+
+        // 离开自动锁车（v0.3.16）：靠近判定 near→far（滞回，约比触发档远 3~4 米）
+        // 持续 5 秒仍 far 且蓝牙在线 → BLE 锁车
+        proximity.onProximityChange = { [weak self] p, _ in
+            Task { @MainActor in
+                guard let self else { return }
+                switch p {
+                case .near:
+                    self.walkAwayLockTask?.cancel()
+                    self.walkAwayLockTask = nil
+                case .far:
+                    guard self.bleSessionState.isUsable,
+                          UserDefaults.standard.object(forKey: "walkaway_lock") as? Bool ?? true
+                    else { return }
+                    self.walkAwayLockTask?.cancel()
+                    self.walkAwayLockTask = DispatchWorkItem { [weak self] in
+                        Task { @MainActor in
+                            guard let self,
+                                  self.bleSessionState.isUsable,
+                                  self.proximity.isFarBySamples else { return }
+                            self.performWalkAwayLock()
+                        }
+                    }
+                    if let task = self.walkAwayLockTask {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: task)
+                    }
+                case .unknown:
+                    break
                 }
             }
         }
@@ -189,6 +231,15 @@ final class CarController: ObservableObject {
 
     private func performUnlock() async {
         await send(.doorUnlock)
+    }
+
+    /// 离开自动锁车：直走 BLE（距离门控对它豁免——它本来就由「已离开」触发）
+    private func performWalkAwayLock() {
+        guard !isBusy else { return }
+        isWalkAwayLocking = true
+        DiagnosticLog.shared.log("NetaCar", "已离开车辆，自动锁车")
+        lastResult = "已离开，自动锁车…"
+        tboe.send(.doorLock)
     }
 
     // MARK: 车况
@@ -796,6 +847,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showKeyManager = false
     @State private var amapKey = UserDefaults.standard.string(forKey: "amap_key") ?? ""
+    @AppStorage("walkaway_lock") private var walkawayLock = true
 
     var body: some View {
         NavigationStack {
@@ -816,8 +868,8 @@ struct SettingsView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                Section("靠近解锁（蓝牙）") {
-                    Picker("触发距离", selection: Binding(
+                Section("靠近解锁 / 离开锁车（蓝牙）") {
+                    Picker("解锁触发距离", selection: Binding(
                         get: { controller.proximityThresholdDbm },
                         set: { controller.setProximityThreshold($0) }
                     )) {
@@ -827,7 +879,9 @@ struct SettingsView: View {
                     }
                     .pickerStyle(.segmented)
 
-                    Text("蓝牙会话就绪后，RSSI 持续高于阈值（滑动窗口采样）且处于冷却期之外时自动下发解锁。RSSI 与实际距离受环境影响，档位为近似值；iOS 后台无法常驻扫描，常驻感知需配合地理围栏。")
+                    Toggle("离开自动锁车", isOn: $walkawayLock)
+
+                    Text("蓝牙会话就绪后，RSSI 持续高于阈值（滑动窗口采样）且处于冷却期之外时自动解锁；离开（低于退出阈值，约为触发档再远 3~4 米）持续 5 秒后自动锁车。RSSI 与实际距离受环境影响，档位为近似值；iOS 后台无法常驻扫描，常驻感知需配合地理围栏。")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
