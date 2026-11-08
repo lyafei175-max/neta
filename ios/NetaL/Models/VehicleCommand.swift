@@ -238,16 +238,14 @@ enum VehicleCommand: UInt8, CaseIterable {
     /// 逐条的实际支持情况需抓包确认，此处按车厂常见做法给出保守默认。
     var supportsNearField: Bool {
         switch self {
-        case .windowOpen, .windowClose,
-             .ventilateClose, .ventilateTenPercent,
+        case .ventilateTenPercent,
              .accControlOn, .accControlOff,
              .remoteHeatingOn, .remoteHeatingOff,
              .windSpeedLevel1, .windSpeedLevel2, .windSpeedLevel3,
              .windSpeedLevel4, .windSpeedLevel5, .windSpeedLevel6,
              .windSpeedLevel7, .windSpeedLevel8, .windSpeedLevel9,
              .windSpeedLevel10:
-            // 这些批量/精细控制项文案归类为「按官方默认值一次下发」，
-            // 更可能走网络通道。若抓包确认有近场实现，改为 true。
+            // BLE 开关里没有这些动作（分档调节走云端）
             return false
         default:
             return true

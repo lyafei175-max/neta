@@ -226,17 +226,28 @@ final class TboeTransport: NSObject {
 
     // MARK: - 指令下发
 
-    /// BLE 通道指令映射（smali 方法 Q + 实车验证 2026-11-08）：
-    /// - 门锁：params=4=解锁、params=12=落锁（diag20 实车确认，与 smali 一致）
-    /// - 后备箱：cmd=3，unlock=0x640000000 / lock=0x650000000（smali）
-    /// 其余指令走云端（发 false 让上层回退网络）。
+    /// BLE 通道指令映射（smali 方法 Q 全分支 + 实车验证 2026-11-08）：
+    /// - 门锁：params=4=解锁、12=落锁（实车确认）；后备箱 cmd=3 已实车验证
+    /// - 天窗/车窗 cmd=2；空调 cmd=0；寻车 cmd=8；充电 cmd=11
+    /// - 分窗指令（topLeft 等）与空调制冷/制热不在 BLE 开关里 → 走云端
     private func bleParams(for command: VehicleCommand) -> (cmd: UInt8, params: Int64)? {
         switch command {
-        case .doorUnlock:   return (1, 4)
-        case .doorLock:     return (1, 12)
-        case .trunkUnlock:  return (3, 0x640000000)
-        case .trunkLock:    return (3, 0x650000000)
-        default:            return nil
+        case .doorUnlock:            return (1, 4)
+        case .doorLock:              return (1, 12)
+        case .trunkUnlock:           return (3, 0x640000000)
+        case .trunkLock:             return (3, 0x650000000)
+        case .sunroofOpen:           return (2, 0x32000000000)
+        case .sunroofClose:          return (2, 0x32800000000)
+        case .sunroofVentilate:      return (2, 0x33800000000)
+        case .windowOpen:            return (2, 0x64)
+        case .windowClose:           return (2, 0x65)
+        case .ventilateClose:        return (2, 0x67)
+        case .airConditionerOpen:    return (0, 1)
+        case .airConditionerClose:   return (0, 0)
+        case .carSearch:             return (8, 0)
+        case .startCharge:           return (11, 401)
+        case .stopCharge:            return (11, 0)
+        default:                     return nil
         }
     }
 
