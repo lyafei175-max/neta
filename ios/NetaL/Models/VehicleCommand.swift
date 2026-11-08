@@ -52,6 +52,7 @@ enum VehicleCommand: UInt8, CaseIterable {
     case windSpeedLevel8  = 44
     case windSpeedLevel9  = 45
     case windSpeedLevel10 = 46
+    case ventOpen = 47
 
     /// 六位十六进制编码 `[功能组:状态:动作]`，APK 内明文，已确认。
     var value: String {
@@ -102,6 +103,7 @@ enum VehicleCommand: UInt8, CaseIterable {
         case .windSpeedLevel8:       return "350108"
         case .windSpeedLevel9:       return "350109"
         case .windSpeedLevel10:      return "35010A"
+        case .ventOpen:              return "320101"
         }
     }
 
@@ -173,6 +175,7 @@ enum VehicleCommand: UInt8, CaseIterable {
         case .windSpeedLevel8:       return "远程风速-Level8"
         case .windSpeedLevel9:       return "远程风速-Level9"
         case .windSpeedLevel10:      return "远程风速-Level10"
+        case .ventOpen:              return "一键通风开启"
         }
     }
 
@@ -228,6 +231,7 @@ enum VehicleCommand: UInt8, CaseIterable {
         case .windSpeedLevel8:       return "IngeekCommandRemoteWindspeedLevel8"
         case .windSpeedLevel9:       return "IngeekCommandRemoteWindspeedLevel9"
         case .windSpeedLevel10:      return "IngeekCommandRemoteWindspeedLevel10"
+        case .ventOpen:              return "IngeekCommandVentOpen"
         }
     }
 

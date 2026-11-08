@@ -927,7 +927,8 @@ struct ControlPanelView: View {
                     groupCard(title: "车窗与通风", icon: "rectangle.split.2x1", accent: .indigo) {
                         commandButton(.windowOpen, icon: "arrow.up.square", accent: .indigo)
                         commandButton(.windowClose, icon: "arrow.down.square", accent: .indigo)
-                        commandButton(.ventilateClose, icon: "wind", accent: .indigo)
+                        commandButton(.ventOpen, icon: "wind", accent: .indigo)
+                        commandButton(.ventilateClose, icon: "wind.snow", accent: .indigo)
                     }
 
                     groupCard(title: "空调", icon: "wind", accent: .teal) {
