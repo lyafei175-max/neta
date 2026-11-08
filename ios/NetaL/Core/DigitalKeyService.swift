@@ -60,6 +60,14 @@ final class DigitalKeyService: ObservableObject {
         return u.isEmpty ? nil : u
     }
 
+    /// 服务端业务错误的人话提示（实测抓包 2026-11-08）
+    private func hint(_ resp: NetaResponse) -> String {
+        if resp.code == 110516 {
+            return "（110516：账号最后一次登录不在本机——安卓端车控 App 的后台刷新抢占了登录设备。请先在安卓手机退出/强制停止哪吒L车控，再在 iPhone 重新登录并立即同步）"
+        }
+        return ""
+    }
+
     /// 实测安卓 SDK 在数字钥匙请求上携带 request-id 头
     private var requestIdHeader: [String: String] {
         ["request-id": "Android-SDK-\(userName)-\(Int64(Date().timeIntervalSince1970 * 1000))"]
@@ -105,7 +113,7 @@ final class DigitalKeyService: ObservableObject {
                 do {
                     let resp = try await api.postJSON(path: Endpoint.eccPubkeyUpload, jsonBody: body,
                                                       extraHeaders: requestIdHeader)
-                    append("① [\(label)] code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-") body=\(resp.rawPreview)")
+                    append("① [\(label)] code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-") body=\(resp.rawPreview)\(hint(resp))")
                     if resp.isSuccess {
                         publicKeyUploaded = true
                         try? KeychainHelper.set("1", account: "dk_public_uploaded")
@@ -168,7 +176,7 @@ final class DigitalKeyService: ObservableObject {
             let body: [String: Any] = ["userName": user, "deviceID": deviceID]
             let resp = try await api.postJSON(path: Endpoint.keyList, jsonBody: body,
                                               extraHeaders: requestIdHeader)
-            append("② code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-")")
+            append("② code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-")\(hint(resp))")
             // 钥匙接口信封是 {businessObj, code, message}（实测），data 兜底
             keyListRaw = Self.jsonToString(resp.businessObj ?? resp.data)
             if let k = keyListRaw { append(k) }
@@ -219,7 +227,7 @@ final class DigitalKeyService: ObservableObject {
             let body: [String: Any] = ["userName": user, "deviceID": deviceID, "keyID": keyID]
             let resp = try await api.postJSON(path: Endpoint.activeKey, jsonBody: body,
                                               extraHeaders: requestIdHeader)
-            append("③ code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-")")
+            append("③ code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-")\(hint(resp))")
             append(resp.rawPreview)
             if let payload = resp.businessObj ?? resp.data,
                let encoded = try? JSONEncoder().encode(payload),
@@ -280,7 +288,7 @@ final class DigitalKeyService: ObservableObject {
             ]
             let resp = try await api.postJSON(path: Endpoint.whiteList, jsonBody: body,
                                               extraHeaders: requestIdHeader)
-            append("⑤ code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-")")
+            append("⑤ code=\(resp.code ?? -1) desc=\(resp.description ?? resp.message ?? "-")\(hint(resp))")
             append(resp.rawPreview)
         } catch {
             append("⑤ 异常 " + error.localizedDescription)
