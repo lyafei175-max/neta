@@ -176,16 +176,10 @@ final class CarController: ObservableObject {
         switch channel {
         case .automatic:
             if nearFieldAvailable {
-                // 距离门控（v0.3.15）：蓝牙连着但判定「较远」时，开关车门
-                // 不走 BLE（对应「蓝牙解锁限制在几米内」），转网络通道。
-                if command.supportsNearField, proximity.isFarBySamples {
-                    let rssi = proximity.currentAverageRssi
-                    lastResult = "距车较远（\(rssi) dBm，限 \(proximity.enterThresholdDbm)），转网络下发…"
-                    await sendViaNetwork(command)
-                    return
-                }
-                // BLE 结果异步回调（onCommandResult），不能同步判失败——
-                // 否则必然触发网络兜底造成 BLE+云端双发
+                // 手动指令 = 用户明确意图，蓝牙在线直接走 BLE。
+                // v0.3.15 的距离门控撤除：RSSI 受人体遮挡影响可达 -80s（站车旁），
+                // 硬门控会出现「在车旁也解不了锁」。距离语义只用于
+                // 自动解锁/离开锁车（无人值守动作，阈值可调档）。
                 sendViaBluetooth(command)
             } else {
                 await sendViaNetwork(command)
