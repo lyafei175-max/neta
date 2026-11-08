@@ -317,26 +317,71 @@ final class CarController: ObservableObject {
         }
     }
 
-    /// 系统逆地理（省市区县路号全带，短地址附坐标）
+    /// 系统逆地理（省市区县路号全带）。
+    /// Apple 地图在国内农村区域常只有省市区三级（无街道字段）——
+    /// 拿不到街道时再试 OSM 逆地理补细节，仍不行则附坐标兜底。
     private func systemRegeo(lat: Double, lng: Double) {
         geocoder.reverseGeocodeLocation(CLLocation(latitude: lat, longitude: lng)) { [weak self] placemarks, _ in
-            let address: String? = placemarks?.first.map { pm in
+            var appleAddr: String?
+            var hasStreet = false
+            if let pm = placemarks?.first {
                 var parts: [String] = []
                 if let d = pm.administrativeArea { parts.append(d) }
                 if let c = pm.locality { parts.append(c) }
                 if let s = pm.subLocality, !parts.contains(s) { parts.append(s) }
-                if let t = pm.thoroughfare { parts.append(t) }
+                if let t = pm.thoroughfare { parts.append(t); hasStreet = true }
                 if let n = pm.subThoroughfare { parts.append(n) }
                 var addr = parts.joined(separator: "")
                 if let nm = pm.name, nm.count > addr.count { addr = nm }
-                if addr.count < 8 {
-                    addr = String(format: "%@ (%.5f, %.5f)", addr, lat, lng)
-                }
-                return addr
+                appleAddr = addr
             }
             Task { @MainActor in
-                self?.parkingAddress = address
+                if let a = appleAddr, hasStreet {
+                    self?.parkingAddress = a
+                } else {
+                    // Apple 数据粗（乡镇级）→ OSM 兜底补街道，仍粗则附坐标
+                    self?.osmRegeo(lat: lat, lng: lng, fallback: appleAddr)
+                }
             }
+        }
+    }
+
+    /// OSM Nominatim 逆地理（免 key，尽力而为；不可达时回退 Apple 结果+坐标）
+    private func osmRegeo(lat: Double, lng: Double, fallback: String?) {
+        var comps = URLComponents(string: "https://nominatim.openstreetmap.org/reverse")!
+        comps.queryItems = [
+            URLQueryItem(name: "lat", value: String(lat)),
+            URLQueryItem(name: "lon", value: String(lng)),
+            URLQueryItem(name: "format", value: "jsonv2"),
+            URLQueryItem(name: "accept-language", value: "zh-CN"),
+            URLQueryItem(name: "zoom", value: "18"),
+        ]
+        var req = URLRequest(url: comps.url!)
+        req.timeoutInterval = 6
+        req.setValue("neta-l-control/1.0", forHTTPHeaderField: "User-Agent")
+        Task {
+            var detailed: String?
+            if let (data, resp) = try? await URLSession.shared.data(for: req),
+               (resp as? HTTPURLResponse)?.statusCode == 200,
+               let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let name = obj["display_name"] as? String {
+                // display_name 顺序小→大："路名, 乡镇, 杞县, 开封市, 河南省, 中国"
+                // 取前 3 段倒序拼接成中文阅读顺序（县+乡+路）
+                let parts = name.split(separator: ",").map {
+                    $0.trimmingCharacters(in: .whitespacesAndNewlines)
+                }
+                if parts.count >= 3 {
+                    detailed = parts.prefix(3).reversed().joined()
+                }
+            }
+            let base = (detailed?.count ?? 0) > (fallback?.count ?? 0) ? detailed : fallback
+            let out: String
+            if let b = base, b.count >= 12 {
+                out = b
+            } else {
+                out = String(format: "%@ (%.5f, %.5f)", base ?? "未知位置", lat, lng)
+            }
+            await MainActor.run { self?.parkingAddress = out }
         }
     }
 
