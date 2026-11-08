@@ -475,6 +475,7 @@ struct ContentView: View {
                         commandButton(.doorLock, icon: "lock", accent: .blue)
                         commandButton(.carSearch, icon: "magnifyingglass", accent: .blue)
                         commandButton(.trunkUnlock, icon: "car.rear.open", accent: .blue)
+            commandButton(.trunkLock, icon: "car.rear", accent: .blue)
                     }
 
                     groupCard(title: "空调与温度", icon: "wind", accent: .teal) {
