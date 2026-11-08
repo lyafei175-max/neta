@@ -134,6 +134,14 @@ final class CarController: ObservableObject {
         switch channel {
         case .automatic:
             if nearFieldAvailable {
+                // 距离门控（v0.3.15）：蓝牙连着但判定「较远」时，开关车门
+                // 不走 BLE（对应「蓝牙解锁限制在几米内」），转网络通道。
+                if command.supportsNearField, proximity.isFarBySamples {
+                    let rssi = proximity.currentAverageRssi
+                    lastResult = "距车较远（\(rssi) dBm，限 \(proximity.enterThresholdDbm)），转网络下发…"
+                    await sendViaNetwork(command)
+                    return
+                }
                 // BLE 结果异步回调（onCommandResult），不能同步判失败——
                 // 否则必然触发网络兜底造成 BLE+云端双发
                 sendViaBluetooth(command)

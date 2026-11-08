@@ -68,6 +68,20 @@ final class ProximityUnlockPolicy: NSObject {
 
     private(set) var proximity: Proximity = .unknown
 
+    /// 当前滑动窗口平均 RSSI（无样本时 0）。手动指令的距离门控使用。
+    var currentAverageRssi: Int {
+        guard !samples.isEmpty else { return 0 }
+        let recent = Array(samples.suffix(Int(policy.sampleWindow * 4)))
+        return recent.reduce(0, +) / recent.count
+    }
+
+    /// 用户设置的进入阈值（dBm）
+    var enterThresholdDbm: Int { policy.enterThresholdDbm }
+
+    /// 距离已明确判定为「较远」——手动 BLE 指令应被门控
+    /// （unknown/样本不足不拦，避免刚连上时误伤）
+    var isFarBySamples: Bool { proximity == .far }
+
     /// 触发解锁时回调
     var onUnlock: (() -> Void)?
     /// 状态变化回调（用于 UI 展示）

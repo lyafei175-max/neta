@@ -84,6 +84,8 @@ final class TboeTransport: NSObject {
 
     /// 心跳定时器（5s，与会话确认同构帧）
     private var heartbeatTimer: DispatchSourceTimer?
+    /// RSSI 轮询（1s，连接期间保持距离判定有新鲜样本）
+    private var rssiPollTimer: DispatchSourceTimer?
     private var rid = 0
     private var lastHeartbeatAck = true
     /// 已发出挑战响应、等待 connect_result（独立标志，不依赖状态枚举——
@@ -224,10 +226,19 @@ final class TboeTransport: NSObject {
 
     // MARK: - 指令下发
 
-    /// BLE 通道当前仅解锁有实测样本（cmd=1, params=12）；
+    /// BLE 通道实测支持的指令（diag14/15：解锁 (cmd=1, params=12) ×3，status=1）。
+    /// 锁车取互补 params=4（smali 映射对的另一端，待实车确认方向）。
     /// 其余指令走云端（发 false 让上层回退网络）。
+    private func bleParams(for command: VehicleCommand) -> (cmd: UInt8, params: Int64)? {
+        switch command {
+        case .doorUnlock: return (1, 12)
+        case .doorLock:   return (1, 4)
+        default:          return nil
+        }
+    }
+
     func send(_ command: VehicleCommand, timeout: TimeInterval? = nil) {
-        guard state == .ready, command == .doorUnlock else {
+        guard state == .ready, let ble = bleParams(for: command) else {
             onCommandResult?(command, false)
             return
         }
@@ -240,8 +251,9 @@ final class TboeTransport: NSObject {
         pendingCommand = command
         do {
             let body = try TboeProtocol.command(
-                cmd: 1, params: 12, tsMs: tsMs, keyID: keyID, privateKey: key)
+                cmd: ble.cmd, params: ble.params, tsMs: tsMs, keyID: keyID, privateKey: key)
             sendLinked(body: body, msgId: 2)
+            DiagnosticLog.shared.log("NetaTboe", "车控 cmd=\(ble.cmd) params=\(ble.params) \(command)")
         } catch {
             pendingCommand = nil
             DiagnosticLog.shared.log("NetaTboe", "指令构造失败 \(error.localizedDescription)")
@@ -397,11 +409,24 @@ final class TboeTransport: NSObject {
         }
         t.resume()
         heartbeatTimer = t
+
+        // v0.3.15：连接期间每秒读一次 RSSI，喂给距离判定
+        // （否则手动指令的距离门控没有新鲜样本）
+        let r = DispatchSource.makeTimerSource(queue: .main)
+        r.schedule(deadline: .now() + 1, repeating: 1)
+        r.setEventHandler { [weak self] in
+            guard let self, self.state == .ready, let p = self.peripheral else { return }
+            p.readRSSI()
+        }
+        r.resume()
+        rssiPollTimer = r
     }
 
     private func stopHeartbeat() {
         heartbeatTimer?.cancel()
         heartbeatTimer = nil
+        rssiPollTimer?.cancel()
+        rssiPollTimer = nil
     }
 }
 
