@@ -152,8 +152,7 @@ struct KeyManagerView: View {
         case .connecting: return "连接中"
         case .awaitingChallenge: return "等待挑战码"
         case .sendingResponse: return "回送响应中"
-        case .verifyingResponse: return "验签中"
-        case .syncingWhitelist: return "白名单同步"
+        case .verifyingResponse: return "会话确认中"
         case .ready: return "已就绪"
         case .failed(let e): return "失败：" + e
         }

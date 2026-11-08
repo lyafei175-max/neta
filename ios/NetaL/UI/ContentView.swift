@@ -62,9 +62,17 @@ final class CarController: ObservableObject {
 
         tboe.onCommandResult = { [weak self] command, success in
             Task { @MainActor in
-                self?.lastResult = success
-                    ? "\(command.displayName) 成功"
-                    : "\(command.displayName) 车端未回报执行结果"
+                if success {
+                    self?.lastResult = "\(command.displayName) 成功"
+                } else {
+                    // 近场失败 → 自动通道回退网络（原文案：未连接或下发失败时走网络）
+                    if self?.channel == .automatic, command.supportsNearField {
+                        self?.lastResult = "\(command.displayName) 蓝牙未回执，转网络下发…"
+                        await self?.sendViaNetwork(command)
+                        return
+                    }
+                    self?.lastError = "\(command.displayName) 车端未回执执行结果"
+                }
             }
         }
 
@@ -116,11 +124,9 @@ final class CarController: ObservableObject {
         switch channel {
         case .automatic:
             if nearFieldAvailable {
+                // BLE 结果异步回调（onCommandResult），不能同步判失败——
+                // 否则必然触发网络兜底造成 BLE+云端双发
                 sendViaBluetooth(command)
-                // 若近场下发失败，回退网络
-                if channel == .automatic && !lastResultIsSuccess {
-                    await sendViaNetwork(command)
-                }
             } else {
                 await sendViaNetwork(command)
             }
@@ -872,7 +878,7 @@ struct SettingsView: View {
         case .ready: return "已连接"
         case .idle: return "未连接"
         case .connecting, .awaitingChallenge, .sendingResponse,
-             .verifyingResponse, .syncingWhitelist:
+             .verifyingResponse:
             return "握手中"
         case .failed: return "异常"
         }
