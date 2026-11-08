@@ -361,7 +361,7 @@ final class CarController: ObservableObject {
         var req = URLRequest(url: comps.url!)
         req.timeoutInterval = 6
         req.setValue("neta-l-control/1.0", forHTTPHeaderField: "User-Agent")
-        Task {
+        Task { [weak self] in
             var detailed: String?
             if let (data, resp) = try? await URLSession.shared.data(for: req),
                (resp as? HTTPURLResponse)?.statusCode == 200,
