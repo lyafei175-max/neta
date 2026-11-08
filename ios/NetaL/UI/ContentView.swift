@@ -881,7 +881,8 @@ struct SettingsView: View {
     }
 
     private var bleStateText: String {
-        switch bleSessionState {
+        // 设置页打开时的快照显示（实时刷新由首页的 bleSessionState 镜像负责）
+        switch TboeTransport.shared.state {
         case .ready: return "已连接"
         case .idle: return "未连接"
         case .connecting, .awaitingChallenge, .sendingResponse,
