@@ -86,6 +86,9 @@ final class TboeTransport: NSObject {
     private var heartbeatTimer: DispatchSourceTimer?
     private var rid = 0
     private var lastHeartbeatAck = true
+    /// 已发出挑战响应、等待 connect_result（独立标志，不依赖状态枚举——
+    /// v0.3.11 曾因广播风暴踩状态导致 connect_result 被拒收，diag9 实测）
+    private var sentChallengeResponse = false
 
     private override init() {
         super.init()
@@ -152,6 +155,16 @@ final class TboeTransport: NSObject {
     // MARK: - 连接
 
     func connect(to peripheral: CBPeripheral) {
+        // v0.3.12：车端广播会持续被扫到，重复 connect 会把状态机反复踩回
+        // .connecting，导致 connect_result 到达时状态守卫失配（diag9 实测：
+        // 挑战响应已发、车端已回 4096，却被踩掉）。同一外设/非空闲一律忽略。
+        if peripheral.identifier == self.peripheral?.identifier, state != .idle {
+            return
+        }
+        if state != .idle && state != .failed {
+            return
+        }
+        stopScan()
         self.peripheral = peripheral
         self.peripheral?.delegate = self
         state = .connecting
@@ -164,6 +177,7 @@ final class TboeTransport: NSObject {
     func disconnect() {
         guard let peripheral else { return }
         stopHeartbeat()
+        sentChallengeResponse = false
         centralManager.cancelPeripheralConnection(peripheral)
         self.peripheral = nil
         writeCharacteristic = nil
@@ -251,11 +265,10 @@ final class TboeTransport: NSObject {
     }
 
     /// 按结构分发（比 msgId 更可靠：车端 msgId 是它自己的序号空间）。
-    /// 状态守卫：control_result 与 connect_result 结构同形（{1:{1:status,…}}），
-    /// 只在等待对应应答的状态下才按该类型处理，避免误判。
     private func dispatchByStructure(body: Data, frame: TboeProtocol.LinkFrame) {
         // 1) connect_result / control_result：{1:{1:status,…}} —— 只在挑战响应后等它
-        if state == .sendingResponse, let cr = TboeProtocol.parseConnectResult(body) {
+        if sentChallengeResponse, let cr = TboeProtocol.parseConnectResult(body) {
+            sentChallengeResponse = false
             handleConnectResult(cr)
             return
         }
@@ -302,6 +315,7 @@ final class TboeTransport: NSObject {
                 code: code, tsMs: tsMs, keyID: keyID,
                 deviceID: deviceID, model: DeviceInfo.current.deviceModel,
                 privateKey: key)
+            sentChallengeResponse = true
             sendLinked(body: body, msgId: 0)
         } catch {
             state = .failed("挑战响应构造失败：\(error.localizedDescription)")
@@ -388,7 +402,9 @@ extension TboeTransport: CBCentralManagerDelegate {
         // 全部广播设备上报（含车机与钥匙相关外设），由 UI 层选择连接
         onDiscovered?(peripheral, name, RSSI.intValue)
         // 实测车机广播名 = HOZON_KEY_<VIN尾5位>（随机地址，按名字匹配）
-        if let name, name.hasPrefix(TboeUUID.advertisePrefix) {
+        // v0.3.12：仅在空闲时自动连接——广播风暴曾把握手状态踩掉（diag9）
+        if let name, name.hasPrefix(TboeUUID.advertisePrefix),
+           state == .idle || state == .failed {
             DiagnosticLog.shared.log("NetaTboeLink", "扫到车机 name=\(name) rssi=\(RSSI)")
             connect(to: peripheral)
         }
@@ -415,6 +431,7 @@ extension TboeTransport: CBCentralManagerDelegate {
         error: Error?
     ) {
         stopHeartbeat()
+        sentChallengeResponse = false
         state = .idle
         writeCharacteristic = nil
         notifyCharacteristic = nil

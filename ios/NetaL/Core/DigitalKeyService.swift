@@ -94,6 +94,10 @@ final class DigitalKeyService: ObservableObject {
             let major = full.split(separator: ".").first.map(String.init) ?? full
 
             let variants: [(String, [String: Any])] = [
+                ("裸点位+完整版本号", [
+                    "userName": user, "deviceID": deviceID,
+                    "deviceModel": DeviceInfo.current.deviceModel,
+                    "deviceSysVer": full, "eccPubkey": rawB64]),
                 ("SPKI+完整版本号", [
                     "userName": user, "deviceID": deviceID,
                     "deviceModel": DeviceInfo.current.deviceModel,
@@ -102,10 +106,6 @@ final class DigitalKeyService: ObservableObject {
                     "userName": user, "deviceID": deviceID,
                     "deviceModel": DeviceInfo.current.deviceModel,
                     "deviceSysVer": major, "eccPubkey": spki ?? rawB64]),
-                ("裸点位+完整版本号", [
-                    "userName": user, "deviceID": deviceID,
-                    "deviceModel": DeviceInfo.current.deviceModel,
-                    "deviceSysVer": full, "eccPubkey": rawB64]),
                 ("裸点位+主版本号", [
                     "userName": user, "deviceID": deviceID,
                     "deviceModel": DeviceInfo.current.deviceModel,
@@ -124,9 +124,12 @@ final class DigitalKeyService: ObservableObject {
                         append("✅ 公钥上传成功（格式=\(label)）")
                         return
                     }
-                    if resp.code == 110217 {
-                        append("（公钥已登记，等待车端确认，稍后重试；格式=\(label)）")
+                    if resp.code == 110217 || resp.code == 110201 {
+                        // 110217 公钥已登记；110201 = 同一公钥已在云端（diag9 实测：
+                        // v0.3.11 二次同步时 SPKI 变体全返 110201，属正常，勿再重传）
                         publicKeyUploaded = true
+                        try? KeychainHelper.set("1", account: "dk_public_uploaded")
+                        append("✅ 公钥已在云端（code=\(resp.code!)，格式=\(label)），无需重复上传")
                         return
                     }
                 } catch {
