@@ -39,10 +39,14 @@ final class DigitalKeyService: ObservableObject {
         DiagnosticLog.shared.log("KeySync", line)
     }
 
-    /// 稳定设备 ID = 登录时的 seriesNo（实测安卓 deviceID 与 seriesNo 同值）。
-    /// 安卓为小写带连字符 UUID，转小写对齐。
+    /// 稳定设备 ID = 登录时的 seriesNo。
+    /// ⚠️ 必须与登录请求发的 seriesNo 完全一致（含大小写）：
+    /// 服务端按字符串精确匹配校验「最后登录设备」。v0.3.10 曾误加
+    /// lowercased()（想对齐安卓小写习惯），而 iOS 本地 seriesNo 是
+    /// 大写 UUID，导致所有数字钥匙接口 110516（2026-11-08 diag7 实测，
+    /// 旧会话发大写时 ②③⑤ 全部 200）。
     var deviceID: String {
-        ((try? CredentialStore.shared.deviceSeriesNo()) ?? "").lowercased()
+        (try? CredentialStore.shared.deviceSeriesNo()) ?? ""
     }
 
     /// userName = customer.id（实测抓包，非手机号）。
@@ -60,10 +64,10 @@ final class DigitalKeyService: ObservableObject {
         return u.isEmpty ? nil : u
     }
 
-    /// 服务端业务错误的人话提示（实测抓包 2026-11-08）
+    /// 服务端业务错误的人话提示
     private func hint(_ resp: NetaResponse) -> String {
         if resp.code == 110516 {
-            return "（110516：账号最后一次登录不在本机——安卓端车控 App 的后台刷新抢占了登录设备。请先在安卓手机退出/强制停止哪吒L车控，再在 iPhone 重新登录并立即同步）"
+            return "（110516：deviceID 与登录绑定不一致——v0.3.11 已修复大小写问题；若仍出现请退出登录后重新登录再同步）"
         }
         return ""
     }
@@ -180,6 +184,12 @@ final class DigitalKeyService: ObservableObject {
             // 钥匙接口信封是 {businessObj, code, message}（实测），data 兜底
             keyListRaw = Self.jsonToString(resp.businessObj ?? resp.data)
             if let k = keyListRaw { append(k) }
+            // 持久化首个 keyID —— TBOE 握手的认证串就是 MD5(keyID)（实测样本验证）
+            let ids = extractKeyIDs()
+            if let first = ids.first {
+                try? KeychainHelper.set(first, account: "dk_keyid")
+                append("（keyID 已存 Keychain：\(first)）")
+            }
         } catch {
             append("② 异常 " + error.localizedDescription)
         }
@@ -235,8 +245,17 @@ final class DigitalKeyService: ObservableObject {
                raw.contains("keyRawData") {
                 keyRawData = raw
                 try? KeychainHelper.set(raw, account: "dk_keyraw")
-                append("✅ 钥匙原文已存 Keychain（含 keyRawData，供 TBOE 握手解密）")
+                // 完整钥匙原文落诊断日志（rawPreview 不含 businessObj，v0.3.10 及
+                // 之前从未落盘——TBOE 编解码开发需要这份 ASN.1 样本）
+                append("✅ 钥匙原文已存 Keychain（含 keyRawData）")
+                append("keyRawData 全文=" + raw)
             } else {
+                // 没拿到原文也把 businessObj 原样落日志，便于排查
+                if let payload = resp.businessObj ?? resp.data,
+                   let encoded = try? JSONEncoder().encode(payload),
+                   let raw = String(data: encoded, encoding: .utf8) {
+                    append("③ businessObj=" + raw)
+                }
                 append("（激活未返回钥匙原文，回退下载接口…）")
                 await downloadKeyRawData(keyIDs: [keyID])
             }

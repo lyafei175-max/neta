@@ -21,39 +21,27 @@ enum TboeUUID {
 }
 
 /// TBOE 会话状态机。
-///
-/// 状态流转由 APK 中文文案还原（已确认），帧格式未确认（需抓包）。
 enum TboeSessionState: Equatable {
     case idle
     /// 已连接 GATT，等待服务发现
     case connecting
-    /// 连接请求已写入，等车端挑战码
+    /// 订阅完成，等车端挑战码
     case awaitingChallenge
-    /// 挑战码已收到，等回送响应
+    /// 挑战响应已回送，等 connect_result
     case sendingResponse
-    /// 连接应答已发送，等验签结果
+    /// 会话确认已发送，等 ack
     case verifyingResponse
-    /// 白名单同步中
-    case syncingWhitelist
-    /// 可控状态
+    /// 可控状态（心跳保活中）
     case ready
     case failed(String)
 
     var isUsable: Bool { self == .ready }
 }
 
-/// TBOE 近场通道。
+/// TBOE 近场通道（协议实现见 `TboeProtocol`，已按 Ingeek smali 逆向 + 样本验证）。
 ///
-/// 原 APK 对应 `app.netal.ble.tboe.TboeBleTransport` + `TboeSession`
-/// （日志标签 `NetaTboe`、`NetaTboeLink`）。
-///
-/// ⚠️ 【待抓包补全】以下部分仅有状态机骨架，帧编解码未知：
-///   - 帧头格式（魔数 / 版本 / 长度 / 序号）
-///   - 分片与重组规则
-///   - 挑战码编码与 ECDSA 签名字节序
-///   - 白名单数据结构
-///
-/// 定位方法：用 nRF Connect 订阅 `0000fff2` 的 notify，录制完整握手过程。
+/// 会话时序（实测抓包）：连接 → 订阅 FFF1 → 车端推 challenge → 回 challenge-response(msgId 0)
+/// → 车 connect_result(4096) → 回 session-confirm(msgId 1) → 车 ack → ready（5s 心跳）。
 final class TboeTransport: NSObject {
 
     static let shared = TboeTransport()
@@ -67,7 +55,7 @@ final class TboeTransport: NSObject {
         }
     }
 
-    /// 车况回调
+    /// 车况回调（云端 408 字节帧，BLE 通道暂不产出）
     var onVehicleState: ((VehicleState) -> Void)?
     /// 指令执行结果回调（true = 车端确认执行）
     var onCommandResult: ((VehicleCommand, Bool) -> Void)?
@@ -75,14 +63,12 @@ final class TboeTransport: NSObject {
     var onStateChange: ((TboeSessionState) -> Void)?
     /// 原始帧回调（调试用）
     var onRawFrame: ((Data) -> Void)?
-    /// 扫描发现回调（全部 FFF1 广播设备，供手动选择连接）
+    /// 扫描发现回调（供手动选择连接）
     var onDiscovered: ((CBPeripheral, String?, Int) -> Void)?
     /// RSSI 回调（靠近解锁用）
     var onRSSIUpdate: ((Int) -> Void)?
     /// 收到车端挑战码
-    var onChallenge: ((Data) -> Void)?
-    /// 收到连接应答
-    var onConnectResponse: ((Data) -> Void)?
+    var onChallenge: ((String) -> Void)?
 
     // MARK: CoreBluetooth
 
@@ -91,14 +77,56 @@ final class TboeTransport: NSObject {
     private var writeCharacteristic: CBCharacteristic?    // FFF2（手机→车）
     private var notifyCharacteristic: CBCharacteristic?   // FFF1（车→手机）
 
-    /// 重组缓冲区
+    /// 多包重组缓冲（按到达顺序拼接）
     private var reassemblyBuffer = Data()
+    private var reassemblyExpect = 0
     private var pendingCommand: VehicleCommand?
+
+    /// 心跳定时器（5s，与会话确认同构帧）
+    private var heartbeatTimer: DispatchSourceTimer?
+    private var rid = 0
+    private var lastHeartbeatAck = true
 
     private override init() {
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: .main)
     }
+
+    // MARK: - 会话素材
+
+    /// 数字钥匙 keyID（② 同步成功时写入）
+    private var keyID: String? {
+        if let v = try? KeychainHelper.get(account: "dk_keyid"), !v.isEmpty { return v }
+        // 兜底：从已存的钥匙原文 JSON 里提取
+        if let raw = try? KeychainHelper.get(account: "dk_keyraw"),
+           let d = raw.data(using: .utf8),
+           let obj = (try? JSONSerialization.jsonObject(with: d)) as? [String: Any] {
+            var found: String?
+            func walk(_ any: Any) {
+                if let dict = any as? [String: Any] {
+                    for (k, v) in dict {
+                        if k == "keyID", let s = v as? String, found == nil { found = s }
+                        walk(v)
+                    }
+                } else if let arr = any as? [Any] {
+                    arr.forEach(walk)
+                }
+            }
+            walk(obj)
+            return found
+        }
+        return nil
+    }
+
+    private var privateKey: SecKey? {
+        try? CredentialStore.shared.loadDevicePrivateKey()
+    }
+
+    private var deviceID: String {
+        (try? CredentialStore.shared.deviceSeriesNo()) ?? ""
+    }
+
+    private var tsMs: Int64 { Int64(Date().timeIntervalSince1970 * 1000) }
 
     // MARK: - 扫描
 
@@ -135,8 +163,7 @@ final class TboeTransport: NSObject {
 
     func disconnect() {
         guard let peripheral else { return }
-        // 原 APK 有「发送断开请求失败」错误分支，说明断开前会先发协议层断开帧。
-        // ⚠️ 断开帧格式未知，此处直接断开。
+        stopHeartbeat()
         centralManager.cancelPeripheralConnection(peripheral)
         self.peripheral = nil
         writeCharacteristic = nil
@@ -146,33 +173,31 @@ final class TboeTransport: NSObject {
 
     // MARK: - 指令下发
 
-    /// 帧编解码器。
-    ///
-    /// ⚠️ `TboeFrameCodec.layout` 的默认值是猜测的，必须用抓包结果校准。
-    /// 校准前发出的帧车端不会正确响应。
-    let codec = TboeFrameCodec()
-
-    /// 分片重组器
-    private lazy var reassembler = TboeFrameCodec.Reassembler(codec: codec)
-
-    /// 车况解析器（408 字节），偏移表待校准
-    private let statusParser = VehicleStatusParser()
-
-    /// 通过近场下发指令。
+    /// BLE 通道当前仅解锁有实测样本（cmd=1, params=12）；
+    /// 其余指令走云端（发 false 让上层回退网络）。
     func send(_ command: VehicleCommand, timeout: TimeInterval? = nil) {
-        guard state == .ready else {
-            // 原 APK 文案：「蓝牙已连接时优先使用」「未连接或下发失败时走网络」
+        guard state == .ready, command == .doorUnlock else {
+            onCommandResult?(command, false)
+            return
+        }
+        guard let keyID, let key = privateKey, !deviceID.isEmpty else {
+            DiagnosticLog.shared.log("NetaTboe", "缺钥匙素材 keyID/\(privateKey != nil ? "有" : "无私钥")，走云端")
             onCommandResult?(command, false)
             return
         }
 
         pendingCommand = command
+        do {
+            let body = try TboeProtocol.command(
+                cmd: 1, params: 12, tsMs: tsMs, keyID: keyID, privateKey: key)
+            sendLinked(body: body, msgId: 2)
+        } catch {
+            pendingCommand = nil
+            DiagnosticLog.shared.log("NetaTboe", "指令构造失败 \(error.localizedDescription)")
+            onCommandResult?(command, false)
+            return
+        }
 
-        // ⚠️ 指令载荷布局待抓包确认，当前为 codec 的占位实现
-        let packet = codec.encodeCommand(command)
-        write(packet)
-
-        // 超时对应 car_config.json 中的 per-command timeout
         let wait = timeout ?? command.timeout
         DispatchQueue.main.asyncAfter(deadline: .now() + wait) { [weak self] in
             guard let self, self.pendingCommand == command else { return }
@@ -181,101 +206,151 @@ final class TboeTransport: NSObject {
         }
     }
 
-    private func write(_ data: Data) {
-        guard let peripheral, let characteristic = writeCharacteristic else { return }
-        // 原 APK 存在分片逻辑（`车端报文分片丢失`）。
-        // 分片规则待抓包确认，此处按协商 MTU 朴素切分。
-        let mtu = peripheral.maximumWriteValueLength(for: .withResponse)
-        let chunkSize = max(mtu > 0 ? mtu : TboeUUID.preferredMTU - 3, 20)
-        var offset = 0
-        while offset < data.count {
-            let end = min(offset + chunkSize, data.count)
-            peripheral.writeValue(data.subdata(in: offset..<end),
-                                  for: characteristic, type: .withResponse)
-            offset = end
-        }
-        DiagnosticLog.shared.log("NetaTboeLink", "tx len=\(data.count) body=\(DiagnosticLog.hex(data))")
-    }
+    // MARK: - 链路收发
 
-    // MARK: - 帧解析
+    private func sendLinked(body: Data, msgId: UInt8) {
+        guard let peripheral, let characteristic = writeCharacteristic else { return }
+        rid += 1
+        let maxWrite = peripheral.maximumWriteValueLength(for: .withResponse)
+        let chunk = max((maxWrite > 8 ? maxWrite : TboeUUID.preferredMTU - 3) - 8, 16)
+        let packets = TboeProtocol.encode(msgId: msgId, rid: rid, body: body, chunkSize: chunk)
+        for p in packets {
+            peripheral.writeValue(p, for: characteristic, type: .withResponse)
+            DiagnosticLog.shared.log("NetaTboeLink", "tx msgId=\(msgId) rid=\(rid) len=\(p.count) body=\(DiagnosticLog.hex(p))")
+        }
+    }
 
     private func handleReceived(_ data: Data) {
         onRawFrame?(data)
-        // 原始帧入诊断日志（握手校准的数据源）
         DiagnosticLog.shared.log("NetaTboeLink", "rx len=\(data.count) body=\(DiagnosticLog.hex(data))")
 
-        // 分片重组（若 FrameLayout 配了长度字段）
-        let frameData: Data
-        if codec.layout.lengthBytes > 0, codec.layout.lengthOffset >= 0 {
-            guard let complete = reassembler.append(data) else { return }
-            frameData = complete
-        } else {
-            frameData = data
-        }
-
-        guard let frame = codec.decodeIfPossible(frameData) else {
-            // 对应文案「收到不合法帧」
+        guard let frame = TboeProtocol.decode(data) else {
+            DiagnosticLog.shared.log("NetaTboeLink", "rx invalid（头长度校验不过）")
             return
         }
 
-        switch frame.type {
-        case .challenge:
-            // 等待中收到挑战码 → 验签后回送
-            state = .sendingResponse
-            handleChallenge(frame)
-
-        case .connectResponse:
-            // 挑战码回送后收到连接应答 → 验签
-            state = .verifyingResponse
-            handleConnectResponse(frame)
-
-        case .ack:
-            // 指令应答
-            if let pending = pendingCommand {
-                pendingCommand = nil
-                // 应答载荷判定成功/失败，需抓包确认状态码位置
-                onCommandResult?(pending, true)
-            }
-
-        case .status:
-            // 408 字节车况推送
-            do {
-                let vehicleState = try frame.vehicleState(using: statusParser)
-                onVehicleState?(vehicleState)
-            } catch {
-                // 对应文案「车况解析失败」「结构不符合预期」
-                return
-            }
-
-        case .whitelist:
-            state = .ready
-
-        case .disconnect:
-            disconnect()
-
-        default:
-            break
+        // 多包重组
+        if frame.totalPkts > 1 {
+            reassemblyBuffer.append(frame.body)
+            reassemblyExpect = frame.totalPkts
+            if frame.pktIndex + 1 < frame.totalPkts { return }
+            let body = reassemblyBuffer
+            reassemblyBuffer = Data()
+            reassemblyExpect = 0
+            dispatch(body: body, frame: frame)
+        } else {
+            reassemblyBuffer = Data()
+            dispatch(body: frame.body, frame: frame)
         }
     }
 
-    /// 处理车端挑战码。
-    ///
-    /// ⚠️ 签名算法与字节序待抓包确认。
-    /// 原 APK 用 `SHA256withECDSA`，密钥为本地 ECC 私钥。
-    private func handleChallenge(_ frame: TboeFrameCodec.Frame) {
-        onChallenge?(frame.payload)
-
-        // TODO: 用 CredentialStore 的设备私钥对挑战码签名后回送
-        //   签名算法：.ecdsaSignatureMessageX962SHA256
-        //   注意字节序：SecKey 的 DER 输出 vs 车端期望的 R||S 拼接，需抓包确认
+    private func dispatch(body: Data, frame: TboeProtocol.LinkFrame) {
+        // 车端 msgId 是它自己的序号空间（实测 challenge 的 rx msgId=2），
+        // 不能按号分发 —— 按消息结构识别
+        dispatchByStructure(body: body, frame: frame)
     }
 
-    private func handleConnectResponse(_ frame: TboeFrameCodec.Frame) {
-        // TODO: 用车端公钥验签
-        //   成功后进入白名单同步，失败则对应文案「连接应答验签失败」
-        onConnectResponse?(frame.payload)
+    /// 按结构分发（比 msgId 更可靠：车端 msgId 是它自己的序号空间）。
+    /// 状态守卫：control_result 与 connect_result 结构同形（{1:{1:status,…}}），
+    /// 只在等待对应应答的状态下才按该类型处理，避免误判。
+    private func dispatchByStructure(body: Data, frame: TboeProtocol.LinkFrame) {
+        // 1) connect_result / control_result：{1:{1:status,…}} —— 只在挑战响应后等它
+        if state == .sendingResponse, let cr = TboeProtocol.parseConnectResult(body) {
+            handleConnectResult(cr)
+            return
+        }
+        // 2) challenge：{1:{1:ASCII码,2:ts}} —— ready 时车端也可能重新挑战（重握手）
+        if let ch = TboeProtocol.parseChallenge(body), ch.code.count == 8,
+           state == .awaitingChallenge || state == .ready || state == .connecting {
+            handleChallenge(ch.code)
+            return
+        }
+        // 3) ack / 心跳应答：{3:ts}（实测 len=7）
+        if let ts = TboeProtocol.parseAck(body), body.count <= 12 {
+            lastHeartbeatAck = true
+            DiagnosticLog.shared.log("NetaTboeLink", "ack ts=\(ts)")
+            if state == .verifyingResponse {
+                state = .ready
+                startHeartbeat()
+            }
+            if let pending = pendingCommand, state == .ready {
+                pendingCommand = nil
+                onCommandResult?(pending, true)
+            }
+            return
+        }
+        // 4) 其余帧（车况 delta/snapshot、control_result 等）：记录待逐帧固化。
+        //    指令待回执窗口内收到的小帧按 control_result 处理（实测指令后有
+        //    control_result 回报；大帧是车况推送，不算）。
+        DiagnosticLog.shared.log("NetaTboeLink", "未识别帧 msgId=\(frame.msgId) rid=\(frame.rid) len=\(body.count) body=\(DiagnosticLog.hex(body))")
+        if let pending = pendingCommand, state == .ready, body.count <= 40 {
+            pendingCommand = nil
+            DiagnosticLog.shared.log("NetaTboeLink", "（按 control_result 处理）\(pending) 成功")
+            onCommandResult?(pending, true)
+        }
+    }
 
-        state = .syncingWhitelist
+    private func handleChallenge(_ code: String) {
+        onChallenge?(code)
+        guard let keyID, let key = privateKey, !deviceID.isEmpty else {
+            state = .failed("缺钥匙素材（keyID/私钥），请先完成数字钥匙同步")
+            return
+        }
+        state = .sendingResponse
+        do {
+            let body = try TboeProtocol.challengeResponse(
+                code: code, tsMs: tsMs, keyID: keyID,
+                deviceID: deviceID, model: DeviceInfo.current.deviceModel,
+                privateKey: key)
+            sendLinked(body: body, msgId: 0)
+        } catch {
+            state = .failed("挑战响应构造失败：\(error.localizedDescription)")
+        }
+    }
+
+    private func handleConnectResult(_ cr: (status: Int64, whiteListVer: Int64, keyVer: Int64)) {
+        guard cr.status == 4096 else {
+            state = .failed("车端拒绝（status=\(cr.status)）")
+            return
+        }
+        guard let keyID, let key = privateKey else {
+            state = .failed("缺钥匙素材，无法确认会话")
+            return
+        }
+        DiagnosticLog.shared.log("NetaTboeLink", "connect_result ok whiteListVer=\(cr.whiteListVer) keyVer=\(cr.keyVer)")
+        state = .verifyingResponse
+        do {
+            let body = try TboeProtocol.sessionConfirm(tsMs: tsMs, keyID: keyID, privateKey: key)
+            sendLinked(body: body, msgId: 1)
+        } catch {
+            state = .failed("会话确认构造失败：\(error.localizedDescription)")
+        }
+    }
+
+    // MARK: - 心跳
+
+    private func startHeartbeat() {
+        stopHeartbeat()
+        let t = DispatchSource.makeTimerSource(queue: .main)
+        t.schedule(deadline: .now() + 5, repeating: 5)
+        t.setEventHandler { [weak self] in
+            guard let self, self.state == .ready,
+                  let keyID = self.keyID, let key = self.privateKey else { return }
+            do {
+                let body = try TboeProtocol.sessionConfirm(
+                    tsMs: self.tsMs, keyID: keyID, privateKey: key)
+                self.sendLinked(body: body, msgId: 1)
+            } catch {
+                DiagnosticLog.shared.log("NetaTboe", "心跳构造失败 \(error.localizedDescription)")
+            }
+        }
+        t.resume()
+        heartbeatTimer = t
+    }
+
+    private func stopHeartbeat() {
+        heartbeatTimer?.cancel()
+        heartbeatTimer = nil
     }
 }
 
@@ -322,7 +397,7 @@ extension TboeTransport: CBCentralManagerDelegate {
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         state = .connecting
         peripheral.delegate = self
-        // 实测车端有 5 个服务，特征按 UUID 匹配，服务 UUID 未枚举 → 全量发现
+        // 实测车端有 5 个服务，特征按 UUID 匹配 → 全量发现
         peripheral.discoverServices(nil)
     }
 
@@ -339,6 +414,7 @@ extension TboeTransport: CBCentralManagerDelegate {
         didDisconnectPeripheral peripheral: CBPeripheral,
         error: Error?
     ) {
+        stopHeartbeat()
         state = .idle
         writeCharacteristic = nil
         notifyCharacteristic = nil
@@ -351,7 +427,7 @@ extension TboeTransport: CBPeripheralDelegate {
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         if let error {
-            state = .failed("连接请求写入失败：\(error.localizedDescription)")
+            state = .failed("发现服务失败：\(error.localizedDescription)")
             return
         }
 
@@ -371,7 +447,7 @@ extension TboeTransport: CBPeripheralDelegate {
         error: Error?
     ) {
         if let error {
-            state = .failed("连接或订阅通知失败：\(error.localizedDescription)")
+            state = .failed("发现特征失败：\(error.localizedDescription)")
             return
         }
 
@@ -388,9 +464,21 @@ extension TboeTransport: CBPeripheralDelegate {
             if characteristic.properties.contains(.notify) {
                 peripheral.setNotifyValue(true, for: characteristic)
             }
-            if characteristic.properties.contains(.read) {
-                peripheral.readValue(for: characteristic)
-            }
+        }
+    }
+
+    func peripheral(
+        _ peripheral: CBPeripheral,
+        didUpdateNotificationStateFor characteristic: CBCharacteristic,
+        error: Error?
+    ) {
+        guard error == nil else {
+            state = .failed("订阅通知失败：\(error?.localizedDescription ?? "?")")
+            return
+        }
+        if characteristic.uuid == TboeUUID.notify {
+            // 订阅完成，等车端推 challenge（实测连接后 ~1.7s 推送）
+            state = .awaitingChallenge
         }
     }
 
@@ -412,13 +500,8 @@ extension TboeTransport: CBPeripheralDelegate {
         error: Error?
     ) {
         if let error {
-            state = .failed("写特征失败：\(error.localizedDescription)")
+            DiagnosticLog.shared.log("NetaTboeLink", "写特征失败：\(error.localizedDescription)")
         }
-    }
-
-    func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheral) {
-        // 透传模组可能使用 Write Without Response，需要等待此回调再发下一片。
-        // ⚠️ 分片调度逻辑需抓包后完善。
     }
 
     func peripheral(_ peripheral: CBPeripheral, didReadRSSI RSSI: NSNumber, error: Error?) {
