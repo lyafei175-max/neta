@@ -229,4 +229,3 @@ final class GeofenceUnlockCoordinator: NSObject, CLLocationManagerDelegate {
         DiagnosticLog.shared.log("Geo", "围栏失败：\(error.localizedDescription)")
     }
 }
-}
