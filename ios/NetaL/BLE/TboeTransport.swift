@@ -52,6 +52,10 @@ final class TboeTransport: NSObject {
         didSet {
             onStateChange?(state)
             DiagnosticLog.shared.log("NetaTboe", "state=\(state)")
+            // 会话就绪时缓存外设标识——后台围栏唤醒后可免扫描直连
+            if case .ready = state, let p = peripheral {
+                UserDefaults.standard.set(p.identifier.uuidString, forKey: "last_peripheral_id")
+            }
         }
     }
 
@@ -164,6 +168,27 @@ final class TboeTransport: NSObject {
     }
 
     // MARK: 自动扫描循环（v0.3.14）
+
+    /// 后台围栏唤醒用：免扫描直连上次会话的外设（bluetooth-central 后台模式合法）。
+    /// 无缓存标识时退回短扫描（仅前台有效）。
+    func reconnectCachedPeripheral() {
+        guard centralManager.state == .poweredOn else {
+            DiagnosticLog.shared.log("NetaTboe", "后台重连失败：蓝牙未开")
+            return
+        }
+        guard isIdleOrFailed else { return }
+        if let idStr = UserDefaults.standard.string(forKey: "last_peripheral_id"),
+           let uuid = UUID(uuidString: idStr) {
+            let targets = centralManager.retrievePeripherals(withIdentifiers: [uuid])
+            if let p = targets.first {
+                DiagnosticLog.shared.log("NetaTboe", "后台直连缓存外设 \(idStr)")
+                connect(to: p)
+                return
+            }
+        }
+        DiagnosticLog.shared.log("NetaTboe", "无缓存外设，退回扫描")
+        startScan(timeout: 4)
+    }
 
     /// 靠近自动连接：空闲时周期性开扫描（扫 4s / 停 8s 占空比省电），
     /// 连上后自动静默，断开后自动恢复。手动扫描页不受影响。
@@ -579,6 +604,9 @@ extension TboeTransport: CBPeripheralDelegate {
         didUpdateValueFor characteristic: CBCharacteristic,
         error: Error?
     ) {
+        // 车端每 ~1.5s 推帧：借每次通知读一次 RSSI 喂距离判定。
+        // 后台被围栏唤醒时定时器不跑，通知驱动的采样是唯一距离来源。
+        peripheral.readRSSI()
         guard error == nil, let data = characteristic.value else {
             state = .failed("收到不合法帧")
             return

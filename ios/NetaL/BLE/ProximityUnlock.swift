@@ -157,55 +157,76 @@ final class ProximityUnlockPolicy: NSObject {
     }
 }
 
-// MARK: - 地理围栏桥接
+// MARK: - 地理围栏（后台解锁的合规通道）
 
-/// 用地理围栏替代常驻扫描的可行性验证器。
-///
-/// iOS 上唯一能在后台感知「接近车辆」的合规方案是地理围栏：
-/// 系统在地理围栏触发时唤醒 App，此时做有限时 BLE 扫描即可。
-final class GeofenceUnlockCoordinator {
+/// 以驻车点为圆心的系统围栏。iOS 不允许后台无差别 BLE 扫描，
+/// 但围栏触发可唤醒 App；配合 bluetooth-central 后台模式可重连
+/// 已知外设并完成握手，实现「靠近车辆后台自动解锁」。
+/// 围栏为系统级持久：杀 App / 重启后仍然生效。
+final class GeofenceUnlockCoordinator: NSObject, CLLocationManagerDelegate {
 
-    private let manager = CLLocationManager()
+    static let shared = GeofenceUnlockCoordinator()
+    static let regionID = "neta-parking"
 
     /// 围栏半径（米）。iOS 地理围栏最小有效半径约 100m。
     static let fenceRadius: CLLocationDistance = 150
 
-    /// 围栏触发后允许的扫描时长
-    static let scanDuration: TimeInterval = 30
+    private let manager = CLLocationManager()
+    private var region: CLCircularRegion?
 
-    var onFenceEntered: (() -> Void)?
-    var onFenceExited: (() -> Void)?
+    /// 进入围栏（系统唤醒回调）
+    var onEnter: (() -> Void)?
+    /// 离开围栏
+    var onExit: (() -> Void)?
 
-    func requestAuthorization() {
+    override private init() {
+        super.init()
+        manager.delegate = self
+    }
+
+    func requestAlwaysAuthorization() {
         manager.requestAlwaysAuthorization()
     }
 
-    /// 设置以车辆驻车位置为中心的围栏。
-    func configureFence(latitude: Double, longitude: Double, identifier: String) {
-        let center = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        let region = CLCircularRegion(
-            center: center,
+    /// 以驻车点立围栏。驻车点变化时重复调用会自动换栏。
+    func configure(lat: Double, lng: Double) {
+        let r = CLCircularRegion(
+            center: CLLocationCoordinate2D(latitude: lat, longitude: lng),
             radius: Self.fenceRadius,
-            identifier: identifier
+            identifier: Self.regionID
         )
-        region.notifyOnEntry = true
-        region.notifyOnExit = true
-
-        manager.startMonitoring(for: region)
-
-        // 调用方需通过 CLLocationManagerDelegate 接收
-        // locationManager(_:didEnterRegion:) / didExitRegion
+        r.notifyOnEntry = true
+        r.notifyOnExit = true
+        if let old = region { manager.stopMonitoring(for: old) }
+        region = r
+        manager.startMonitoring(for: r)
+        DiagnosticLog.shared.log("Geo", String(format: "围栏已设：%.5f,%.5f r=%.0fm", lat, lng, Self.fenceRadius))
     }
 
-    static func currentRegionStatus(_ manager: CLLocationManager,
-                                    identifier: String) -> CLRegionState {
-        guard let region = manager.monitoredRegions
-            .first(where: { $0.identifier == identifier })
-        else { return .unknown }
-
-        // CLLocationManager 没有 regionState(for:) 实例方法，
-        // 状态需通过 delegate 回调 locationManager(_:didChangeAuthorization:)
-        // 或 monitoringDidFail 获得。这里保守返回 unknown。
-        return .unknown
+    func stop() {
+        if let r = region {
+            manager.stopMonitoring(for: r)
+            region = nil
+            DiagnosticLog.shared.log("Geo", "围栏已移除")
+        }
     }
+
+    // MARK: CLLocationManagerDelegate
+
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        guard region.identifier == Self.regionID else { return }
+        DiagnosticLog.shared.log("Geo", "进入围栏 → 唤醒连接车辆")
+        onEnter?()
+    }
+
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        guard region.identifier == Self.regionID else { return }
+        DiagnosticLog.shared.log("Geo", "离开围栏")
+        onExit?()
+    }
+
+    func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
+        DiagnosticLog.shared.log("Geo", "围栏失败：\(error.localizedDescription)")
+    }
+}
 }

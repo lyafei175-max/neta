@@ -26,6 +26,8 @@ final class CarController: ObservableObject {
     /// BLE 会话状态镜像（v0.3.13）：TboeTransport.state 是普通属性，
     /// SwiftUI 观察不到——不镜像的话首页蓝牙状态永远不刷新
     @Published private(set) var bleSessionState: TboeSessionState = .idle
+    /// 驻车地址是否来自缓存（车休眠时云端无坐标）
+    @Published private(set) var parkingIsCached = false
 
     // MARK: 依赖
 
@@ -129,6 +131,16 @@ final class CarController: ObservableObject {
             Task { @MainActor in
                 self?.bleSessionState = s
                 self?.proximity.isBluetoothConnected = s.isUsable
+            }
+        }
+
+        // 后台靠近解锁：地理围栏唤醒 → 直连缓存外设 → 靠近阈值到后自动解锁
+        GeofenceUnlockCoordinator.shared.onEnter = { [weak self] in
+            Task { @MainActor in
+                guard let self else { return }
+                if !self.bleSessionState.isUsable {
+                    TboeTransport.shared.reconnectCachedPeripheral()
+                }
             }
         }
     }
@@ -260,13 +272,35 @@ final class CarController: ObservableObject {
     }
 
     /// 驻车坐标 → 地址。与安卓 ParkingGeocoder 同策略：
-    /// 配置了高德 key → restapi.amap.com regeo（街道级）；否则系统逆地理（省市级）。
+    /// 配置了高德 key → restapi.amap.com regeo（街道级）；否则系统逆地理 + OSM 兜底。
+    /// 车深度休眠时云端报文不带坐标——用最近一次缓存继续显示（标注「最近」）。
     private func resolveParkingAddress() {
-        guard let lat = state.latitude, let lng = state.longitude,
-              lat != 0, lng != 0 else { return }
+        var usedCache = false
+        var lat = state.latitude ?? 0
+        var lng = state.longitude ?? 0
+        if lat != 0, lng != 0 {
+            UserDefaults.standard.set(lat, forKey: "last_park_lat")
+            UserDefaults.standard.set(lng, forKey: "last_park_lng")
+        } else if let cl = UserDefaults.standard.object(forKey: "last_park_lat") as? Double,
+                  let cg = UserDefaults.standard.object(forKey: "last_park_lng") as? Double,
+                  cl != 0, cg != 0 {
+            lat = cl
+            lng = cg
+            usedCache = true
+        }
+        parkingIsCached = usedCache
+        guard lat != 0, lng != 0 else {
+            DiagnosticLog.shared.log("NetaCar", "车况无坐标（车可能休眠）")
+            return
+        }
         let key = String(format: "%.3f,%.3f", lat, lng)
         guard key != lastGeocodeKey else { return }
         lastGeocodeKey = key
+
+        // 地理围栏开关开着时，驻车点变化自动换栏（后台解锁的触发依据）
+        if UserDefaults.standard.bool(forKey: "geofence_unlock") {
+            GeofenceUnlockCoordinator.shared.configure(lat: lat, lng: lng)
+        }
 
         let amapKey = UserDefaults.standard.string(forKey: "amap_key") ?? ""
         if !amapKey.isEmpty {
@@ -646,7 +680,7 @@ struct ContentView: View {
                 HStack(alignment: .top, spacing: 4) {
                     Image(systemName: "mappin.and.ellipse")
                         .font(.caption2)
-                    Text("驻车：\(addr)")
+                    Text("驻车：\(addr)\(controller.parkingIsCached ? "（最近）" : "")")
                         .font(.caption2)
                         .lineLimit(2)
                         .multilineTextAlignment(.leading)
@@ -1079,6 +1113,7 @@ struct SettingsView: View {
     @State private var showKeyManager = false
     @State private var amapKey = UserDefaults.standard.string(forKey: "amap_key") ?? ""
     @AppStorage("walkaway_lock") private var walkawayLock = true
+    @AppStorage("geofence_unlock") private var geofenceUnlock = false
 
     var body: some View {
         NavigationStack {
@@ -1112,7 +1147,9 @@ struct SettingsView: View {
 
                     Toggle("离开自动锁车", isOn: $walkawayLock)
 
-                    Text("蓝牙会话就绪后，RSSI 持续高于阈值（滑动窗口采样）且处于冷却期之外时自动解锁；离开（低于退出阈值，约为触发档再远 3~4 米）持续 5 秒后自动锁车。RSSI 与实际距离受环境影响，档位为近似值；iOS 后台无法常驻扫描，常驻感知需配合地理围栏。")
+                    Toggle("后台靠近解锁（地理围栏）", isOn: $geofenceUnlock)
+
+                    Text("蓝牙会话就绪后，RSSI 持续高于阈值（滑动窗口采样）且处于冷却期之外时自动解锁；离开（低于退出阈值，约为触发档再远 3~4 米）持续 5 秒后自动锁车。开启「后台靠近解锁」需定位「始终允许」：以驻车点 150 米立系统围栏，接近时系统唤醒 App 连车，按阈值自动解锁。RSSI 与实际距离受环境影响，档位为近似值。")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -1172,6 +1209,17 @@ struct SettingsView: View {
             }
             .onChange(of: amapKey) { newValue in
                 UserDefaults.standard.set(newValue, forKey: "amap_key")
+            }
+            .onChange(of: geofenceUnlock) { on in
+                if on {
+                    GeofenceUnlockCoordinator.shared.requestAlwaysAuthorization()
+                    if let lat = controller.state.latitude, let lng = controller.state.longitude,
+                       lat != 0, lng != 0 {
+                        GeofenceUnlockCoordinator.shared.configure(lat: lat, lng: lng)
+                    }
+                } else {
+                    GeofenceUnlockCoordinator.shared.stop()
+                }
             }
         }
     }
