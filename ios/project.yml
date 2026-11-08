@@ -43,7 +43,7 @@ targets:
     info:
       path: NetaL/Resources/Info.plist
       properties:
-        CFBundleDisplayName: 鍝悞杞︽帶
+        CFBundleDisplayName: 哪吒车控
         CFBundleShortVersionString: "0.3.10"
         CFBundleVersion: "19"
         UILaunchScreen:
@@ -55,10 +55,12 @@ targets:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
-        NSBluetoothAlwaysUsageDescription: 鐢ㄤ簬鎵弿杞﹁締钃濈墮锛屽疄鐜拌繎鍦鸿溅鎺т笌闈犺繎鑷姩瑙ｉ攣
-        NSBluetoothPeripheralUsageDescription: 鐢ㄤ簬杩炴帴杞﹁締钃濈墮璁惧
-        NSLocationWhenInUseUsageDescription: 鐢ㄤ簬灏嗚溅杈嗕綅缃В鏋愪负鍦板潃
-        NSLocationAlwaysAndWhenInUseUsageDescription: 鐢ㄤ簬鍦ㄨ溅杈嗛檮杩戞椂鑷姩鍞ら啋骞惰繛鎺ヨ摑鐗?        NSLocationAlwaysUsageDescription: 鐢ㄤ簬鍦ㄨ溅杈嗛檮杩戞椂鑷姩鍞ら啋骞惰繛鎺ヨ摑鐗?        UIBackgroundModes:
+        NSBluetoothAlwaysUsageDescription: 用于扫描车辆蓝牙，实现近场车控与靠近自动解锁
+        NSBluetoothPeripheralUsageDescription: 用于连接车辆蓝牙设备
+        NSLocationWhenInUseUsageDescription: 用于将车辆位置解析为地址
+        NSLocationAlwaysAndWhenInUseUsageDescription: 用于在车辆附近时自动唤醒并连接蓝牙
+        NSLocationAlwaysUsageDescription: 用于在车辆附近时自动唤醒并连接蓝牙
+        UIBackgroundModes:
           - bluetooth-central
         ITSAppUsesNonExemptEncryption: false
 
@@ -71,4 +73,3 @@ schemes:
       config: Debug
     archive:
       config: Release
-
