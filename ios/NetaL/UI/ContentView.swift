@@ -448,6 +448,7 @@ struct ContentView: View {
     @State private var showSettings = false
     @State private var showLogin = false
     @State private var showRawData = false
+    @State private var showControlPanel = false
 
     var body: some View {
         NavigationStack {
@@ -470,37 +471,7 @@ struct ContentView: View {
 
                     energyCard
 
-                    groupCard(title: "车锁与寻车", icon: "lock.fill", accent: .blue) {
-                        commandButton(.doorUnlock, icon: "lock.open", accent: .blue)
-                        commandButton(.doorLock, icon: "lock", accent: .blue)
-                        commandButton(.carSearch, icon: "magnifyingglass", accent: .blue)
-                        commandButton(.trunkUnlock, icon: "car.rear.open", accent: .blue)
-            commandButton(.trunkLock, icon: "car.rear", accent: .blue)
-                    }
-
-                    groupCard(title: "空调与温度", icon: "wind", accent: .teal) {
-                        commandButton(.airConditionerOpen, icon: "fan", accent: .teal)
-                        commandButton(.airConditionerClose, icon: "fan.fill", accent: .teal)
-                        commandButton(.airConditionerRefrigeration, icon: "snowflake", accent: .cyan)
-                        commandButton(.airConditionerHeating, icon: "flame", accent: .orange)
-                    }
-
-                    groupCard(title: "车窗", icon: "rectangle.split.2x1", accent: .indigo) {
-                        commandButton(.windowOpen, icon: "arrow.up.square", accent: .indigo)
-                        commandButton(.windowClose, icon: "arrow.down.square", accent: .indigo)
-                        commandButton(.topLeftWindowOpen, icon: "arrow.up.left.square", accent: .indigo)
-                        commandButton(.topLeftWindowClose, icon: "arrow.down.left.square", accent: .indigo)
-                    }
-
-                    groupCard(title: "充电与电池", icon: "bolt.fill", accent: .green) {
-                        commandButton(.startCharge, icon: "bolt.fill", accent: .green)
-                        commandButton(.stopCharge, icon: "bolt.slash", accent: .green)
-                    }
-
-                    groupCard(title: "电源", icon: "power", accent: .orange) {
-                        commandButton(.powerOn, icon: "power", accent: .orange)
-                        commandButton(.powerOff, icon: "poweroff", accent: .orange)
-                    }
+                    quickControlsCard
 
                     debugCard
                 }
@@ -532,7 +503,62 @@ struct ContentView: View {
             .sheet(isPresented: $showLogin) {
                 AccountView()
             }
+            .sheet(isPresented: $showControlPanel) {
+                ControlPanelView(controller: controller)
+            }
         }
+    }
+
+    // MARK: 快捷车控（首页四键 + 全部车控入口）
+
+    private var quickControlsCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Label("快捷车控", systemImage: "slider.horizontal.3")
+                    .font(.subheadline.weight(.semibold))
+                Spacer()
+                Button {
+                    showControlPanel = true
+                } label: {
+                    HStack(spacing: 2) {
+                        Text("全部车控")
+                        Image(systemName: "chevron.right")
+                    }
+                    .font(.caption.weight(.semibold))
+                }
+                .buttonStyle(.plain)
+            }
+            HStack(spacing: 10) {
+                quickButton(.doorUnlock, icon: "lock.open", label: "解锁", accent: .blue)
+                quickButton(.doorLock, icon: "lock", label: "落锁", accent: .blue)
+                quickButton(.trunkUnlock, icon: "car.rear.open", label: "后备箱", accent: .blue)
+                quickButton(.carSearch, icon: "magnifyingglass", label: "寻车", accent: .orange)
+            }
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(.secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 18))
+    }
+
+    private func quickButton(_ command: VehicleCommand, icon: String, label: String, accent: Color) -> some View {
+        Button {
+            Task { await controller.send(command) }
+        } label: {
+            VStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.title3)
+                Text(label)
+                    .font(.caption2.weight(.medium))
+            }
+            .frame(maxWidth: .infinity, minHeight: 64)
+        }
+        .buttonStyle(.plain)
+        .foregroundStyle(accent)
+        .background(accent.opacity(0.12))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .disabled(controller.isBusy)
+        .opacity(controller.isBusy ? 0.55 : 1)
     }
 
     // MARK: 主状态卡（渐变 + 大电量）
@@ -771,6 +797,161 @@ struct ContentView: View {
         .padding(14)
         .background(Color(.secondarySystemGroupedBackground))
         .clipShape(RoundedRectangle(cornerRadius: 16))
+    }
+
+    private func errorBanner(_ message: String) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: "exclamationmark.triangle")
+            Text(message).font(.caption)
+            Spacer()
+        }
+        .padding(10)
+        .foregroundStyle(.red)
+        .background(Color.red.opacity(0.1))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private func groupCard<Content: View>(
+        title: String,
+        icon: String,
+        accent: Color,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.caption)
+                    .foregroundStyle(accent)
+                Text(title)
+                    .font(.subheadline.weight(.semibold))
+            }
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                content()
+            }
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(.secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 18))
+    }
+
+    private func commandButton(_ command: VehicleCommand, icon: String, accent: Color) -> some View {
+        Button {
+            Task { await controller.send(command) }
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: icon)
+                    .font(.callout)
+                Text(command.displayName)
+                    .font(.caption.weight(.medium))
+                    .multilineTextAlignment(.leading)
+            }
+            .frame(maxWidth: .infinity, minHeight: 46)
+        }
+        .buttonStyle(.plain)
+        .foregroundStyle(accent)
+        .background(accent.opacity(0.12))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .disabled(controller.isBusy)
+        .opacity(controller.isBusy ? 0.55 : 1)
+    }
+}
+
+// MARK: - 全部车控（二级面板）
+
+/// 首页「全部车控」入口的二级菜单。全量指令分区分组；
+/// 标注「云端」的分组车辆休眠时不可用，其余走 BLE 近场。
+struct ControlPanelView: View {
+    @ObservedObject var controller: CarController
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 14) {
+                    if let error = controller.lastError {
+                        errorBanner(error)
+                    }
+                    if let result = controller.lastResult {
+                        resultLine(result)
+                    }
+
+                    groupCard(title: "车锁与后备箱", icon: "lock.fill", accent: .blue) {
+                        commandButton(.doorUnlock, icon: "lock.open", accent: .blue)
+                        commandButton(.doorLock, icon: "lock", accent: .blue)
+                        commandButton(.trunkUnlock, icon: "car.rear.open", accent: .blue)
+                        commandButton(.trunkLock, icon: "car.rear", accent: .blue)
+                        commandButton(.carSearch, icon: "magnifyingglass", accent: .blue)
+                    }
+
+                    groupCard(title: "天窗", icon: "sun.max.fill", accent: .orange) {
+                        commandButton(.sunroofOpen, icon: "arrow.up.square", accent: .orange)
+                        commandButton(.sunroofClose, icon: "arrow.down.square", accent: .orange)
+                        commandButton(.sunroofVentilate, icon: "wind", accent: .orange)
+                    }
+
+                    groupCard(title: "车窗与通风", icon: "rectangle.split.2x1", accent: .indigo) {
+                        commandButton(.windowOpen, icon: "arrow.up.square", accent: .indigo)
+                        commandButton(.windowClose, icon: "arrow.down.square", accent: .indigo)
+                        commandButton(.ventilateClose, icon: "wind", accent: .indigo)
+                    }
+
+                    groupCard(title: "空调", icon: "wind", accent: .teal) {
+                        commandButton(.airConditionerOpen, icon: "fan", accent: .teal)
+                        commandButton(.airConditionerClose, icon: "fan.fill", accent: .teal)
+                    }
+
+                    groupCard(title: "充电", icon: "bolt.fill", accent: .green) {
+                        commandButton(.startCharge, icon: "bolt.fill", accent: .green)
+                        commandButton(.stopCharge, icon: "bolt.slash", accent: .green)
+                    }
+
+                    groupCard(title: "电源（云端）", icon: "power", accent: .orange) {
+                        commandButton(.powerOn, icon: "power", accent: .orange)
+                        commandButton(.powerOff, icon: "poweroff", accent: .orange)
+                    }
+
+                    groupCard(title: "车窗分控（云端·车需在线）", icon: "square.grid.2x2", accent: .gray) {
+                        commandButton(.topLeftWindowOpen, icon: "arrow.up.left.square", accent: .gray)
+                        commandButton(.topLeftWindowClose, icon: "arrow.down.left.square", accent: .gray)
+                        commandButton(.topRightWindowOpen, icon: "arrow.up.right.square", accent: .gray)
+                        commandButton(.topRightWindowClose, icon: "arrow.down.right.square", accent: .gray)
+                        commandButton(.bottomLeftWindowOpen, icon: "arrow.up.left", accent: .gray)
+                        commandButton(.bottomLeftWindowClose, icon: "arrow.down.left", accent: .gray)
+                        commandButton(.bottomRightWindowOpen, icon: "arrow.up.right", accent: .gray)
+                        commandButton(.bottomRightWindowClose, icon: "arrow.down.right", accent: .gray)
+                        commandButton(.airConditionerRefrigeration, icon: "snowflake", accent: .gray)
+                        commandButton(.airConditionerHeating, icon: "flame", accent: .gray)
+                    }
+
+                    Text("未标注「云端」的指令在蓝牙连接时走近场直发（秒级回执）；标注「云端」的动作官方仅提供远程通道，车辆休眠时无法送达。")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .padding()
+            }
+            .background(Color(.systemGroupedBackground))
+            .navigationTitle("全部车控")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("完成") { dismiss() }
+                }
+            }
+        }
+    }
+
+    // MARK: 面板内小组件
+
+    private func resultLine(_ text: String) -> some View {
+        Label(text, systemImage: "checkmark.circle")
+            .font(.caption)
+            .foregroundStyle(.green)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(10)
+            .background(Color.green.opacity(0.1))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 
     private func errorBanner(_ message: String) -> some View {
