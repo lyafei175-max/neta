@@ -12,7 +12,7 @@ settings:
   base:
     SWIFT_VERSION: "5.9"
     MARKETING_VERSION: "0.3.19"
-    CURRENT_PROJECT_VERSION: "28"
+    CURRENT_PROJECT_VERSION: "29"
     ENABLE_USER_SCRIPT_SANDBOXING: YES
     SWIFT_EMIT_LOC_STRINGS: YES
     CODE_SIGN_STYLE: Manual
@@ -45,7 +45,7 @@ targets:
       properties:
         CFBundleDisplayName: 哪吒车控
         CFBundleShortVersionString: "0.3.19"
-        CFBundleVersion: "28"
+        CFBundleVersion: "29"
         UILaunchScreen:
           UIColorName: AccentColor
         UIApplicationSupportsIndirectInputEvents: true

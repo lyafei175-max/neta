@@ -95,29 +95,26 @@ final class CarController: ObservableObject {
 
         // 离开自动锁车（v0.3.16）：靠近判定 near→far（滞回，约比触发档远 3~4 米）
         // 持续 5 秒仍 far 且蓝牙在线 → BLE 锁车
+        // （v0.3.19 重写：显式 controller 命名，避免 guard let self 双重遮蔽的编译歧义）
         proximity.onProximityChange = { [weak self] p, _ in
             Task { @MainActor in
-                guard let self else { return }
+                guard let controller = self else { return }
                 switch p {
                 case .near:
-                    self.walkAwayLockTask?.cancel()
-                    self.walkAwayLockTask = nil
+                    controller.walkAwayLockTask?.cancel()
+                    controller.walkAwayLockTask = nil
                 case .far:
-                    guard self.bleSessionState.isUsable,
+                    guard controller.bleSessionState.isUsable,
                           UserDefaults.standard.object(forKey: "walkaway_lock") as? Bool ?? true
                     else { return }
-                    self.walkAwayLockTask?.cancel()
-                    self.walkAwayLockTask = DispatchWorkItem { [weak self] in
+                    controller.walkAwayLockTask?.cancel()
+                    let work = DispatchWorkItem { [weak controller] in
                         Task { @MainActor in
-                            guard let self,
-                                  self.bleSessionState.isUsable,
-                                  self.proximity.isFarBySamples else { return }
-                            self.performWalkAwayLock()
+                            controller?.performWalkAwayLockIfNeeded()
                         }
                     }
-                    if let task = self.walkAwayLockTask {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: task)
-                    }
+                    controller.walkAwayLockTask = work
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: work)
                 case .unknown:
                     break
                 }
@@ -236,6 +233,11 @@ final class CarController: ObservableObject {
     }
 
     /// 离开自动锁车：直走 BLE（距离门控对它豁免——它本来就由「已离开」触发）
+    private func performWalkAwayLockIfNeeded() {
+        guard bleSessionState.isUsable, proximity.isFarBySamples else { return }
+        performWalkAwayLock()
+    }
+
     private func performWalkAwayLock() {
         guard !isBusy else { return }
         isWalkAwayLocking = true
