@@ -216,8 +216,16 @@ final class CarController: ObservableObject {
             lastResult = "\(command.displayName) 已提交"
             DiagnosticLog.shared.log("NetaCar", "\(command.displayName) 已提交（网络）")
         } catch {
-            lastError = error.localizedDescription
-            DiagnosticLog.shared.log("NetaCar", "\(command.displayName) 失败 \(error.localizedDescription.prefix(200))")
+            let raw = error.localizedDescription
+            // 42500「云服务异常」实测 = 车端 TBOX 休眠离线，云端指令到不了车
+            // （车醒着时同一请求成功过）。给人话提示，不再甩三种格式的原始报错。
+            if raw.contains("42500") || raw.contains("云服务异常") {
+                lastError = "\(command.displayName)：车辆当前离线（可能休眠），远程指令无法送达。请走近车辆用蓝牙，或车辆唤醒后（行驶/开过门）再试。"
+                DiagnosticLog.shared.log("NetaCar", "\(command.displayName) 失败 42500（车端离线）")
+            } else {
+                lastError = raw
+                DiagnosticLog.shared.log("NetaCar", "\(command.displayName) 失败 \(raw.prefix(200))")
+            }
         }
     }
 
