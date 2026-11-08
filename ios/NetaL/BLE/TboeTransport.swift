@@ -226,14 +226,17 @@ final class TboeTransport: NSObject {
 
     // MARK: - 指令下发
 
-    /// BLE 通道实测支持的指令（diag14/15：解锁 (cmd=1, params=12) ×3，status=1）。
-    /// 锁车取互补 params=4（smali 映射对的另一端，待实车确认方向）。
+    /// BLE 通道指令映射（smali 方法 Q + 实车验证 2026-11-08）：
+    /// - 门锁：params=4=解锁、params=12=落锁（diag20 实车确认，与 smali 一致）
+    /// - 后备箱：cmd=3，unlock=0x640000000 / lock=0x650000000（smali）
     /// 其余指令走云端（发 false 让上层回退网络）。
     private func bleParams(for command: VehicleCommand) -> (cmd: UInt8, params: Int64)? {
         switch command {
-        case .doorUnlock: return (1, 12)
-        case .doorLock:   return (1, 4)
-        default:          return nil
+        case .doorUnlock:   return (1, 4)
+        case .doorLock:     return (1, 12)
+        case .trunkUnlock:  return (3, 0x640000000)
+        case .trunkLock:    return (3, 0x650000000)
+        default:            return nil
         }
     }
 
