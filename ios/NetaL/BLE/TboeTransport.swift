@@ -131,6 +131,15 @@ final class TboeTransport: NSObject {
 
     private var tsMs: Int64 { Int64(Date().timeIntervalSince1970 * 1000) }
 
+    /// 可否发起新连接（空闲或失败态）。failed 带关联值，
+    /// 不能直接 `state == .failed` 比较，用模式匹配。
+    private var isIdleOrFailed: Bool {
+        switch state {
+        case .idle, .failed: return true
+        default: return false
+        }
+    }
+
     // MARK: - 扫描
 
     func startScan(timeout: TimeInterval = 10) {
@@ -157,13 +166,8 @@ final class TboeTransport: NSObject {
     func connect(to peripheral: CBPeripheral) {
         // v0.3.12：车端广播会持续被扫到，重复 connect 会把状态机反复踩回
         // .connecting，导致 connect_result 到达时状态守卫失配（diag9 实测：
-        // 挑战响应已发、车端已回 4096，却被踩掉）。同一外设/非空闲一律忽略。
-        if peripheral.identifier == self.peripheral?.identifier, state != .idle {
-            return
-        }
-        if state != .idle && state != .failed {
-            return
-        }
+        // 挑战响应已发、车端已回 4096，却被踩掉）。非空闲/失败态一律忽略。
+        guard isIdleOrFailed else { return }
         stopScan()
         self.peripheral = peripheral
         self.peripheral?.delegate = self
@@ -402,9 +406,8 @@ extension TboeTransport: CBCentralManagerDelegate {
         // 全部广播设备上报（含车机与钥匙相关外设），由 UI 层选择连接
         onDiscovered?(peripheral, name, RSSI.intValue)
         // 实测车机广播名 = HOZON_KEY_<VIN尾5位>（随机地址，按名字匹配）
-        // v0.3.12：仅在空闲时自动连接——广播风暴曾把握手状态踩掉（diag9）
-        if let name, name.hasPrefix(TboeUUID.advertisePrefix),
-           state == .idle || state == .failed {
+        // v0.3.12：仅空闲/失败时自动连接——广播风暴曾把握手状态踩掉（diag9）
+        if let name, name.hasPrefix(TboeUUID.advertisePrefix), isIdleOrFailed {
             DiagnosticLog.shared.log("NetaTboeLink", "扫到车机 name=\(name) rssi=\(RSSI)")
             connect(to: peripheral)
         }
