@@ -23,6 +23,9 @@ final class CarController: ObservableObject {
     @Published var lastRawVehicleData: String?
     /// 驻车地址（CLGeocoder 逆地理，坐标缓存防重复请求）
     @Published private(set) var parkingAddress: String?
+    /// BLE 会话状态镜像（v0.3.13）：TboeTransport.state 是普通属性，
+    /// SwiftUI 观察不到——不镜像的话首页蓝牙状态永远不刷新
+    @Published private(set) var bleSessionState: TboeSessionState = .idle
 
     // MARK: 依赖
 
@@ -81,7 +84,10 @@ final class CarController: ObservableObject {
             Task { @MainActor in self?.proximity.ingest(rssi: rssi) }
         }
         tboe.onStateChange = { [weak self] s in
-            Task { @MainActor in self?.proximity.isBluetoothConnected = s.isUsable }
+            Task { @MainActor in
+                self?.bleSessionState = s
+                self?.proximity.isBluetoothConnected = s.isUsable
+            }
         }
     }
 
@@ -102,8 +108,9 @@ final class CarController: ObservableObject {
     }
 
     /// 当前可用的近场通道（对应 `NotificationSnapshot.isBluetoothConnected`）
+    /// v0.3.13：改读 @Published 镜像，保证状态变化能驱动 UI 刷新
     var nearFieldAvailable: Bool {
-        TboeTransport.shared.state.isUsable
+        bleSessionState.isUsable
     }
 
     // MARK: 指令下发
@@ -874,7 +881,7 @@ struct SettingsView: View {
     }
 
     private var bleStateText: String {
-        switch TboeTransport.shared.state {
+        switch bleSessionState {
         case .ready: return "已连接"
         case .idle: return "未连接"
         case .connecting, .awaitingChallenge, .sendingResponse,
